@@ -32,6 +32,10 @@ per-record rule). Intervals in the report are 95% paired bootstrap (5000 resampl
 |---|---|---|---|---|---|---|
 | held-out annotator | 0.616 | 0.517 | 0.340 | — | — | — |
 | **Ours-Fast (FAST)** | 0.673 | 0.591 | 0.444 | 0.39 | `submissions/FAST.csv` | `7c5bd00dbb9165fe28d3d3c83a9b832c` |
+| simplified model: the base network alone (p ≥ 0.5, components ≥ 400 px, no selector) | 0.674 | 0.566 | 0.409 | — | — | — |
+
+What each component adds, with intervals, is the paper's ablation table: the selector is the largest step; the second
+network adds the least (+0.002 PQ on all 707 out-of-fold observations) for one more network pass.
 
 Dice is `torchmetrics` `DiceScore` with `include_background=False` (the evaluation code implements it in numpy; the
 torchmetrics check runs when torchmetrics is installed). The public leaderboard is shown for
@@ -239,7 +243,7 @@ See `CITATION.cff`, and cite MAGFiLO (Ahmadzadeh et al., *Scientific Data* 11:10
 
 ## Repository map
 
-`src/filament_seg/`: the package (`docs/module_map.md`). `configs/`: settings (`FAST.json`). `scripts/`: `prepare_data`,
+`directory_structure.txt`: the folder tree. `src/filament_seg/`: the package (`docs/module_map.md`). `configs/`: settings (`FAST.json`). `scripts/`: `prepare_data`,
 `train`, `predict`, `eval_*`. `tests/`: unit tests and the CPU smoke test. `pipeline.ipynb`: the whole pipeline,
 end to end. `docs/`: training recipe, run-root layout, module map. `weights/`: inventory and licences.
 `eval_bundle/`: the out-of-fold evaluation inputs (derived numbers and our own masks).
