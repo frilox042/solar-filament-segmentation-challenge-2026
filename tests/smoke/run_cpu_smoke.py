@@ -1,4 +1,4 @@
-"""CPU smoke test: this package rebuilds the uploaded Ours-Fast file BYTE-IDENTICALLY from cached network outputs.
+"""CPU smoke test: this package rebuilds the uploaded nnHALO file BYTE-IDENTICALLY from cached network outputs.
 
 It checks the following, each in a fresh `python -I` process (isolated: no PYTHONPATH,
 no user site, no current directory on the path):

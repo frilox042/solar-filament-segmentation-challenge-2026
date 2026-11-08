@@ -1,5 +1,5 @@
 """weights.assemble: parts are concatenated in order, a wrong hash fails, and the real stored weights verify.
-The manifest lists exactly Ours-Fast's stored files plus its selector bag, and is the mechanical image of
+The manifest lists exactly nnHALO's stored files plus its selector bag, and is the mechanical image of
 SOURCE_CHECKPOINTS.sha256 (only the stripped nnU-Net checkpoints have new hashes)."""
 import hashlib
 import sys
@@ -47,7 +47,7 @@ def test_unlisted_file_is_refused(tmp_path):
 
 
 def test_real_stored_weights_verify_against_the_manifest(tmp_path):
-    done = weights.assemble(tmp_path / "w", parts_dirs=(weights.PARTS_DIR,))      # Ours-Fast: assembled from parts
+    done = weights.assemble(tmp_path / "w", parts_dirs=(weights.PARTS_DIR,))      # nnHALO: assembled from parts
     assert sum(p.endswith("checkpoint_final.pth") for p in done) == 2
     assert all(p.startswith("nnUNet_results/") for p in done)             # the two nnU-Nets, nothing else
     assert max(p.stat().st_size for p in (ROOT / "weights" / "fast").rglob("*") if p.is_file()) < 100 * 1024 * 1024

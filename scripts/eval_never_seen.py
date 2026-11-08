@@ -115,7 +115,7 @@ def main() -> int:
                  records=a.records)
     rows = res.pop("_rows")
     ref = reference_rows(rows, a.reference_rows, a.reference_features) if a.reference_rows else None
-    out = {"what": "never-seen class features, D007 and Ours-Fast", "records": a.records, "results": res,
+    out = {"what": "never-seen class features, D007 and nnHALO", "records": a.records, "results": res,
            "gate": gate(res, exp, ref),
            "not_reproduced": exp["not_reproduced"],
            "seconds": round(time.time() - t0, 1)}

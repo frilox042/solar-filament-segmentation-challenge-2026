@@ -1,4 +1,4 @@
-# Ours-Fast's files, sha256, paths relative to the weights layout root.
+# nnHALO's files, sha256, paths relative to the weights layout root.
 # Model files (nnUNet_results/) are stored in this repository under weights/fast/ (checkpoints as parts of
 # at most 90 MiB); scripts/assemble_weights.py joins them into $FILAMENT_WEIGHTS and checks each against this file.
 # Generated from SOURCE_CHECKPOINTS.sha256 (training paths -> layout paths):

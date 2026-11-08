@@ -1,4 +1,4 @@
-"""End-to-end prediction of Ours-Fast from the raw competition test images: channels -> two nnU-Nets -> CPU selector.
+"""End-to-end prediction of nnHALO from the raw competition test images: channels -> two nnU-Nets -> CPU selector.
 
     python scripts/predict.py --from-images --slot FAST [--limit N] [--dry-run] [--device cuda]
                               [--bag-dir DIR | --refit]
@@ -160,7 +160,7 @@ def _selector_steps(slot: str, refit: bool, bag_dir: str | None) -> list:
 
 
 def plan(slot: str, limit: int = 0, device: str = "cuda", refit: bool = False, bag_dir: str | None = None) -> list:
-    """The ordered steps of one slot (only FAST, Ours-Fast, is predicted from this repository)."""
+    """The ordered steps of one slot (only FAST, nnHALO, is predicted from this repository)."""
     P = fp.PREDICTIONS
     if slot == "FAST":
         steps = [_channels_step(["D007", "D036"], limit),          # the two networks' inputs only (D005 is not read by FAST)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble the weights stored in the repository (`weights/fast/`, the Ours-Fast networks) into $FILAMENT_WEIGHTS.
+"""Assemble the weights stored in the repository (`weights/fast/`, the nnHALO networks) into $FILAMENT_WEIGHTS.
 
     python scripts/assemble_weights.py [--dest DIR]
 """

@@ -4,7 +4,7 @@ The code in this repository is MIT (`LICENSE`). The released weights are MIT as 
 
 | files (layout paths, as in `MANIFEST.sha256`) | licence |
 |---|---|
-| `nnUNet_results/**`: the two nnU-Net networks of Ours-Fast (D007, D036; fold 0), with their `plans.json`, `dataset.json` and `dataset_fingerprint.json` | **MIT** (`LICENSE`), subject to the notice below |
+| `nnUNet_results/**`: the two nnU-Net networks of nnHALO (D007, D036; fold 0), with their `plans.json`, `dataset.json` and `dataset_fingerprint.json` | **MIT** (`LICENSE`), subject to the notice below |
 | `selector/FAST_bag.pkl`: the per-object selector bag | **MIT** (`LICENSE`), subject to the notice below |
 
 ## Notice about the training data

@@ -1,6 +1,6 @@
-"""pipeline.ipynb is saved executed, without errors; it assembled Ours-Fast's weights from weights/fast/, its two
+"""pipeline.ipynb is saved executed, without errors; it assembled nnHALO's weights from weights/fast/, its two
 networks ran in that execution (not read from an earlier run), its final rows agree with the submitted file, it
-loads only Ours-Fast, and no machine-specific path is left in its outputs."""
+loads only nnHALO, and no machine-specific path is left in its outputs."""
 import json
 from pathlib import Path
 

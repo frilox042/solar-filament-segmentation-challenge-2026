@@ -1,7 +1,7 @@
 """The never-seen class: what distinguishes the annotated filaments a model never fires on (707 OOF).
 
 Port of the original per-object rows, features, classes and area-stratified AUCs, and of the per-bag
-reclassification for Ours-Fast. Same arithmetic; the full-image dilations are done on crops that contain their whole reach, which selects the same pixels.
+reclassification for nnHALO. Same arithmetic; the full-image dilations are done on crops that contain their whole reach, which selects the same pixels.
 
 REFERENCE  the union of every record's mask, from the per-record source `records` (`records.source`): `coco` (DEFAULT,
            each record rasterised from the competition COCO; the union = Dataset005 labelsTr) or `png` (the historical

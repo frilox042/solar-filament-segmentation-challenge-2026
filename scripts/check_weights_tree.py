@@ -4,7 +4,7 @@
 
 ROOT is a tree in the `$FILAMENT_WEIGHTS` layout (`nnUNet_results/...`), for example the output of
 `scripts/assemble_weights.py`. Passing means:
-  * every model entry of the manifest (the networks of Ours-Fast) is present in ROOT with the manifest's sha256;
+  * every model entry of the manifest (the networks of nnHALO) is present in ROOT with the manifest's sha256;
   * every other file in ROOT is a manifest entry with the manifest's sha256, apart from the names in `--ignore`
     (default: strip_report.json).
 Exit 0 = pass, 1 = fail.

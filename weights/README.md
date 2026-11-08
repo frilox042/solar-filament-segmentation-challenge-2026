@@ -1,6 +1,6 @@
 # Weights: inventory
 
-**Stored in this repository: Ours-Fast.** Its two networks (the nnU-Nets D007 and D036, fold 0; 0.474 GB, 8 files
+**Stored in this repository: nnHALO.** Its two networks (the nnU-Nets D007 and D036, fold 0; 0.474 GB, 8 files
 with their metadata) are in `fast/`. Each checkpoint is stored as parts of at most
 90 MiB (`checkpoint_final.pth.part000`, ...) because GitHub blocks files above 100 MiB.
 `python scripts/assemble_weights.py` joins them into `$FILAMENT_WEIGHTS` and checks every file against
@@ -43,7 +43,7 @@ The two nnU-Net `checkpoint_final.pth` files are **inference-only copies**. Comp
 - Every kept key equals the original's, and the removed keys are exactly the four above.
 - A CPU forward pass through `nnUNetPredictor` gave identical output from the stripped and the original files.
 - All JSON metadata is **unchanged** (byte-identical copies, same hashes).
-- An end-to-end GPU run of Ours-Fast from the stripped files (assembled from `fast/`) agrees with the submitted file
+- An end-to-end GPU run of nnHALO from the stripped files (assembled from `fast/`) agrees with the submitted file
   on 178 of 180 images (equal counts, image Dice ≥ 0.9997); on the other two, one selector decision near the cut
   flipped (README, "Reproduction tolerance").
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Predict entry point for Ours-Fast (slot FAST), the submitted model.
+"""Predict entry point for nnHALO (slot FAST), the submitted model.
 
   python scripts/predict.py --slot FAST [--bag-dir DIR | --refit]                                    # CPU stage only
   python scripts/predict.py --slot FAST --from-images [--limit N] [--device cuda] [--dry-run]
@@ -40,7 +40,7 @@ SRC = os.path.normpath(os.path.join(HERE, "..", "src"))
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--slot", default="FAST", choices=("FAST",), help="Ours-Fast, the submitted model (default)")
+    ap.add_argument("--slot", default="FAST", choices=("FAST",), help="nnHALO, the submitted model (default)")
     sel = ap.add_mutually_exclusive_group()
     sel.add_argument("--bag-dir", help="apply DIR/<slot>_bag.pkl instead of the released selector bag")
     sel.add_argument("--refit", action="store_true",

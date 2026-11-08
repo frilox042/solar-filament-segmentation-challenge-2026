@@ -6,7 +6,7 @@ A Solution to the Solar Filament Segmentation Challenge 2026 (GONG H-alpha).
 
 We segment solar filaments in full-disk 2048×2048 GONG H-alpha observations.
 
-- **Ours-Fast (slot `FAST`).** Two networks, both nnU-Nets, fold 0:
+- **nnHALO** (H-Alpha segmentation with Learned Object selection; slot `FAST`). Two networks, both nnU-Nets, fold 0:
   - the **base network**, an nnU-Net on five input channels (c0–c4: raw, CLAHE, background-subtracted, coherence,
     Sato ridge), gives the probability map p. Its 4-connected components of at least 100 px at p ≥ 0.97
     are the candidate objects;
@@ -36,7 +36,7 @@ per-record rule). Intervals in the report are 95% paired bootstrap (5000 resampl
 | | Dice | pairwise IoU | PQ (w 0.5) | public LB | file | md5 |
 |---|---|---|---|---|---|---|
 | held-out annotator | 0.616 | 0.517 | 0.340 | — | — | — |
-| **Ours-Fast (FAST)** | 0.673 | 0.591 | 0.444 | 0.39 | `submissions/FAST.csv` | `7c5bd00dbb9165fe28d3d3c83a9b832c` |
+| **nnHALO (FAST)** | 0.673 | 0.591 | 0.444 | 0.39 | `submissions/FAST.csv` | `7c5bd00dbb9165fe28d3d3c83a9b832c` |
 | simplified model: the base network alone (p ≥ 0.5, components ≥ 400 px, no selector) | 0.674 | 0.566 | 0.409 | — | — | — |
 
 ![Out-of-fold examples](docs/figures/gallery.png)
@@ -69,7 +69,7 @@ Arch Linux. Training stack: torch 2.13.0+cu130, cuDNN 9.20.0.
 
 ## What you can run
 
-- **Ours-Fast, entirely from this repository.** Its two networks are stored in `weights/fast/` (0.47 GB, as parts of
+- **nnHALO, entirely from this repository.** Its two networks are stored in `weights/fast/` (0.47 GB, as parts of
   at most 90 MiB because GitHub blocks larger files) and its selector in `weights/selector/`.
   `pipeline.ipynb` runs the whole pipeline with them: optional training (and a short training smoke run), the 180
   test observations from the raw images to the submission and its check against the submitted file, one observation
@@ -155,7 +155,7 @@ published, so a judge's quick check is the CPU evaluation above ("Quick check").
 
 `python scripts/train.py full` runs the whole recipe below as resumable steps in its own run root
 (`$FILAMENT_WORK/train`); `python scripts/train.py smoke-full` runs the same commands on 10 training cases (5 folds x
-1 epoch) as a check. `docs/TRAINING.md` lists the commands per network: `nnUNetv2_plan_and_preprocess` and `nnUNetv2_train` for Ours-Fast's
+1 epoch) as a check. `docs/TRAINING.md` lists the commands per network: `nnUNetv2_plan_and_preprocess` and `nnUNetv2_train` for nnHALO's
 two nnU-Net datasets (Dataset007, the base network, and Dataset036, the member) over folds 0–4; the epochs (250), the folds (`cases[i::5]` over the sorted 707 cases), the
 out-of-fold predictions and the selector fit. Fold 0 of each network is the one that predicts the test set; folds 1–4
 are needed only for the selector's out-of-fold rows.
@@ -164,7 +164,7 @@ Channels come from `python scripts/prepare_data.py --channels`. Training labels 
 `python scripts/build_labels.py`, which rasterises the competition training COCO JSON with pycocotools: the union of
 every annotator record, and the barb-class label for Dataset036. These are pixel-identical, on all 707 training
 observations, to the labels the shipped nnU-Net networks were trained on. By default the script also writes the union
-label of Dataset005 (and Dataset012, the same label; Dataset012 is the single-channel raw-image dataset of the input-channel ablation reported in the paper, not used by Ours-Fast and with no weights shipped), which no network of Ours-Fast trains on: Dataset005's
+label of Dataset005 (and Dataset012, the same label; Dataset012 is the single-channel raw-image dataset of the input-channel ablation reported in the paper, not used by nnHALO and with no weights shipped), which no network of nnHALO trains on: Dataset005's
 `labelsTr` is the union reference that `tests/eval_records/records_coco_check.py` compares the COCO records against.
 `--datasets D007 D036` builds only the labels that training needs. The channel step of `scripts/predict.py` builds
 only the two networks' inputs (Dataset007, Dataset036); prediction reads the test case map in the Dataset007 folder.
@@ -173,7 +173,7 @@ selector refit and the evaluation read; it is written by the training-side prepa
 
 Retraining is not bit-reproducible: nnU-Net training on a GPU is not deterministic.
 
-## Runtime and memory (Ours-Fast, 180 test observations)
+## Runtime and memory (nnHALO, 180 test observations)
 
 Reference run: `scripts/predict.py --slot FAST --from-images` from the raw competition JPEGs and the weights stored
 here, on the reference hardware (2026-11-07; per-step wall clock printed by the pipeline; memory sampled every ~6 s from

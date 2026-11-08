@@ -1,4 +1,4 @@
-"""Offline evaluation of Ours-Fast (and of its base network D007) on the 707 out-of-fold training observations
+"""Offline evaluation of nnHALO (and of its base network D007) on the 707 out-of-fold training observations
 (the paper's Evaluation section).
 
 Not part of the CPU stage: nothing here writes a submission, and the md5 gate's code fingerprint excludes this

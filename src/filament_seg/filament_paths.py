@@ -57,7 +57,7 @@ WEIGHTS = Path(os.environ.get("FILAMENT_WEIGHTS", REPO / "weights" / "downloaded
 # repository; their sha256 is in WEIGHTS_MANIFEST and is checked before any bag is unpickled.
 SELECTOR_BAGS = Path(os.environ.get("FILAMENT_SELECTOR_BAGS", REPO / "weights" / "selector"))
 WEIGHTS_MANIFEST = REPO / "weights" / "MANIFEST.sha256"
-REFERENCE_SUBMISSIONS = REPO / "submissions"         # the uploaded Ours-Fast submission file (never overwritten)
+REFERENCE_SUBMISSIONS = REPO / "submissions"         # the uploaded nnHALO submission file (never overwritten)
 PREDICTIONS = Path(os.environ.get("FILAMENT_PREDICTIONS", WORK / "predictions"))
 SUBMISSIONS_OUT = Path(os.environ.get("FILAMENT_SUBMISSIONS_OUT", REPO / "submissions" / "out"))
 CONFIGS = REPO / "configs"

@@ -1,4 +1,4 @@
-"""Training of Ours-Fast, as runnable, resumable steps: the full recipe of `docs/TRAINING.md`, and smoke runs of it.
+"""Training of nnHALO, as runnable, resumable steps: the full recipe of `docs/TRAINING.md`, and smoke runs of it.
 
     python scripts/train.py full        [--dry-run] [--root DIR]   # the recipe of the shipped weights (~65 GPU-h)
     python scripts/train.py smoke       [--dry-run] [--root DIR]   # 10 cases, fold 0, 1 epoch (~2.5 min): the notebook's check

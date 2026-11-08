@@ -15,9 +15,9 @@ import nbformat as nbf
 ROOT = Path(__file__).resolve().parents[1]
 
 CELLS = [
-    ("md", """# Ours-Fast, end to end
+    ("md", """# nnHALO, end to end
 
-This notebook is the whole pipeline of **Ours-Fast**, the submitted model, from the raw competition images to the
+This notebook is the whole pipeline of **nnHALO**, the submitted model, from the raw competition images to the
 submission file and its evaluation. The implementation lives in `src/filament_seg/`; each cell calls it.
 
 **weights → (optional) training → input channels → two networks → candidates → selector → submission rows → evaluation**
@@ -267,7 +267,7 @@ from filament_seg.evaluation import expected, oof_selection
 seed = expected.load("heldout_annotator")["rerun_seed"]             # the bootstrap seed of the paper's intervals
 S = json.load(open(oof_selection.eval_dir() / "heldout_annotator.json"))["results"][f"seed_{seed}"]
 pts, dice = S["points"], S["dice"]
-rowsT = [("held-out annotator", "H_A0", dice["H_image_mean"]), ("Ours-Fast", "FAST", dice["FAST_image_mean"]),
+rowsT = [("held-out annotator", "H_A0", dice["H_image_mean"]), ("nnHALO", "FAST", dice["FAST_image_mean"]),
          ("single network (p >= 0.5, >= 400 px)", "D007", dice["D007_image_mean"])]
 print(f"\\n{S['n_images']} observations, {S['n_units']} (observation, held-out annotator) units")
 print(f"{'':40s} {'Dice':>6s} {'IoU':>6s} {'PQ':>6s}  {'GT 1:0':>6s} {'GT 1:>=2':>8s} {'pred 0:1':>8s}")

@@ -23,7 +23,7 @@ module-level state.
 | module | role |
 |---|---|
 | `prep.channels`, `prep.prepare` | network input channels from the raw competition JPEGs (checked array-equal to the stored ones) |
-| `gpu.pipeline`, `gpu.nnunet_binaries` | the `--from-images` plan of Ours-Fast: resumable steps, interpreters, weights layout |
+| `gpu.pipeline`, `gpu.nnunet_binaries` | the `--from-images` plan of nnHALO: resumable steps, interpreters, weights layout |
 | `gpu/predict_oof_probs.py`, `gpu/make_oof_set.py`, `gpu/merge_barb_predictions.py` | the nnU-Net out-of-fold map predictor, out-of-fold assembly |
 
 **Offline evaluation** (`evaluation/`, paper § Evaluation). Outside the md5 gate: it reads the CPU stage's out-of-fold

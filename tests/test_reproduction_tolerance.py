@@ -7,7 +7,7 @@
 Each clause is tested on plain numbers (`classify`), so that a control fails for the reason it names and not for
 another clause. Negative controls (must FAIL): 4 images off by one; one image off by 2; pooled Dice just below the
 floor; a total off by 4; an unknown image id; verify_submission failing. Positive controls: 3 images +-1 at the floor.
-The real Ours-Fast fresh-clone re-run (tests/fixtures/reruns/) is classified as the README records.
+The real nnHALO fresh-clone re-run (tests/fixtures/reruns/) is classified as the README records.
 """
 import json
 import sys

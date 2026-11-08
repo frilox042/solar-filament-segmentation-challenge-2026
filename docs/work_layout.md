@@ -21,7 +21,7 @@ The `predictions/` subdirectory names are listed in `configs/<slot>.json` `cpu_s
 
 `tests/smoke/stage_work.py --eval` stages the evaluation's inputs (`configs/eval/inputs.json`): the competition COCO,
 the case mappings, `Dataset007/imagesTr`, the OOF base maps and the D036 member binaries, and
-`predictions/vessel_oof_full/by_image` (the D007 >= 400 px reference arm, which Ours-Fast does not read). Outputs go to
+`predictions/vessel_oof_full/by_image` (the D007 >= 400 px reference arm, which nnHALO does not read). Outputs go to
 `WORK/eval/` (override with `FILAMENT_EVAL`): `<slot>_oof_selection.pkl` (cached keeps) and one JSON per script.
 
 **From the evaluation bundle** (no maps needed): `python -m filament_seg.evaluation.bundle stage --work WORK` writes the

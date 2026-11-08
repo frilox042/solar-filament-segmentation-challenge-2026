@@ -1,4 +1,4 @@
-"""Item: the default predict path APPLIES the released selector bag of Ours-Fast; refitting is an explicit option.
+"""Item: the default predict path APPLIES the released selector bag of nnHALO; refitting is an explicit option.
 
 Checks: the released bag is listed in weights/MANIFEST.sha256 and matches it; it loads to 5 regressors with the
 config's cut; `apply` defaults to it and `both` applies its OWN fitted bag; the plans of `--from-images` and of the
