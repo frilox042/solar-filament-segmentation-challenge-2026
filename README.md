@@ -22,6 +22,11 @@ We segment solar filaments in full-disk 2048×2048 GONG H-alpha observations.
 
 Method, evaluation and figures: the technical report (ACM sigconf, four pages).
 
+![Pipeline](docs/figures/pipeline.png)
+
+*Inference from one GONG H-α observation to the submission file: fold 0 of two nnU-Nets, candidates from the base
+network, and a per-object selector that also reads the base network's own mask at p ≥ 0.5 (paper, Figure 1).*
+
 ## Results
 
 On 296 multi-annotator training observations, out of fold. Each annotator record is held out in turn, and
@@ -33,6 +38,12 @@ per-record rule). Intervals in the report are 95% paired bootstrap (5000 resampl
 | held-out annotator | 0.616 | 0.517 | 0.340 | — | — | — |
 | **Ours-Fast (FAST)** | 0.673 | 0.591 | 0.444 | 0.39 | `submissions/FAST.csv` | `7c5bd00dbb9165fe28d3d3c83a9b832c` |
 | simplified model: the base network alone (p ≥ 0.5, components ≥ 400 px, no selector) | 0.674 | 0.566 | 0.409 | — | — | — |
+
+![Out-of-fold examples](docs/figures/gallery.png)
+
+*Out-of-fold masks (orange) against the annotator records (green). Panels are picked automatically, each the median
+example of its category: (a) by IoU, (b) the second annotation's coverage, (c) contrast, (d) coverage removed (red
+dashed: pieces the selector deleted), (e) side-branch deficit, (f) area — failures included (paper, Figure 2).*
 
 What each component adds, with intervals, is the paper's ablation table: the selector is the largest step; the second
 network adds the least (+0.002 PQ on all 707 out-of-fold observations) for one more network pass.

@@ -3,6 +3,7 @@
 ./configs/datasets
 ./configs/eval
 ./docs
+./docs/figures
 ./eval_bundle
 ./eval_bundle/d007_oof_bin
 ./eval_bundle/oof_levels
