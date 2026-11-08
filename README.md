@@ -136,9 +136,9 @@ resumes where it stopped. The CPU stage applies the released selector bag (`weig
 about 2 MB, checked against `weights/MANIFEST.sha256`); `--bag-dir DIR` applies another directory's bag, and
 `--refit` re-fits the selector on the 707 out-of-fold observations first.
 
-**CPU stage from cached network outputs:** `python tests/smoke/run_cpu_smoke.py ...` rebuilds the submission file
-byte for byte from the saved test network outputs, with negative controls. Those test outputs are not published
-(the from-images run regenerates them).
+**CPU stage from cached network outputs** (maintainers): `tests/smoke/run_cpu_smoke.py` rebuilds the submission file byte
+for byte from saved test network outputs, with negative controls (`--help` for its arguments). Those outputs are not
+published, so a judge's quick check is the CPU evaluation above ("Quick check").
 
 ## Full retrain
 
@@ -200,8 +200,8 @@ network step takes about 3.8 min. Your time depends on your GPU and its cooling.
   - and `verify_submission` passes.
 
   Reported as information, never deciding: whether the file is bit-identical (md5), whether every image has the same
-  object count, the pooled Dice over all images, and the worst image Dice. **This rule was set on 2026-11-02, after the
-  five measured runs below**, and replaces a stricter two-tier rule fixed before them, under which none of the four
+  object count, the pooled Dice over all images, and the worst image Dice. **This rule was set on 2026-11-02, after five
+  measured runs (the uploaded file and the four re-runs in the table below)**, and replaces a stricter two-tier rule fixed before them, under which none of the four
   re-runs passed. It is therefore a description of the measured behaviour, not an independent test of it.
 - **Measured behaviour.** Four independent GPU runs of the stored weights (same laptop GPU), each compared with the
   uploaded file, which is itself a fifth run. Each differs on 1–2 of the 180 images by one object; every other image
