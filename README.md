@@ -103,12 +103,21 @@ Without a CUDA GPU the networks run on the CPU; that path is not tested against 
 
 ## Quickstart: predict from the stored weights
 
-Install the package into the CPU environment first: `.venv-cpu/bin/pip install -e .` (or `export PYTHONPATH=src`).
+```bash
+git clone https://github.com/frilox042/solar-filament-segmentation-challenge-2026.git && cd solar-filament-segmentation-challenge-2026
+# competition data (Kaggle account + accepted rules): https://www.kaggle.com/competitions/filament-segmentation-2026/data
+kaggle competitions download -c filament-segmentation-2026 -p ../data && unzip -q ../data/filament-segmentation-2026.zip -d ../data
+
+bash scripts/setup_envs.sh                                   # both environments (or the manual steps below)
+```
+
+The same by hand:
 
 ```bash
 TORCH_INDEX=https://download.pytorch.org/whl/cu130
 python3.12 -m venv .venv-cpu    && .venv-cpu/bin/pip install -r requirements/cpu.txt
 .venv-cpu/bin/pip install -r requirements/notebook.txt       # for pipeline.ipynb (matplotlib, nbclient, ipykernel)
+.venv-cpu/bin/pip install -e .                               # the package (or: export PYTHONPATH=src)
 python3.14 -m venv .venv-nnunet && .venv-nnunet/bin/pip install --extra-index-url $TORCH_INDEX -r requirements/nnunet-gpu.lock.txt
 ```
 
@@ -218,7 +227,7 @@ network step takes about 3.8 min. Your time depends on your GPU and its cooling.
   | GPU run, 2026-10-19 (a) | 1,186 | 1 (+1) | 0.999986 | 0.999368 | 0.99912 | pass |
   | GPU run, 2026-10-19 (b) | 1,186 | 1 (+1) | 0.999988 | 0.999370 | 0.99912 | pass |
   | GPU run, 2026-10-23 | 1,186 | 1 (+1) | 0.999986 | 0.999368 | 0.99912 | pass |
-  | fresh clone, 2026-11-02 (the runtime reference above) | 1,185 | 2 (+1, −1) | 0.999986 | 0.998244 | 0.99977 | pass |
+  | fresh clone, 2026-11-02 (reproduction run) | 1,185 | 2 (+1, −1) | 0.999986 | 0.998244 | 0.99977 | pass |
 
   None of them is bit-identical to the uploaded file, and none has the same count on every image. The fresh-clone file
   is in `tests/fixtures/reruns/`, classified by `tests/test_reproduction_tolerance.py`.
