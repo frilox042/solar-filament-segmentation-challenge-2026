@@ -1,0 +1,14 @@
+{
+ "n_cases": 707,
+ "n_equal": 707,
+ "max_diff_px": 0,
+ "negative_control": {
+  "dropped_first_record_of": "img_0001",
+  "broken_cases": [
+   "img_0001"
+  ],
+  "PASS": true
+ },
+ "seconds": 119,
+ "PASS": true
+}

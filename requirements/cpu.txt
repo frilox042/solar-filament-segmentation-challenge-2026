@@ -1,0 +1,25 @@
+# CPU stage (channels, FLOOR selector, submission writer) -- the md5-exact path.
+# Pins = the CPython 3.12.11 interpreter on which the uploaded files were built and re-verified.
+# Top-level set from an import trace of the CPU stage; transitive pins included. Use Python 3.12.
+numpy==2.2.6
+scipy==1.18.0
+scikit-image==0.26.0
+scikit-learn==1.9.0
+joblib==1.5.3
+threadpoolctl==3.6.0
+pillow==12.2.0
+pycocotools==2.0.11
+lazy-loader==0.5
+imageio==2.37.4
+tifffile==2026.7.14
+networkx==3.6
+packaging==26.2
+# imported indirectly during the traced runs (pandas is pulled in by an optional import path)
+pandas==2.3.3
+pyarrow==25.0.0
+narwhals==2.23.0
+python-dateutil==2.9.0.post0
+pytz==2026.2
+tzdata==2026.3
+six==1.17.0
+charset-normalizer==3.4.7

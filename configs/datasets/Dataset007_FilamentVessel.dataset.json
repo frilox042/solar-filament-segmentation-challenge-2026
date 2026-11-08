@@ -1,0 +1,17 @@
+{
+    "channel_names": {
+        "0": "raw",
+        "1": "CLAHE",
+        "2": "bgsub",
+        "3": "coherence",
+        "4": "sato_ridge"
+    },
+    "labels": {
+        "background": 0,
+        "filament": 1
+    },
+    "numTraining": 707,
+    "file_ending": ".png",
+    "overwrite_image_reader_writer": "NaturalImage2DIO",
+    "description": "MAGFiLO binary, D005 4ch + single-scale Sato dark-ridge (sigma16, off-disk masked); union labels."
+}

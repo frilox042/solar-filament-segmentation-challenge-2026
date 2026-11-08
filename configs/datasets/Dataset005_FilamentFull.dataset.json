@@ -1,0 +1,16 @@
+{
+    "channel_names": {
+        "0": "raw",
+        "1": "CLAHE",
+        "2": "bgsub",
+        "3": "coherence"
+    },
+    "labels": {
+        "background": 0,
+        "filament": 1
+    },
+    "numTraining": 707,
+    "file_ending": ".png",
+    "overwrite_image_reader_writer": "NaturalImage2DIO",
+    "description": "MAGFiLO binary, full 778 non-test imgs, 4ch raw+CLAHE+bgsub+coherence, union labels."
+}

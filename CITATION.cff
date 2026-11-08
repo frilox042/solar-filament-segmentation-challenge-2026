@@ -1,0 +1,98 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below (and the MAGFiLO dataset)."
+title: "Which Filaments Do Annotators Draw? An nnU-Net with Per-Object Selection for GONG H-α"
+type: software
+authors:
+  - family-names: "Gether"
+    given-names: "Damien"
+    affiliation: "Clemex Technologies Inc., Brossard, Quebec, Canada"
+    email: "damiengether@gmail.com"
+version: "0.2.0"
+date-released: "2026-11-15"
+license: MIT                              # the code, our nnU-Net weights and the selector bag (weights/LICENSE-WEIGHTS.md)
+repository-code: "https://github.com/frilox042/solar-filament-segmentation-challenge-2026"
+# doi: "TODO-zenodo-doi"                  # if the weights / a snapshot get a Zenodo DOI
+keywords:
+  - solar filaments
+  - H-alpha
+  - GONG
+  - semantic segmentation
+  - nnU-Net
+references:
+  - type: article
+    title: "A dataset of manually annotated filaments from H-alpha observations"
+    journal: "Scientific Data"
+    volume: 11
+    start: 1031
+    year: 2024
+    doi: "10.1038/s41597-024-03876-y"
+    authors:
+      - family-names: "Ahmadzadeh"
+        given-names: "Azim"
+      - family-names: "Adhyapak"
+        given-names: "Rohan"
+      - family-names: "Chaurasiya"
+        given-names: "Kartik"
+      - family-names: "Nagubandi"
+        given-names: "Laxmi Alekhya"
+      - family-names: "Aparna"
+        given-names: "V."
+      - family-names: "Martens"
+        given-names: "Petrus C."
+      - family-names: "Pevtsov"
+        given-names: "Alexei"
+      - family-names: "Bertello"
+        given-names: "Luca"
+      - family-names: "Pevtsov"
+        given-names: "Alexander"
+      - family-names: "Douglas"
+        given-names: "Naomi"
+      - family-names: "McDonald"
+        given-names: "Samuel"
+      - family-names: "Bawa"
+        given-names: "Apaar"
+      - family-names: "Kang"
+        given-names: "Eugene"
+      - family-names: "Wu"
+        given-names: "Riley"
+      - family-names: "Kempton"
+        given-names: "Dustin J."
+      - family-names: "Abdelkarem"
+        given-names: "Aya"
+      - family-names: "Copeland"
+        given-names: "Patrick M."
+      - family-names: "Seelamneni"
+        given-names: "Sri Harsha"
+  - type: article
+    title: "nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation"
+    journal: "Nature Methods"
+    volume: 18
+    issue: 2
+    start: 203
+    end: 211
+    year: 2021
+    doi: "10.1038/s41592-020-01008-z"
+    authors:
+      - family-names: "Isensee"
+        given-names: "Fabian"
+      - family-names: "Jaeger"
+        given-names: "Paul F."
+      - family-names: "Kohl"
+        given-names: "Simon A. A."
+      - family-names: "Petersen"
+        given-names: "Jens"
+      - family-names: "Maier-Hein"
+        given-names: "Klaus H."
+  - type: generic
+    title: "Solar Filament Segmentation Challenge 2026"
+    url: "https://kaggle.com/competitions/filament-segmentation-2026"
+    year: 2026
+    authors:
+      - family-names: "Ahmadzadeh"
+        given-names: "Azim"
+      - family-names: "Kempton"
+        given-names: "Dustin J."
+      - family-names: "Li"
+        given-names: "Qin"
+      - family-names: "Pevtsov"
+        given-names: "Alexei A."

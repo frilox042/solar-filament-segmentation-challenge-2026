@@ -1,0 +1,20 @@
+{
+ "what": "OR of the COCO records per observation == Dataset005 labelsTr > 0",
+ "coco": "MAGFiLO_1.0_Annotations_kaggle2026_train.json",
+ "labels": "Dataset005_FilamentFull/labelsTr",
+ "n_cases": 707,
+ "n_records": 1154,
+ "n_equal": 707,
+ "max_xor": 0,
+ "negative_control": {
+  "dropped_record": "010101-20110114105034Ch",
+  "case": "img_0001",
+  "n_equal": 706,
+  "broken_cases": [
+   "img_0001"
+  ],
+  "xor_px": 4631,
+  "pass": true
+ },
+ "pass": true
+}

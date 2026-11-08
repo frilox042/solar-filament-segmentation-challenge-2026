@@ -1,0 +1,20 @@
+# Ours-Fast's files, sha256, paths relative to the weights layout root.
+# Model files (nnUNet_results/) are stored in this repository under weights/fast/ (checkpoints as parts of
+# at most 90 MiB); scripts/assemble_weights.py joins them into $FILAMENT_WEIGHTS and checks each against this file.
+# Generated from SOURCE_CHECKPOINTS.sha256 (training paths -> layout paths):
+#   nnunet_env/nnUNet_results/<rest>  -> nnUNet_results/<rest>
+# with ONE change: the 2 nnU-Net fold_0/checkpoint_final.pth hashes are those of the STRIPPED inference-only copies
+# (optimizer_state, grad_scaler_state, logging and _best_ema removed; every network tensor and inference key equal;
+# weights/README.md "Stripped nnU-Net checkpoints"). SOURCE_CHECKPOINTS.sha256 keeps the as-stored hashes as provenance.
+# Every other entry (plans/dataset JSON) is byte-identical to its source and keeps its hash.
+# The selector bag (selector/) ships at weights/selector/ and is checked in place;
+# filament_seg.selector_stage refuses to unpickle a released bag whose sha256 differs from this file.
+d8e327fc01b44b5105f30c08b5924b36ec8819b344bbd1b07c98db8388aa0178  nnUNet_results/Dataset007_FilamentVessel/nnUNetTrainer_250epochs__nnUNetPlans__2d/fold_0/checkpoint_final.pth
+84933dc0477dad546aef086beb71d91eaa1c3e981e05cdb25ef8886e2b135238  nnUNet_results/Dataset007_FilamentVessel/nnUNetTrainer_250epochs__nnUNetPlans__2d/plans.json
+d662ddaa21c44f5df585bbca65bba1d46b33ecbf035bda0b244f9ad881f724ec  nnUNet_results/Dataset007_FilamentVessel/nnUNetTrainer_250epochs__nnUNetPlans__2d/dataset.json
+e34d6fff8519c8f1af9f20017b8a1b687353e77aff13ec9f813f693f5a461e3b  nnUNet_results/Dataset007_FilamentVessel/nnUNetTrainer_250epochs__nnUNetPlans__2d/dataset_fingerprint.json
+690af2d13f3d781824201cce517822d80c3d349e36a566d9c4bed3614b3a20c1  nnUNet_results/Dataset036_LimbDarkBarbClass/nnUNetTrainer_250epochs__nnUNetPlans__2d/fold_0/checkpoint_final.pth
+53f0aea68764554fdd5a70a1039dddc117275f0a465f6a003911b274793286f3  nnUNet_results/Dataset036_LimbDarkBarbClass/nnUNetTrainer_250epochs__nnUNetPlans__2d/plans.json
+61fb2979a7e780d7a86ac9b6df23d240818f47b5a4a8e721c14c59c76fb6dd65  nnUNet_results/Dataset036_LimbDarkBarbClass/nnUNetTrainer_250epochs__nnUNetPlans__2d/dataset.json
+6898d3b7a3f03fb92e67a4651c5f8b70a7923a0cd5e3ce7ffbd7be3ea6f67582  nnUNet_results/Dataset036_LimbDarkBarbClass/nnUNetTrainer_250epochs__nnUNetPlans__2d/dataset_fingerprint.json
+0c6d4f0dc618ac8c7c372ff4451883d9d02d1b3267fd9a957e79915bf9de6de7  selector/FAST_bag.pkl

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "filament-seg"
+version = "0.1.0"
+description = "Solar filament segmentation on GONG H-alpha (Solar Filament Segmentation Challenge 2026)"
+license = {text = "MIT"}
+requires-python = ">=3.12"
+# pinned environments live in requirements/ (two: cpu, nnunet-gpu)
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+# gpu/ holds the GPU-side code (nnU-Net prediction and out-of-fold assembly); it is not restyled
+# because changes there can only be verified on a GPU.
+extend-exclude = ["src/filament_seg/gpu"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]

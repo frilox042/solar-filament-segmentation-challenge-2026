@@ -1,0 +1,85 @@
+{
+ "slot": "FAST",
+ "kaggle_submission_ref": 57894703,
+ "expected_md5": "7c5bd00dbb9165fe28d3d3c83a9b832c",
+ "expected_rows": 1185,
+ "description": "Ours-Fast: one nnU-Net (fold 0), per-object selector reading two member masks (a second nnU-Net, and the base network's own p >= 0.5 mask)",
+ "base": {
+  "member": "D007",
+  "dataset": "Dataset007_FilamentVessel",
+  "folds": [
+   0
+  ],
+  "step": 0.5,
+  "mirror": true,
+  "test_map": "predictions/vessel_full/prob/<case>.npz (nnUNetv2_predict -d 7 -f 0 --save_probabilities)",
+  "quantise": "as the OOF writer (truncation to u16)",
+  "oof_map": "predictions/vessel_oof_probs (step 0.75, per fold)",
+  "mask": "T97: p >= 0.97"
+ },
+ "selector_members": {
+  "_doc": "The selector's two member masks, in column order (member 1, member 2). Each candidate gets, per member, its best IoU against any member component (mb) and the fraction of it the member covers (cov).",
+  "D036": {
+   "kind": "file",
+   "oof": "predictions/oof_d036/by_image",
+   "test": "predictions/test_d036_f0/by_image",
+   "test_recipe": "nnUNetv2_predict -d 36 -f 0, step 0.5, mirror, argmax (filament+barb merged)"
+  },
+  "P": {
+   "kind": "base_threshold",
+   "rule": "p >= 0.5 of the base probability map the candidates are thresholded from (test: the quantised fold-0 step-0.5 map; out of fold: the same OOF map). No network, computed in process. Every candidate (p >= 0.97) lies inside P, so cov_P = 1 by construction; P contributes mb_P and changes the aggregate columns."
+  }
+ },
+ "selector": {
+  "name": "T97-FLOOR, 2 members (D036, P; 22 columns)",
+  "fit": "W.fit_bag2(X, u, img, area >= 400) on all 707 OOF rows",
+  "cut": "PQ_w05(base >= 400)/2",
+  "expected_two_cut": 0.42199336931468706,
+  "keep": "mean(u_hat) > cut"
+ },
+ "submission": {
+  "writer": "make_submission.py --min-area 20",
+  "gate": "verify_submission.py"
+ },
+ "cpu_stage": {
+  "_doc": "Machine-readable settings of the CPU stage (read by filament_seg.config.SlotConfig). Paths are relative to FILAMENT_WORK. `members` is ORDERED (selector columns): kind 'file' reads a binary PNG per image (oof: <dir>/<case>.png; test: <dir>/<case or image id>.png per `naming`); kind 'base_threshold' is the base probability map >= t, computed in process.",
+  "base_mask": "t97",
+  "core_t": 0.97,
+  "oof_prob_dir": "predictions/vessel_oof_probs",
+  "test_prob": {
+   "kind": "npz",
+   "dir": "predictions/vessel_full/prob"
+  },
+  "members": [
+   {
+    "name": "D036",
+    "kind": "file",
+    "oof_dir": "predictions/oof_d036/by_image",
+    "test_dir": "predictions/test_d036_f0/by_image",
+    "naming": "case"
+   },
+   {
+    "name": "P",
+    "kind": "base_threshold",
+    "t": 0.5
+   }
+  ],
+  "workers": {
+   "fit": 3,
+   "apply": 3
+  },
+  "hgb_threads": 4,
+  "member_join_check": true,
+  "min_area_csv": 20
+ },
+ "kaggle_submission_ref_note": "Uploaded 2026-11-01 (public leaderboard 0.39); chosen as the final model by the author on 2026-11-01. The Final Submission selection itself is made in the Kaggle interface.",
+ "reproduction_tolerance": {
+  "_doc": "What `selector_stage apply` checks its CSV against: the uploaded file submissions/<slot>.csv (filament_seg.submission.compare). The GPU stage is not deterministic run to run (max |dp| up to 1.3e-3), and a few candidates score within about 1e-3 of the selector cut, so a re-run can keep or delete one or two borderline objects; the md5 match is REPORTED, never required. The run PASSES iff at most 3 images differ in object count, each by at most 1 object, the total object count is within +-3, the pooled union-mask Dice over the images whose object count matches is >= 0.999, and verify_submission passes. Reported as information: bit-identity, an equal count on every image, the pooled Dice over all images, the worst image Dice (all images and count-matched images). This rule was set on 2026-11-02, AFTER the five measured GPU runs of the stored weights it is checked against (the uploaded file and four re-runs; README 'Reproduction tolerance'); it replaces a two-tier rule fixed before those runs, under which none of the four re-runs passed.",
+  "rule": {
+   "max_images_count_differs": 3,
+   "max_count_diff_per_image": 1,
+   "max_total_count_diff": 3,
+   "min_pooled_dice_count_matched": 0.999
+  }
+ }
+}

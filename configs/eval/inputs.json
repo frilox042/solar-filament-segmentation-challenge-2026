@@ -1,0 +1,31 @@
+{
+ "_doc": "Run-root inputs of the offline evaluation (src/filament_seg/evaluation, scripts/eval_*.py), relative to FILAMENT_WORK. Staged by `tests/smoke/stage_work.py --eval`. Every one is a training-side out-of-fold artifact or competition data; no MAGFiLO release file and no test annotation. 'generate' is built by this repository's own code.",
+ "file": [
+  "nnunet_env/nnUNet_raw/Dataset005_FilamentFull/case_mapping_full.json",
+  "nnunet_env/nnUNet_raw/Dataset007_FilamentVessel/case_mapping_full.json",
+  "analysis/datastudy_diskfit.json"
+ ],
+ "dir": [
+  "nnunet_env/nnUNet_raw/Dataset007_FilamentVessel/imagesTr",
+  "predictions/oof_d036/by_image",
+  "predictions/vessel_oof_probs",
+  "predictions/vessel_oof_full/by_image"
+ ],
+ "optional_dir": [
+  "extracted/training"
+ ],
+ "generate": {
+  "analysis/selector_tables.npz": "filament_seg.selector_tables.write()"
+ },
+ "_roles": {
+  "predictions/vessel_oof_probs": "base: D007 OOF map (uint16)",
+  "predictions/vessel_oof_full/by_image": "the D007 >= 400 px reference arm (held-out-annotator and morphology evaluations): D007 OOF argmax binaries",
+  "extracted/training": "OPTIONAL, only for --records png (historical replication): the per-annotator-record PNG tree, a PNG export of the competition COCO, not in the competition download. The default reference of the annotator-agreement and never-seen evaluations is the competition COCO (records_coco)",
+  "analysis/datastudy_diskfit.json": "per-frame limb fit (disk centre and radius; image-derived, no annotation): only the r/R feature of the never-seen evaluation, which also fixes the RNG stream of the support interval",
+  "predictions/oof_d036/by_image": "the selector's file member D036 (configs/FAST.json cpu_stage.members); the second member, P, is computed from the base map"
+ },
+ "file_as": {
+  "data/kaggle/MAGFiLO_1.0_Kaggle_2026/train/MAGFiLO_1.0_Annotations_kaggle2026_train.json": "data/MAGFiLO_1.0_Annotations_kaggle2026_train.json"
+ },
+ "_bundle": "Without these maps: `python -m filament_seg.evaluation.bundle stage --work WORK` fills the same WORK paths from the tracked eval_bundle/ (selector OOF rows as analysis/oof_rows_FAST.npz, threshold-level base maps, D007 binaries, limb fit) and from YOUR competition download (training COCO; channel 0 of the 707 training JPEGs). The member dir is then not needed: the bundled rows replace the selector's feature build."
+}

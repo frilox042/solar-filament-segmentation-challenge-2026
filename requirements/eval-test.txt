@@ -1,0 +1,6 @@
+# Optional: the literal-torchmetrics check of the evaluation's Dice (tests/test_eval_heldout.py). The evaluation itself
+# runs on cpu.txt alone; without torchmetrics that one test is skipped. Versions as used for the reported run.
+-r cpu.txt
+pytest==9.1.1
+torch==2.13.0
+torchmetrics==1.8.2

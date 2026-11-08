@@ -1,0 +1,18 @@
+{
+ "channel_names": {
+  "0": "raw",
+  "1": "CLAHE",
+  "2": "bgsub",
+  "3": "coherence",
+  "4": "sato_ridge",
+  "5": "limbdark_corrected"
+ },
+ "labels": {
+  "background": 0,
+  "filament": 1,
+  "barb": 2
+ },
+ "numTraining": 707,
+ "file_ending": ".png",
+ "description": "Six-channel stack (raw, CLAHE, high-pass, coherence, Sato ridge, limb-darkening-corrected) with three-class barb labels (filament body / barb)."
+}

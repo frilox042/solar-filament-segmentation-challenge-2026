@@ -1,0 +1,1789 @@
+{
+ "_doc": "Reported values the offline evaluation must reproduce, per model set. `model_set` names the models the inputs come from; after a retrain of the models a new block can be added (the existing one is kept), and scripts/eval_*.py --expect <name> selects it. Values are copied verbatim from the result files named in `source` (the original files are not part of this repository; where `source` says 'this code's run', the value is this code's own output for the current model); `tol` is the absolute tolerance of the gate.",
+ "current": "published_png",
+ "by_records": {
+  "_doc": "The block each per-record source gates against when --expect is not given (scripts eval_annotator_agreement / eval_never_seen --records). png: the reported values (the historical extracted/ PNG tree, a PNG export a reviewer cannot obtain; replication only). coco: this code's own run on the competition COCO (the default; regression values produced by this code). Every other script uses `current`.",
+  "png": "published_png",
+  "coco": "regression_coco"
+ },
+ "published_png": {
+  "model_set": "FAST = the D007 network (fold-wise out-of-fold maps) + T97-FLOOR selector (member masks D036 and P = the D007 map at p >= 0.5); networks trained on the MAGFiLO-derived union labels (see the technical report)",
+  "oof_selection": {
+   "source": "this code's run (2026-11-01); the w 0.5 per-bag values and the keeps equal an independent computation (not part of this repository) bit for bit; the w 1.0 values are this code's",
+   "tol": 1e-12,
+   "FAST_pq_per_bag_w05_w10": [
+    [
+     0.4461920069173602,
+     0.3314795228694573
+    ],
+    [
+     0.44621391232169766,
+     0.33151426778812715
+    ],
+    [
+     0.44573458652675796,
+     0.3310262315557661
+    ],
+    [
+     0.4464650167437799,
+     0.33178593086746083
+    ],
+    [
+     0.446316068588172,
+     0.33160632705428716
+    ]
+   ]
+  },
+  "heldout_annotator": {
+   "source": "D007 and annotator leaves: independently recomputed values (bootstrap seed 20261018, as the paper and Table 1) and the original computation (seed 0), unchanged. FAST leaves: this code's run (2026-11-01) for both seeds; the FAST point estimates equal an independent computation (not part of this repository) bit for bit; the FAST deltas follow from those points, and their intervals are this code's bootstrap, not independently re-derived",
+   "tol": 1e-09,
+   "tol_reported_dice": 1e-06,
+   "_tol_note": "the seed-0 Dice of the D007 and human leaves comes from the original computation (torchmetrics float32 per sample); every FAST leaf and the seed-20261018 set are this port's float64 values",
+   "n_images": 296,
+   "n_units": 743,
+   "points": {
+    "FAST": {
+     "pq_w05": 0.4443343961865949,
+     "pq_w10": 0.33002566099721103,
+     "mean_iou": 0.5910926422180351,
+     "mean_dice": 0.7231419425429895,
+     "gt_1to0": 0.1695961995249406,
+     "gt_1toge2": 0.03475434429303663,
+     "pred_0to1": 0.15504446074606032,
+     "pred_ge2to1": 0.021117256169047666
+    },
+    "D007": {
+     "pq_w05": 0.40902926047903104,
+     "pq_w10": 0.294087832499633,
+     "mean_iou": 0.5658685567316466,
+     "mean_dice": 0.6998197626486921,
+     "gt_1to0": 0.11251406425803226,
+     "gt_1toge2": 0.052506563320415055,
+     "pred_0to1": 0.23596673596673598,
+     "pred_ge2to1": 0.02546777546777547
+    },
+    "H_A0": {
+     "pq_w05": 0.3399158122702826,
+     "pq_w10": 0.2322516151985082,
+     "mean_iou": 0.5174475296160058,
+     "mean_dice": 0.660607861063438,
+     "gt_1to0": 0.17752219027378421,
+     "gt_1toge2": 0.0316289536192024,
+     "pred_0to1": 0.17752219027378421,
+     "pred_ge2to1": 0.0316289536192024
+    },
+    "H_B0": {
+     "pq_w05": 0.3323518771458012,
+     "pq_w10": 0.2252460226813809,
+     "mean_iou": 0.5103445019498035,
+     "mean_dice": 0.6516508576887337,
+     "gt_1to0": 0.17752219027378421,
+     "gt_1toge2": 0.04088011001375172,
+     "pred_0to1": 0.20047904191616767,
+     "pred_ge2to1": 0.03005988023952096
+    },
+    "H_A400": {
+     "pq_w05": 0.3373303321609562,
+     "pq_w10": 0.2297080317804434,
+     "mean_iou": 0.5196515076460226,
+     "mean_dice": 0.6628934878116048,
+     "gt_1to0": 0.21702712839104887,
+     "gt_1toge2": 0.026003250406300787,
+     "pred_0to1": 0.15397193078076032,
+     "pred_ge2to1": 0.03447336149339147
+    }
+   },
+   "rerun_seed": 20261018,
+   "rerun": {
+    "FAST_vs_H_A0": {
+     "pq_w05": {
+      "delta": 0.10441858391631231,
+      "ci95": [
+       0.09318507366648625,
+       0.11523133650641477
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.09777404579870283,
+      "ci95": [
+       0.08637515117680133,
+       0.10874146806028163
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.07364511260202933,
+      "ci95": [
+       0.06607792026609936,
+       0.08112442918826421
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.06253408147955142,
+      "ci95": [
+       0.05480219103229121,
+       0.07027493943093556
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.00792599074884362,
+      "ci95": [
+       -0.02422521533584396,
+       0.0077069394496845104
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.00312539067383423,
+      "ci95": [
+       -0.003792026265552719,
+       0.010644893395516376
+      ]
+     },
+     "pred_0to1": {
+      "delta": -0.022477729527723894,
+      "ci95": [
+       -0.037402357658369925,
+       -0.007241456426491278
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.010511697450154733,
+      "ci95": [
+       -0.015474574942023967,
+       -0.005327685358315563
+      ]
+     }
+    },
+    "FAST_vs_H_B0": {
+     "pq_w05": {
+      "delta": 0.1119825190407937,
+      "ci95": [
+       0.10080496203065056,
+       0.12273939849719301
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.10477963831583015,
+      "ci95": [
+       0.09348840894016498,
+       0.11570709731218973
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.08074814026823163,
+      "ci95": [
+       0.07296815100888122,
+       0.08842802305224402
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.07149108485425582,
+      "ci95": [
+       0.06349478894430476,
+       0.07952868160733174
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.00792599074884362,
+      "ci95": [
+       -0.02422521533584396,
+       0.0077069394496845104
+      ]
+     },
+     "gt_1toge2": {
+      "delta": -0.00612576572071509,
+      "ci95": [
+       -0.013852671939772757,
+       0.0019883387901613097
+      ]
+     },
+     "pred_0to1": {
+      "delta": -0.04543458117010735,
+      "ci95": [
+       -0.060824768126180234,
+       -0.03011039475017063
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.008942624070473294,
+      "ci95": [
+       -0.013929019921708098,
+       -0.0038498267071132635
+      ]
+     }
+    },
+    "FAST_vs_H_A400": {
+     "pq_w05": {
+      "delta": 0.10700406402563872,
+      "ci95": [
+       0.09536058301270524,
+       0.11829653914504779
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.10031762921676762,
+      "ci95": [
+       0.08867139917518764,
+       0.11156434308240885
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.07144113457201251,
+      "ci95": [
+       0.06396586023986285,
+       0.07900332172068787
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.060248454731384626,
+      "ci95": [
+       0.05276273232392747,
+       0.0679406080695447
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.04743092886610828,
+      "ci95": [
+       -0.06227518243166501,
+       -0.03314978496724256
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.008751093886735842,
+      "ci95": [
+       0.0020284571571273793,
+       0.015978783808191673
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.0010725299652999953,
+      "ci95": [
+       -0.013386629721177433,
+       0.015296758070472816
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.013356105324343802,
+      "ci95": [
+       -0.018514981326110888,
+       -0.00809570337875561
+      ]
+     }
+    },
+    "D007_vs_H_A0": {
+     "pq_w05": {
+      "delta": 0.06911344820874843,
+      "ci95": [
+       0.05750562196058794,
+       0.08053153208773269
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.06183621730112479,
+      "ci95": [
+       0.05082775020379205,
+       0.0726328496853849
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.04842102711564078,
+      "ci95": [
+       0.040665463198737234,
+       0.05625933348087819
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.039211901585254005,
+      "ci95": [
+       0.031222832824738728,
+       0.04722589947815471
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.06500812601575195,
+      "ci95": [
+       -0.08065163386117155,
+       -0.04903763886492099
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.020877609701212656,
+      "ci95": [
+       0.012312583303569097,
+       0.029604269398871185
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.058444545692951766,
+      "ci95": [
+       0.041507062647817755,
+       0.07531443327704626
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.00616117815142693,
+      "ci95": [
+       -0.011389980922900646,
+       -0.0007376854879942098
+      ]
+     }
+    },
+    "D007_vs_H_B0": {
+     "pq_w05": {
+      "delta": 0.07667738333322982,
+      "ci95": [
+       0.06506217206293408,
+       0.08808133987328096
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.06884180981825211,
+      "ci95": [
+       0.058048347555599976,
+       0.0795740682961724
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.05552405478184308,
+      "ci95": [
+       0.047821256785416724,
+       0.06328180522420351
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.0481689049599584,
+      "ci95": [
+       0.04004750589089777,
+       0.05627655053136704
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.06500812601575195,
+      "ci95": [
+       -0.08065163386117155,
+       -0.04903763886492099
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.011626453306663335,
+      "ci95": [
+       0.002615120937889544,
+       0.021158105984611267
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.035487694050568314,
+      "ci95": [
+       0.018242115562904858,
+       0.05277861653143959
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.00459210477174549,
+      "ci95": [
+       -0.00979651086496676,
+       0.0007831758665906511
+      ]
+     }
+    },
+    "D007_vs_H_A400": {
+     "pq_w05": {
+      "delta": 0.07169892831807484,
+      "ci95": [
+       0.060960775893903106,
+       0.08235143056417188
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.06437980071918958,
+      "ci95": [
+       0.05404759396608794,
+       0.07444307714254768
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.04621704908562396,
+      "ci95": [
+       0.03880357647846722,
+       0.053461107459986626
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.036926274837087214,
+      "ci95": [
+       0.029331673238202356,
+       0.04431838449550163
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.10451306413301661,
+      "ci95": [
+       -0.11799607954716686,
+       -0.0920331141137526
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.026503312914114268,
+      "ci95": [
+       0.018295725466210652,
+       0.035081402731348306
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.08199480518597566,
+      "ci95": [
+       0.06608421739547,
+       0.09764080974558681
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.009005586025615998,
+      "ci95": [
+       -0.014360472106642654,
+       -0.0034894325824444423
+      ]
+     }
+    },
+    "dice": {
+     "H_image_mean": 0.6159825231405021,
+     "FAST_image_mean": 0.6729133283068028,
+     "D007_image_mean": 0.6744246167103374,
+     "FAST_minus_H": {
+      "mean_diff": 0.05693080516630075,
+      "ci95": [
+       0.04371759553917264,
+       0.06921986393596335
+      ]
+     },
+     "D007_minus_H": {
+      "mean_diff": 0.05844209356983539,
+      "ci95": [
+       0.04831468602725081,
+       0.06794665513208602
+      ]
+     }
+    },
+    "far": {
+     "n": 49,
+     "FAST_vs_H_A0": {
+      "pq_w05": {
+       "delta": 0.10985495467592216,
+       "ci95": [
+        0.0910305449386716,
+        0.12874016384715356
+       ]
+      },
+      "mean_iou": {
+       "delta": 0.0813220347400756,
+       "ci95": [
+        0.06739478943153814,
+        0.09616460257715143
+       ]
+      }
+     }
+    }
+   },
+   "reported_seed": 0,
+   "reported": {
+    "FAST_vs_H_A0": {
+     "pq_w05": {
+      "delta": 0.10441858391631231,
+      "ci95": [
+       0.09367764519922106,
+       0.11534156469502017
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.09777404579870283,
+      "ci95": [
+       0.08702344202403742,
+       0.10859305366659726
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.07364511260202933,
+      "ci95": [
+       0.06635302310697751,
+       0.08109671378326146
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.06253408147955142,
+      "ci95": [
+       0.0551328300085664,
+       0.07010754006144168
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.00792599074884362,
+      "ci95": [
+       -0.02305265853555709,
+       0.007512297639752447
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.00312539067383423,
+      "ci95": [
+       -0.0038787032182996876,
+       0.010318275410562351
+      ]
+     },
+     "pred_0to1": {
+      "delta": -0.022477729527723894,
+      "ci95": [
+       -0.03746510571820746,
+       -0.008055098731100458
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.010511697450154733,
+      "ci95": [
+       -0.01558162046417382,
+       -0.0054919356517725264
+      ]
+     }
+    },
+    "FAST_vs_H_B0": {
+     "pq_w05": {
+      "delta": 0.1119825190407937,
+      "ci95": [
+       0.1011871885780594,
+       0.12276285154663202
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.10477963831583015,
+      "ci95": [
+       0.09400944937760637,
+       0.11549625514895015
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.08074814026823163,
+      "ci95": [
+       0.07317834737310874,
+       0.08838390948706433
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.07149108485425582,
+      "ci95": [
+       0.06359830722724388,
+       0.07949582880168092
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.00792599074884362,
+      "ci95": [
+       -0.02305265853555709,
+       0.007512297639752447
+      ]
+     },
+     "gt_1toge2": {
+      "delta": -0.00612576572071509,
+      "ci95": [
+       -0.013735924783587325,
+       0.0016417861845945169
+      ]
+     },
+     "pred_0to1": {
+      "delta": -0.04543458117010735,
+      "ci95": [
+       -0.060631755784338284,
+       -0.03055526667247764
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.008942624070473294,
+      "ci95": [
+       -0.013927630932903971,
+       -0.003909921553345179
+      ]
+     }
+    },
+    "FAST_vs_H_A400": {
+     "pq_w05": {
+      "delta": 0.10700406402563872,
+      "ci95": [
+       0.09587974746494342,
+       0.1183534530090038
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.10031762921676762,
+      "ci95": [
+       0.08909521853286223,
+       0.11154518306154548
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.07144113457201251,
+      "ci95": [
+       0.06406100429361403,
+       0.07889449800050198
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.060248454731384626,
+      "ci95": [
+       0.05293222281494857,
+       0.06785625752923387
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.04743092886610828,
+      "ci95": [
+       -0.061821215530044125,
+       -0.032618775229521654
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.008751093886735842,
+      "ci95": [
+       0.0019689767848853753,
+       0.015810695450843334
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.0010725299652999953,
+      "ci95": [
+       -0.013235149603907835,
+       0.014985304654085952
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.013356105324343802,
+      "ci95": [
+       -0.01855959251158705,
+       -0.008198193112806252
+      ]
+     }
+    },
+    "D007_vs_H_A0": {
+     "pq_w05": {
+      "delta": 0.06911344820874843,
+      "ci95": [
+       0.057339356230120854,
+       0.0802105320041188
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.06183621730112479,
+      "ci95": [
+       0.05054352358066118,
+       0.07242728099579515
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.04842102711564078,
+      "ci95": [
+       0.040824093129310984,
+       0.05604716413204072
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.039211901585253894,
+      "ci95": [
+       0.031381262075868874,
+       0.04703419946892255
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.06500812601575195,
+      "ci95": [
+       -0.08035649259022445,
+       -0.04897971682538114
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.020877609701212656,
+      "ci95": [
+       0.01232296709748942,
+       0.029574035786833923
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.058444545692951766,
+      "ci95": [
+       0.04166985101765055,
+       0.07512832500187565
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.00616117815142693,
+      "ci95": [
+       -0.011494401056210394,
+       -0.0008612875863050814
+      ]
+     }
+    },
+    "D007_vs_H_B0": {
+     "pq_w05": {
+      "delta": 0.07667738333322982,
+      "ci95": [
+       0.0650895703944787,
+       0.0876139749693592
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.06884180981825211,
+      "ci95": [
+       0.057828935887072615,
+       0.07932179186628878
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.05552405478184308,
+      "ci95": [
+       0.047881123627391164,
+       0.06311524606204068
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.04816890495995818,
+      "ci95": [
+       0.040347083303715,
+       0.056202110596170494
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.06500812601575195,
+      "ci95": [
+       -0.08035649259022445,
+       -0.04897971682538114
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.011626453306663335,
+      "ci95": [
+       0.0026264976561012703,
+       0.020895591250058625
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.035487694050568314,
+      "ci95": [
+       0.018258061852637897,
+       0.05265187227462761
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.00459210477174549,
+      "ci95": [
+       -0.009875425328855122,
+       0.0005996421799611672
+      ]
+     }
+    },
+    "D007_vs_H_A400": {
+     "pq_w05": {
+      "delta": 0.07169892831807484,
+      "ci95": [
+       0.06103277205681885,
+       0.0821670549453519
+      ]
+     },
+     "pq_w10": {
+      "delta": 0.06437980071918958,
+      "ci95": [
+       0.05425491122518542,
+       0.07429624856733925
+      ]
+     },
+     "mean_iou": {
+      "delta": 0.04621704908562396,
+      "ci95": [
+       0.03903837648165386,
+       0.05347619318390691
+      ]
+     },
+     "mean_dice": {
+      "delta": 0.0369262748370871,
+      "ci95": [
+       0.029633667105417094,
+       0.04449188921315077
+      ]
+     },
+     "gt_1to0": {
+      "delta": -0.10451306413301661,
+      "ci95": [
+       -0.1175289656906457,
+       -0.09198446648468239
+      ]
+     },
+     "gt_1toge2": {
+      "delta": 0.026503312914114268,
+      "ci95": [
+       0.01836420582093069,
+       0.03510275251052821
+      ]
+     },
+     "pred_0to1": {
+      "delta": 0.08199480518597566,
+      "ci95": [
+       0.06624510484135782,
+       0.09753508095265138
+      ]
+     },
+     "pred_ge2to1": {
+      "delta": -0.009005586025615998,
+      "ci95": [
+       -0.014499300401944323,
+       -0.0036017123392873933
+      ]
+     }
+    },
+    "dice": {
+     "FAST_minus_H": {
+      "mean_diff": 0.05693080516630075,
+      "ci95": [
+       0.04374961843507342,
+       0.06875899098705128
+      ]
+     },
+     "D007_minus_H": {
+      "mean_diff": 0.058442093876635175,
+      "ci95": [
+       0.04863854019382449,
+       0.06819652791852383
+      ]
+     }
+    }
+   },
+   "negative_control_selfref_pq_w05": 0.5935760818851037
+  },
+  "calibration": {
+   "source": "this code's run on the FAST cross-fitted keeps, on the full out-of-fold maps (2026-11-01), equal to the bundle run; not independently re-derived",
+   "tol": 1e-12,
+   "slot": "FAST",
+   "ece_raw_bagmean": 0.28515521867207144,
+   "ece_raw_ci95": [
+    0.27119183250047585,
+    0.29941289446960734
+   ],
+   "ece_isotonic_oof_bagmean": 0.013768023184625777,
+   "ece_isotonic_oof_ci95": [
+    0.015021525104709915,
+    0.02635971564761753
+   ],
+   "per_bag_ece_raw": [
+    0.2851205117958047,
+    0.2854585470552002,
+    0.2844622581450542,
+    0.2860296747309938,
+    0.2847051016333041
+   ],
+   "per_bag_ece_isotonic_oof": [
+    0.010172154456847068,
+    0.011730213900975645,
+    0.013908248359088174,
+    0.01970185992256602,
+    0.013327639283651983
+   ],
+   "per_bag_n_kept": [
+    4721,
+    4718,
+    4726,
+    4722,
+    4710
+   ],
+   "controls": {
+    "calibrated_synthetic_y_ece": 0.018187690586999938,
+    "shifted_s_plus_0.2_ece": 0.19107216148204556
+   },
+   "oof_kept_pooled_n": 23597,
+   "oof_kept_pooled_mean_raw_score": 0.4715510808170289,
+   "_tol_note": "the published bootstrap CIs were computed on the same draws; isotonic is deterministic"
+  },
+  "morphometry": {
+   "source": "this code's run on the full out-of-fold maps (2026-11-01), equal to the bundle run. The D007 width, split and barb leaves are unchanged from an independent recomputation (not part of this repository); the FAST leaves and the branching block (whose population includes the FAST mask, see branching_note) are this code's output, not independently re-derived",
+   "tol": 1e-09,
+   "width": {
+    "denominator_px": 11.07372395675364,
+    "D007_400": {
+     "signed_px": 1.5277568086693913,
+     "pct": 13.796233449883347,
+     "abs_px": 2.867372409028786,
+     "n_img": 684
+    },
+    "FAST": {
+     "signed_px": 0.6669055126998297,
+     "pct": 6.022414097590879,
+     "abs_px": 2.3928425578968686,
+     "n_img": 684
+    },
+    "FAST-D007_400_same_annotations_px": {
+     "mean_diff": -1.1493073450239952,
+     "ci95": [
+      -1.191028230316825,
+      -1.1061731910438537
+     ],
+     "n": 678
+    }
+   },
+   "negative_control_width_D007_100_signed_px": 1.4616712949277049,
+   "branching": {
+    "n_pop": 692,
+    "reference_median_per_1k": 78.17011154855643,
+    "D007_all": {
+     "pct": -56.015248358985346,
+     "pct_ci": [
+      -59.09814427967489,
+      -52.89203257037845
+     ],
+     "n": 692
+    },
+    "D007_400": {
+     "pct": -54.66850070377891,
+     "pct_ci": [
+      -57.757695943045604,
+      -51.560551593933766
+     ],
+     "n": 692
+    },
+    "FAST": {
+     "pct": -58.94260863935779,
+     "pct_ci": [
+      -62.02018774017298,
+      -55.82568053720654
+     ],
+     "n": 692
+    }
+   },
+   "split": {
+    "D007_400": 0.04959730097519558,
+    "D007_100": 0.056824883688016366,
+    "FAST": 0.03212654033426939,
+    "Tcand": 0.06802678613310865
+   },
+   "selector_deletion_bag0": {
+    "FAST": {
+     "n_annotations_split_by_candidates": 481,
+     "mean_coverage_candidates": 0.6419250855865408,
+     "mean_coverage_kept": 0.45399485578787196,
+     "matched_frac_candidates": 0.16424116424116425,
+     "matched_frac_kept": 0.158004158004158
+    }
+   },
+   "barbs": {
+    "barb_px": 256285,
+    "outside_p_lt_0.3": {
+     "D007_all": 0.3078330764578497
+    },
+    "spine_coverage_per_image_mean": {
+     "D007_400": 0.7736162023948884,
+     "FAST": 0.6801179309891816
+    },
+    "barb_coverage_per_image_mean": {
+     "D007_400": 0.6980096646356685,
+     "FAST": 0.600194013349715
+    },
+    "spine_coverage_FAST-D007_400": {
+     "mean_diff": -0.09349827140570678,
+     "ci95": [
+      -0.10215530713558411,
+      -0.08537800441947212
+     ],
+     "n": 707
+    },
+    "barb_coverage_FAST-D007_400": {
+     "mean_diff": -0.09781565128595342,
+     "ci95": [
+      -0.10485232397282339,
+      -0.09106166106355064
+     ],
+     "n": 686
+    }
+   },
+   "branching_note": "population = images where the reference, D007_all, D007_400 and FAST are all defined (692 with the current FAST; it was 691 with the previous selector, whose FAST mask was empty on one more image), so the D007 branching values move with the population, not with the D007 masks"
+  },
+  "annotator_agreement": {
+   "source": "original annotator-agreement output (the script that produced it is not part of this repository, only its values); context values as printed in the original write-up",
+   "model_independent": "annotators only: unchanged by a model retrain (copy the block)",
+   "tol": 1e-12,
+   "tol_printed": 5e-05,
+   "n_images": 296,
+   "existence_mean": 0.8393330866074926,
+   "matching_mean": 0.5628715066491642,
+   "existence_minus_matching_mean": 0.2764615799583284,
+   "published_ci95_not_gated": {
+    "existence": [
+     0.8247588417310826,
+     0.8527415075243817
+    ],
+    "matching": [
+     0.5358129476223921,
+     0.5888058324429303
+    ],
+    "existence_minus_matching": [
+     0.25215915728281485,
+     0.3010763136712488
+    ],
+    "_why": "the bootstrap seed and draw of the reported interval are unknown; this code's own interval (rng 0) is reported beside it"
+   },
+   "printed": {
+    "matched_pairs": 4274,
+    "median_iou_given_matched": 0.6293,
+    "pooled_over_objects_difference": 0.2886
+   },
+   "negative_control": "objects without the 20 px filter (min_area 1) must miss existence_mean by > 1e-3"
+  },
+  "never_seen": {
+   "source": "original never-seen outputs (classes, every AUC / CI / median), a later recomputation (class C count, support headline at the 20% rule, area reweighting, 50% control) and the per-slot miss counts; none of these files is part of this repository | per_model.FAST: this code's run on the current FAST (2026-11-01)",
+   "tol": 1e-12,
+   "n_objects": 5727,
+   "class_counts": {
+    "D": 515,
+    "A": 746,
+    "B": 926,
+    "M": 3478,
+    "C": 62
+   },
+   "results": {
+    "D": {
+     "n": 515,
+     "n_M": 3478,
+     "contrast": {
+      "auc": 0.8838728065827303,
+      "ci": [
+       0.8634809736161643,
+       0.9038960103982698
+      ],
+      "median_class": -2626.33984375,
+      "median_M": -4309.6650390625,
+      "n_used": 3993
+     },
+     "clutter": {
+      "auc": 0.5386543323089125,
+      "ci": [
+       0.5036949822233799,
+       0.5735760776545621
+      ],
+      "median_class": 1767.0072021484375,
+      "median_M": 1727.202880859375,
+      "n_used": 3993
+     },
+     "interior_texture": {
+      "auc": 0.6852989836917986,
+      "ci": [
+       0.6495939620104176,
+       0.7157237027455401
+      ],
+      "median_class": 1.2146431402841746,
+      "median_M": 1.3786605619314325,
+      "n_used": 3868
+     },
+     "width": {
+      "auc": 0.5377775850104094,
+      "ci": [
+       0.5009320738076832,
+       0.5765307984749272
+      ],
+      "median_class": 7.564705882352941,
+      "median_M": 10.33964256974249,
+      "n_used": 3993
+     },
+     "rR": {
+      "auc": 0.6084254485972044,
+      "ci": [
+       0.5649577048915752,
+       0.6495234345405291
+      ],
+      "median_class": 0.5858761354056938,
+      "median_M": 0.5857603304365704,
+      "n_used": 3993
+     },
+     "support": {
+      "auc": 0.858271828436151,
+      "ci": [
+       0.8309416603925668,
+       0.8853876726419695
+      ],
+      "median_class": 0.3333333333333333,
+      "median_M": 1.0,
+      "n_used": 1747
+     }
+    },
+    "A": {
+     "n": 746,
+     "n_M": 3478,
+     "contrast": {
+      "auc": 0.7740752990463591,
+      "ci": [
+       0.7527369859478805,
+       0.7959915630250581
+      ],
+      "median_class": -3452.60546875,
+      "median_M": -4309.6650390625,
+      "n_used": 4224
+     },
+     "clutter": {
+      "auc": 0.560557117395219,
+      "ci": [
+       0.5330529251144778,
+       0.5851774785401425
+      ],
+      "median_class": 1876.04638671875,
+      "median_M": 1727.202880859375,
+      "n_used": 4224
+     },
+     "interior_texture": {
+      "auc": 0.5382824386703654,
+      "ci": [
+       0.5105119074810701,
+       0.5627137837982691
+      ],
+      "median_class": 1.3522230320699709,
+      "median_M": 1.3786605619314325,
+      "n_used": 4221
+     },
+     "width": {
+      "auc": 0.5273193319001157,
+      "ci": [
+       0.49963221952343695,
+       0.555607340035844
+      ],
+      "median_class": 8.778683914510687,
+      "median_M": 10.33964256974249,
+      "n_used": 4224
+     },
+     "rR": {
+      "auc": 0.5004171030630432,
+      "ci": [
+       0.47511248501709674,
+       0.5268337530662013
+      ],
+      "median_class": 0.5556659745894212,
+      "median_M": 0.5857603304365704,
+      "n_used": 4224
+     },
+     "support": {
+      "auc": 0.678498090640536,
+      "ci": [
+       0.6463180106501479,
+       0.7110638411949907
+      ],
+      "median_class": 0.5,
+      "median_M": 1.0,
+      "n_used": 1823
+     }
+    },
+    "B": {
+     "n": 926,
+     "n_M": 3478,
+     "contrast": {
+      "auc": 0.6706404133935906,
+      "ci": [
+       0.646342723804153,
+       0.6952472299528779
+      ],
+      "median_class": -3421.4443359375,
+      "median_M": -4309.6650390625,
+      "n_used": 4404
+     },
+     "clutter": {
+      "auc": 0.5208769289900546,
+      "ci": [
+       0.4978303050413068,
+       0.5422126960544545
+      ],
+      "median_class": 1705.3967895507812,
+      "median_M": 1727.202880859375,
+      "n_used": 4404
+     },
+     "interior_texture": {
+      "auc": 0.5930478808267245,
+      "ci": [
+       0.5708414016830957,
+       0.6150850066745192
+      ],
+      "median_class": 1.2915599100389061,
+      "median_M": 1.3786605619314325,
+      "n_used": 4374
+     },
+     "width": {
+      "auc": 0.5424660424899076,
+      "ci": [
+       0.5161831584222075,
+       0.5693601437039496
+      ],
+      "median_class": 9.72304691217052,
+      "median_M": 10.33964256974249,
+      "n_used": 4404
+     },
+     "rR": {
+      "auc": 0.5366103031871199,
+      "ci": [
+       0.5173543330297339,
+       0.5586044217350126
+      ],
+      "median_class": 0.6091529568328025,
+      "median_M": 0.5857603304365704,
+      "n_used": 4404
+     },
+     "support": {
+      "auc": 0.6234423276859322,
+      "ci": [
+       0.5953878214925463,
+       0.653358132636994
+      ],
+      "median_class": 1.0,
+      "median_M": 1.0,
+      "n_used": 1812
+     }
+    }
+   },
+   "headline": {
+    "D_multi": 284,
+    "D_all_agree": 8,
+    "D_all_agree_frac": 0.028169014084507043,
+    "M_multi": 1463,
+    "M_all_agree_frac": 0.7853725222146275,
+    "k2_nD": 130,
+    "k2_nM": 741,
+    "k2_D_all_agree_frac": 0.05384615384615385,
+    "k2_M_all_agree_frac": 0.8299595141700404,
+    "k3_nD": 154,
+    "k3_nM": 722,
+    "k3_D_all_agree_frac": 0.006493506493506494,
+    "k3_M_all_agree_frac": 0.739612188365651
+   },
+   "not_reproduced": {
+    "M_all_agree_frac_area_reweighted_to_D": {
+     "published": "50.2% (as reported; from the recomputation of the support headline at the 20% rule)",
+     "rederivation_value": 0.5022283845888345,
+     "export_value": 0.5026076235494538,
+     "_why": "the binning of the reported value is not recorded and its code is gone. This code's construction was fixed before the run (8 log-area strata of the pooled D + M objects; sum over strata of D's share x M's within-stratum all-record rate) and gives 0.50261, which rounds to 50.3%: NOT reproduced, reported, not tuned. At the 50% support rule the two differ more (0.4426 vs 0.4386). The conclusion (a ~47 pp gap to D's 2.8%) is unaffected"
+    }
+   },
+   "negative_control_support_50pct_D_all_agree": 7,
+   "negative_control_shuffled_contrast_auc_below": 0.6,
+   "per_model": {
+    "FAST": {
+     "contrast_AUC_bag_mean": 0.8999089503357511,
+     "support_AUC_bag_mean": 0.8499446754092185,
+     "contrast_AUC_bag_range": [
+      0.8990147468500013,
+      0.9007051843516843
+     ],
+     "support_AUC_bag_range": [
+      0.8480475986888985,
+      0.8526865617123863
+     ],
+     "n_D_bag_mean": 516.0,
+     "bags": [
+      {
+       "class_counts": {
+        "D": 516,
+        "A": 1115,
+        "B": 779,
+        "M": 3245,
+        "C": 72
+       },
+       "D_contrast": [
+        0.8990147468500013,
+        0.8804971715254554,
+        0.9169389995148184
+       ],
+       "D_support": [
+        0.8505312996964002,
+        0.816056502394585,
+        0.8837472744852425
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        285
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 516,
+        "A": 1111,
+        "B": 778,
+        "M": 3250,
+        "C": 72
+       },
+       "D_contrast": [
+        0.9007051843516843,
+        0.8820296824956799,
+        0.9188762450697998
+       ],
+       "D_support": [
+        0.8496808205422465,
+        0.8146315323546593,
+        0.8851409564472754
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        285
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 516,
+        "A": 1112,
+        "B": 781,
+        "M": 3246,
+        "C": 72
+       },
+       "D_contrast": [
+        0.8992401760130987,
+        0.8796296955987899,
+        0.9168063598517908
+       ],
+       "D_support": [
+        0.8480475986888985,
+        0.8112788319858723,
+        0.8808927738504739
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        285
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 516,
+        "A": 1110,
+        "B": 777,
+        "M": 3252,
+        "C": 72
+       },
+       "D_contrast": [
+        0.899883993677018,
+        0.8823426749531517,
+        0.9162115951458629
+       ],
+       "D_support": [
+        0.8487770964061608,
+        0.8147810677027693,
+        0.8805698039054698
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        285
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 516,
+        "A": 1121,
+        "B": 776,
+        "M": 3242,
+        "C": 72
+       },
+       "D_contrast": [
+        0.9007006507869536,
+        0.8819289717393464,
+        0.917355633718736
+       ],
+       "D_support": [
+        0.8526865617123863,
+        0.8225455514045111,
+        0.8860377680312597
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        285
+       ]
+      }
+     ]
+    }
+   }
+  }
+ },
+ "regression_coco": {
+  "model_set": "FAST = the D007 network (fold-wise out-of-fold maps) + T97-FLOOR selector (member masks D036 and P = the D007 map at p >= 0.5); networks trained on the MAGFiLO-derived union labels (see the technical report)",
+  "records": "coco",
+  "_doc": "REGRESSION VALUES. The three per-record evaluations on the competition COCO (records_coco, the default --records). Values are this code's own first run, copied verbatim; the gate then checks the code against itself (determinism), not against an independent measurement. They were also recomputed independently of this code before the paper quoted them; the paper quotes THESE coco values. Exception: never_seen.per_model.FAST is this code's run on the current FAST (2026-11-01), not independently recomputed.",
+  "annotator_agreement": {
+   "source": "REGRESSION: this code's own run with --records coco; not quoted in the report's current text",
+   "model_independent": "annotators only: unchanged by a model retrain (copy the block)",
+   "tol": 1e-12,
+   "tol_printed": 1e-12,
+   "n_images": 296,
+   "existence_mean": 0.8398137011506072,
+   "matching_mean": 0.5656107476696554,
+   "existence_minus_matching_mean": 0.27420295348095186,
+   "published_ci95_not_gated": {
+    "existence": [
+     0.8249218354158822,
+     0.8536750603228364
+    ],
+    "matching": [
+     0.5390376681342722,
+     0.592612955919358
+    ],
+    "existence_minus_matching": [
+     0.24874040555294186,
+     0.2988108864506523
+    ],
+    "_why": "this code's own interval (rng 0) on the COCO records; not gated"
+   },
+   "printed": {
+    "matched_pairs": 4290,
+    "median_iou_given_matched": 0.6291739894551845,
+    "pooled_over_objects_difference": 0.2866059168643116
+   },
+   "negative_control": "objects without the 20 px filter (min_area 1) must miss existence_mean by > 1e-3"
+  },
+  "never_seen": {
+   "source": "REGRESSION: this code's own run with --records coco; the report quotes these values (they were also recomputed independently of this code) | per_model.FAST: this code's run on the current FAST (2026-11-01)",
+   "tol": 1e-12,
+   "n_objects": 5740,
+   "class_counts": {
+    "D": 522,
+    "A": 747,
+    "B": 931,
+    "M": 3477,
+    "C": 63
+   },
+   "results": {
+    "D": {
+     "n": 522,
+     "n_M": 3477,
+     "contrast": {
+      "auc": 0.8843135196551852,
+      "ci": [
+       0.864012694283133,
+       0.904519874719813
+      ],
+      "median_class": -2634.9833984375,
+      "median_M": -4299.95703125,
+      "n_used": 3999
+     },
+     "clutter": {
+      "auc": 0.5380815353645132,
+      "ci": [
+       0.5039384851871298,
+       0.5718504317135003
+      ],
+      "median_class": 1767.441650390625,
+      "median_M": 1727.47802734375,
+      "n_used": 3999
+     },
+     "interior_texture": {
+      "auc": 0.6876546135956272,
+      "ci": [
+       0.6531120450390642,
+       0.7175934341410091
+      ],
+      "median_class": 1.2094862026383657,
+      "median_M": 1.3792122361962496,
+      "n_used": 3867
+     },
+     "width": {
+      "auc": 0.5394431339615418,
+      "ci": [
+       0.5015455242385425,
+       0.5805878548326006
+      ],
+      "median_class": 7.562962962962963,
+      "median_M": 10.296296296296296,
+      "n_used": 3999
+     },
+     "rR": {
+      "auc": 0.6168751775326969,
+      "ci": [
+       0.5745061004548679,
+       0.6581920505609501
+      ],
+      "median_class": 0.5995043940141647,
+      "median_M": 0.585832124281853,
+      "n_used": 3999
+     },
+     "support": {
+      "auc": 0.8610334472403438,
+      "ci": [
+       0.8326681301829668,
+       0.8875158853063708
+      ],
+      "median_class": 0.3333333333333333,
+      "median_M": 1.0,
+      "n_used": 1750
+     }
+    },
+    "A": {
+     "n": 747,
+     "n_M": 3477,
+     "contrast": {
+      "auc": 0.7718614877244412,
+      "ci": [
+       0.7503715997136498,
+       0.7938782501734651
+      ],
+      "median_class": -3467.3046875,
+      "median_M": -4299.95703125,
+      "n_used": 4224
+     },
+     "clutter": {
+      "auc": 0.5592451447416636,
+      "ci": [
+       0.5318884478821438,
+       0.5832221700375287
+      ],
+      "median_class": 1877.4898681640625,
+      "median_M": 1727.47802734375,
+      "n_used": 4224
+     },
+     "interior_texture": {
+      "auc": 0.5364886012151846,
+      "ci": [
+       0.5080321311087362,
+       0.5613451030510898
+      ],
+      "median_class": 1.3531296178045573,
+      "median_M": 1.3792122361962496,
+      "n_used": 4221
+     },
+     "width": {
+      "auc": 0.527277390985709,
+      "ci": [
+       0.499801923168361,
+       0.555708855246625
+      ],
+      "median_class": 8.847457627118644,
+      "median_M": 10.296296296296296,
+      "n_used": 4224
+     },
+     "rR": {
+      "auc": 0.5018285086112129,
+      "ci": [
+       0.47576303114047747,
+       0.5265841157732553
+      ],
+      "median_class": 0.5552095551532207,
+      "median_M": 0.585832124281853,
+      "n_used": 4224
+     },
+     "support": {
+      "auc": 0.6766753776759504,
+      "ci": [
+       0.6434791001883947,
+       0.7099635000561634
+      ],
+      "median_class": 0.5,
+      "median_M": 1.0,
+      "n_used": 1824
+     }
+    },
+    "B": {
+     "n": 931,
+     "n_M": 3477,
+     "contrast": {
+      "auc": 0.6711340412943855,
+      "ci": [
+       0.6476271621399766,
+       0.6953759198968402
+      ],
+      "median_class": -3412.59375,
+      "median_M": -4299.95703125,
+      "n_used": 4408
+     },
+     "clutter": {
+      "auc": 0.5216411961132337,
+      "ci": [
+       0.49937339761244937,
+       0.5440444816759543
+      ],
+      "median_class": 1705.9166259765625,
+      "median_M": 1727.47802734375,
+      "n_used": 4408
+     },
+     "interior_texture": {
+      "auc": 0.594710171988133,
+      "ci": [
+       0.5734804474295829,
+       0.6159730929944203
+      ],
+      "median_class": 1.2901134062283546,
+      "median_M": 1.3792122361962496,
+      "n_used": 4372
+     },
+     "width": {
+      "auc": 0.5480267841922124,
+      "ci": [
+       0.5220872774690927,
+       0.5734282111616194
+      ],
+      "median_class": 9.632911392405063,
+      "median_M": 10.296296296296296,
+      "n_used": 4408
+     },
+     "rR": {
+      "auc": 0.5359495803375349,
+      "ci": [
+       0.5165511089158444,
+       0.5583315247466448
+      ],
+      "median_class": 0.6075981200079561,
+      "median_M": 0.585832124281853,
+      "n_used": 4408
+     },
+     "support": {
+      "auc": 0.6279042683281896,
+      "ci": [
+       0.5990141381784143,
+       0.6568323542091585
+      ],
+      "median_class": 1.0,
+      "median_M": 1.0,
+      "n_used": 1817
+     }
+    }
+   },
+   "headline": {
+    "D_multi": 287,
+    "D_all_agree": 8,
+    "M_multi": 1463,
+    "D_all_agree_frac": 0.027874564459930314,
+    "M_all_agree_frac": 0.7853725222146275,
+    "k2_nD": 127,
+    "k2_nM": 741,
+    "k2_D_all_agree_frac": 0.05511811023622047,
+    "k2_M_all_agree_frac": 0.8299595141700404,
+    "k3_nD": 160,
+    "k3_nM": 722,
+    "k3_D_all_agree_frac": 0.00625,
+    "k3_M_all_agree_frac": 0.739612188365651,
+    "M_all_agree_frac_area_reweighted_to_D": 0.5025450627890617
+   },
+   "not_reproduced": {
+    "_why": "nothing is reported on the COCO reference; every value above, including M_all_agree_frac_area_reweighted_to_D, is this code's own run"
+   },
+   "negative_control_support_50pct_D_all_agree": 7,
+   "negative_control_shuffled_contrast_auc_below": 0.6,
+   "per_model": {
+    "FAST": {
+     "contrast_AUC_bag_mean": 0.8989849785325346,
+     "support_AUC_bag_mean": 0.8548985074529991,
+     "contrast_AUC_bag_range": [
+      0.8976927170442451,
+      0.9001960434860097
+     ],
+     "support_AUC_bag_range": [
+      0.8539741553566272,
+      0.8558689190168927
+     ],
+     "n_D_bag_mean": 523.0,
+     "bags": [
+      {
+       "class_counts": {
+        "D": 523,
+        "A": 1116,
+        "B": 785,
+        "M": 3243,
+        "C": 73
+       },
+       "D_contrast": [
+        0.8976927170442451,
+        0.8796609875312175,
+        0.9181997415711894
+       ],
+       "D_support": [
+        0.8539741553566272,
+        0.822008670326331,
+        0.8864036355700938
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        288
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 523,
+        "A": 1111,
+        "B": 785,
+        "M": 3248,
+        "C": 73
+       },
+       "D_contrast": [
+        0.9001960434860097,
+        0.8806476355831964,
+        0.9184547327468241
+       ],
+       "D_support": [
+        0.8558689190168927,
+        0.823128170777669,
+        0.8866182072897834
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        288
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 523,
+        "A": 1113,
+        "B": 787,
+        "M": 3244,
+        "C": 73
+       },
+       "D_contrast": [
+        0.8987622896051417,
+        0.8805537183428743,
+        0.9153289099203243
+       ],
+       "D_support": [
+        0.8542821158690177,
+        0.8218741646193009,
+        0.8829996645943887
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        288
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 523,
+        "A": 1111,
+        "B": 784,
+        "M": 3249,
+        "C": 73
+       },
+       "D_contrast": [
+        0.8983736752914991,
+        0.8785635722855285,
+        0.9159564158782502
+       ],
+       "D_support": [
+        0.8546118329217223,
+        0.8233649605328746,
+        0.8869479625715924
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        288
+       ]
+      },
+      {
+       "class_counts": {
+        "D": 523,
+        "A": 1123,
+        "B": 783,
+        "M": 3238,
+        "C": 73
+       },
+       "D_contrast": [
+        0.899900167235777,
+        0.8810726945903332,
+        0.9156190886334333
+       ],
+       "D_support": [
+        0.8557555141007351,
+        0.8213966755125787,
+        0.8895849184794391
+       ],
+       "D_drawn_by_every_record": [
+        8,
+        288
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}

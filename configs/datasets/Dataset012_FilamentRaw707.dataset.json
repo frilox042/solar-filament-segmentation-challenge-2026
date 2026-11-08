@@ -1,0 +1,13 @@
+{
+    "channel_names": {
+        "0": "raw"
+    },
+    "labels": {
+        "background": 0,
+        "filament": 1
+    },
+    "numTraining": 707,
+    "file_ending": ".png",
+    "overwrite_image_reader_writer": "NaturalImage2DIO",
+    "description": "1-channel raw H-alpha on the SAME 707 union cases, pixels and labels taken unchanged from Dataset005 so the only difference between them is the three extra channels. Exists to restate the four-channel gain on a population the compliant datasets share."
+}

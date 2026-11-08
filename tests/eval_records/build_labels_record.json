@@ -1,0 +1,103 @@
+{
+ "what": "scripts/build_labels.py labels == shipped members' labelsTr (value for value), written files",
+ "coco": "MAGFiLO_1.0_Annotations_kaggle2026_train.json",
+ "reference": "research nnUNet_raw/{Dataset005,007,012,036}/labelsTr",
+ "n_cases": 707,
+ "n_records": 1154,
+ "build": {
+  "cases": 707,
+  "files_written": 2828,
+  "datasets": [
+   "Dataset005_FilamentFull",
+   "Dataset007_FilamentVessel",
+   "Dataset012_FilamentRaw707",
+   "Dataset036_LimbDarkBarbClass"
+  ],
+  "raw": "<scratch>/nnunet_env/nnUNet_raw"
+ },
+ "identity": {
+  "Dataset005_FilamentFull": {
+   "n_cases": 707,
+   "n_equal": 707,
+   "max_diff_px": 0,
+   "n_png_bytes_identical": 707,
+   "values_img_0001": [
+    0,
+    1
+   ],
+   "unequal": []
+  },
+  "Dataset007_FilamentVessel": {
+   "n_cases": 707,
+   "n_equal": 707,
+   "max_diff_px": 0,
+   "n_png_bytes_identical": 707,
+   "values_img_0001": [
+    0,
+    1
+   ],
+   "unequal": []
+  },
+  "Dataset012_FilamentRaw707": {
+   "n_cases": 707,
+   "n_equal": 707,
+   "max_diff_px": 0,
+   "n_png_bytes_identical": 707,
+   "values_img_0001": [
+    0,
+    1
+   ],
+   "unequal": []
+  },
+  "Dataset036_LimbDarkBarbClass": {
+   "n_cases": 707,
+   "n_equal": 707,
+   "max_diff_px": 0,
+   "n_png_bytes_identical": 707,
+   "values_img_0001": [
+    0,
+    1,
+    2
+   ],
+   "unequal": []
+  }
+ },
+ "negative_controls": {
+  "drop": {
+   "case": "img_0001",
+   "dropped_record": "010101-20110114105034Ch",
+   "D005": {
+    "broken": [
+     "img_0001"
+    ],
+    "diff_px": 4631
+   },
+   "D036": {
+    "broken": [
+     "img_0001"
+    ],
+    "diff_px": 5755
+   }
+  },
+  "shift_x_plus_1px": {
+   "D005": {
+    "n_broken": 707,
+    "n_cases": 707,
+    "min_diff_px": 30
+   },
+   "D036": {
+    "n_broken": 707,
+    "n_cases": 707,
+    "min_diff_px": 30
+   }
+  }
+ },
+ "seconds": 164.2,
+ "seconds_build_and_compare": 80.0,
+ "pass": {
+  "identity": true,
+  "drop": true,
+  "shift": true,
+  "all": true
+ }
+}
