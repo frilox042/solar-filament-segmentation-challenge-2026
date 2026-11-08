@@ -7,7 +7,7 @@ scikit-image==0.26.0
 scikit-learn==1.9.0
 joblib==1.5.3
 threadpoolctl==3.6.0
-pillow==12.2.0
+pillow==13.0.0
 pycocotools==2.0.11
 lazy-loader==0.5
 imageio==2.37.4
