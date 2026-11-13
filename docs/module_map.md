@@ -34,7 +34,7 @@ rows and writes no submission. Expected values: `configs/eval/expected.json`; in
 | `evaluation.oof_selection` | cross-fitted selector keeps and scores on the 707 OOF rows; kept OOF masks |
 | `evaluation.host_rows` | per-record host rows from masks (TP pairs, FP, FN, m2n, pair IoU); numpy torchmetrics-equivalent Dice |
 | `evaluation.bootstrap` | pooled ratio-of-sums and mean-paired-difference bootstraps on shared image draws |
-| `evaluation.heldout_annotator` | held-out annotator record vs FAST / D007 (Table 1) |
+| `evaluation.heldout_annotator` | held-out annotator record vs nnHALO / D007 (Table 1) |
 | `evaluation.calibration` | ECE of the selector score, cross-fitted isotonic, test score scale |
 | `evaluation.morphometry` | width, branching, split degree, barb coverage |
 | `evaluation.bundle` | the out-of-fold evaluation bundle (`eval_bundle/`): export from the full maps, manifest check, staging into WORK |

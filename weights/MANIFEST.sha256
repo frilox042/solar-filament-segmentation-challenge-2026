@@ -1,5 +1,5 @@
 # nnHALO's files, sha256, paths relative to the weights layout root.
-# Model files (nnUNet_results/) are stored in this repository under weights/fast/ (checkpoints as parts of
+# Model files (nnUNet_results/) are stored in this repository under weights/nnHALO/ (checkpoints as parts of
 # at most 90 MiB); scripts/assemble_weights.py joins them into $FILAMENT_WEIGHTS and checks each against this file.
 # Generated from SOURCE_CHECKPOINTS.sha256 (training paths -> layout paths):
 #   nnunet_env/nnUNet_results/<rest>  -> nnUNet_results/<rest>
@@ -17,4 +17,4 @@ e34d6fff8519c8f1af9f20017b8a1b687353e77aff13ec9f813f693f5a461e3b  nnUNet_results
 53f0aea68764554fdd5a70a1039dddc117275f0a465f6a003911b274793286f3  nnUNet_results/Dataset036_LimbDarkBarbClass/nnUNetTrainer_250epochs__nnUNetPlans__2d/plans.json
 61fb2979a7e780d7a86ac9b6df23d240818f47b5a4a8e721c14c59c76fb6dd65  nnUNet_results/Dataset036_LimbDarkBarbClass/nnUNetTrainer_250epochs__nnUNetPlans__2d/dataset.json
 6898d3b7a3f03fb92e67a4651c5f8b70a7923a0cd5e3ce7ffbd7be3ea6f67582  nnUNet_results/Dataset036_LimbDarkBarbClass/nnUNetTrainer_250epochs__nnUNetPlans__2d/dataset_fingerprint.json
-0c6d4f0dc618ac8c7c372ff4451883d9d02d1b3267fd9a957e79915bf9de6de7  selector/FAST_bag.pkl
+69a6896e48daeeed3ea109a136eb24aed1d3d659a2569a00e302acccebb02f7d  selector/nnHALO_bag.pkl

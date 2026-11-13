@@ -22,10 +22,10 @@
   "predictions/vessel_oof_full/by_image": "the D007 >= 400 px reference arm (held-out-annotator and morphology evaluations): D007 OOF argmax binaries",
   "extracted/training": "OPTIONAL, only for --records png (historical replication): the per-annotator-record PNG tree, a PNG export of the competition COCO, not in the competition download. The default reference of the annotator-agreement and never-seen evaluations is the competition COCO (records_coco)",
   "analysis/datastudy_diskfit.json": "per-frame limb fit (disk centre and radius; image-derived, no annotation): only the r/R feature of the never-seen evaluation, which also fixes the RNG stream of the support interval",
-  "predictions/oof_d036/by_image": "the selector's file member D036 (configs/FAST.json cpu_stage.members); the second member, P, is computed from the base map"
+  "predictions/oof_d036/by_image": "the selector's file member D036 (configs/nnHALO.json cpu_stage.members); the second member, P, is computed from the base map"
  },
  "file_as": {
   "data/kaggle/MAGFiLO_1.0_Kaggle_2026/train/MAGFiLO_1.0_Annotations_kaggle2026_train.json": "data/MAGFiLO_1.0_Annotations_kaggle2026_train.json"
  },
- "_bundle": "Without these maps: `python -m filament_seg.evaluation.bundle stage --work WORK` fills the same WORK paths from the tracked eval_bundle/ (selector OOF rows as analysis/oof_rows_FAST.npz, threshold-level base maps, D007 binaries, limb fit) and from YOUR competition download (training COCO; channel 0 of the 707 training JPEGs). The member dir is then not needed: the bundled rows replace the selector's feature build."
+ "_bundle": "Without these maps: `python -m filament_seg.evaluation.bundle stage --work WORK` fills the same WORK paths from the tracked eval_bundle/ (selector OOF rows as analysis/oof_rows_nnHALO.npz, threshold-level base maps, D007 binaries, limb fit) and from YOUR competition download (training COCO; channel 0 of the 707 training JPEGs). The member dir is then not needed: the bundled rows replace the selector's feature build."
 }

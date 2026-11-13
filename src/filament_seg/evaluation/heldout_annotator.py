@@ -8,7 +8,7 @@ ARMS        H_A    the held-out record's raw annotations as prediction rows (the
                    H_A400 the same with annotations >= 400 px only (Table 1 footnote d)
             H_B    the 4-connected components of the held-out record's pixel union (what a legal submission could
                    contain: rows may not overlap)
-            FAST  the cross-fitted selector keeps (`oof_selection`), 5 bags; D007 = the D007 OOF argmax >= 400 px
+            nnHALO  the cross-fitted selector keeps (`oof_selection`), 5 bags; D007 = the D007 OOF argmax >= 400 px
 AXES        PQ (w 0.5 / 1.0), pooled mean IoU over overlapping pairs, m2n fractions: pooled ratios of sums, CI by
             `bootstrap.pooled`; pixel Dice (torchmetrics include_background=False) per (unit, reference record),
             averaged per observation, CI on the mean paired difference (`bootstrap.paired_mean`).
@@ -30,7 +30,7 @@ from filament_seg.maps import load_bin
 HIGHER = {"pq_w05": True, "pq_w10": True, "mean_iou": True, "mean_dice": True, "gt_1to0": False,
           "gt_1toge2": False, "pred_0to1": False, "pred_ge2to1": False}
 HUMANS = ("H_A0", "H_B0", "H_A400")
-MODELS = ("FAST", "D007")
+MODELS = ("nnHALO", "D007")
 FAR_DAYS = 4.0
 D007_MIN_AREA = 400
 
@@ -146,7 +146,7 @@ def summarise(rows: list, cases_all: list, stem_of: dict, seed: int) -> dict:
     out["far"] = {"days": FAR_DAYS, "n": int(far.sum()),
                   **{f"{m}_vs_H_A0": {s: v for s, v in B.pooled(Wf, [b[far] for b in mod[m]], [hum["H_A0"][0][far]],
                                                                  HIGHER).items() if s in ("pq_w05", "mean_iou")}
-                     for m in ("FAST",)}}
+                     for m in ("nnHALO",)}}
     return out
 
 
@@ -157,7 +157,7 @@ def run(cfgs: dict[str, SlotConfig], d007_dir: str, workers: int, seeds: tuple[i
     recs = HR.records_by_case(any_cfg.coco, any_cfg.train_case_map)
     stem_of = HR.case_stems(any_cfg.train_case_map)
     sels = {nm: OS.build(cfg) for nm, cfg in cfgs.items()}
-    cases = sels["FAST"]["cases"]
+    cases = sels["nnHALO"]["cases"]
     assert all(s["cases"] == cases for s in sels.values())
     items = []
     for i, c in enumerate(cases):

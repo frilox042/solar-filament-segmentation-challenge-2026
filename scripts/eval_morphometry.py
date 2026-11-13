@@ -54,7 +54,7 @@ def main() -> int:
     a = ap.parse_args()
     exp = expected.load("morphometry", a.expect)
     t0 = time.time()
-    res = MO.run({"FAST": C.load("FAST")}, str(fp.WORK / D007_DIR), a.workers)
+    res = MO.run({"nnHALO": C.load("nnHALO")}, str(fp.WORK / D007_DIR), a.workers)
     out = {"what": "morphology of the kept OOF masks", "results": res, "gate": gate(res, exp),
            "seconds": round(time.time() - t0, 1)}
     path = Path(a.out) if a.out else oof_selection.eval_dir() / "morphometry.json"
@@ -62,15 +62,15 @@ def main() -> int:
     path.write_text(json.dumps(out, indent=1, default=float))
     w, b, s, br = res["width"], res["branching"], res["split"], res["barbs"]
     print(f"width excess (% of {w['denominator_px']:.2f} px): D007 {w['D007_400']['pct']:+.1f}  "
-          f"FAST {w['FAST']['pct']:+.1f}; abs error {w['D007_400']['abs_px']:.2f} -> {w['FAST']['abs_px']:.2f} px")
-    print(f"branching vs reference (n {b['n_pop']}): D007 {b['D007_all']['pct']:+.1f}%  FAST {b['FAST']['pct']:+.1f}% "
-          f"[{b['FAST']['pct_ci'][0]:+.1f}, {b['FAST']['pct_ci'][1]:+.1f}]")
-    print(f"split share: D007 {s['D007_400']:.4f}  FAST {s['FAST']:.4f}; FAST coverage of split "
-          f"annotations {res['selector_deletion_bag0']['FAST']['mean_coverage_candidates']:.2f} -> "
-          f"{res['selector_deletion_bag0']['FAST']['mean_coverage_kept']:.2f}")
+          f"nnHALO {w['nnHALO']['pct']:+.1f}; abs error {w['D007_400']['abs_px']:.2f} -> {w['nnHALO']['abs_px']:.2f} px")
+    print(f"branching vs reference (n {b['n_pop']}): D007 {b['D007_all']['pct']:+.1f}%  nnHALO {b['nnHALO']['pct']:+.1f}% "
+          f"[{b['nnHALO']['pct_ci'][0]:+.1f}, {b['nnHALO']['pct_ci'][1]:+.1f}]")
+    print(f"split share: D007 {s['D007_400']:.4f}  nnHALO {s['nnHALO']:.4f}; nnHALO coverage of split "
+          f"annotations {res['selector_deletion_bag0']['nnHALO']['mean_coverage_candidates']:.2f} -> "
+          f"{res['selector_deletion_bag0']['nnHALO']['mean_coverage_kept']:.2f}")
     cov = br["barb_coverage_per_image_mean"]
-    print(f"barb px outside & p < 0.3: D007 {br['outside_p_lt_0.3']['D007_all']:.3f}; barb coverage FAST "
-          f"{cov['FAST']:.3f} vs D007 {cov['D007_400']:.3f}")
+    print(f"barb px outside & p < 0.3: D007 {br['outside_p_lt_0.3']['D007_all']:.3f}; barb coverage nnHALO "
+          f"{cov['nnHALO']:.3f} vs D007 {cov['D007_400']:.3f}")
     print("gate", "PASS" if out["gate"]["pass"] else f"FAIL {out['gate']['failed']}", f"{out['seconds']} s")
     return 0 if out["gate"]["pass"] else 1
 

@@ -1,6 +1,6 @@
 {
  "what": "The out-of-fold evaluation bundle (`eval_bundle/`): what `scripts/eval_*.py` need, without the 2048\u00b2 maps.",
- "slot": "FAST",
+ "slot": "nnHALO",
  "n_cases": 707,
  "n_rows": 6747,
  "n_features": 22,
@@ -32,7 +32,7 @@
    "0.3": "morphometry: barb pixel outside and p < 0.3",
    "0.5": "never_seen: class B = p_max > 0.5",
    "0.92": "morphometry: negative control base p >= 0.92",
-   "0.97": "candidates: base mask p >= 0.97 (configs/FAST.json core_t)"
+   "0.97": "candidates: base mask p >= 0.97 (configs/nnHALO.json core_t)"
   },
   "uint16_of_code": [
    0,
@@ -44,7 +44,7 @@
   ]
  },
  "sources": {
-  "oof_rows": "selector_fit.build_oof_table on the OOF maps (configs/FAST.json cpu_stage: members D036 and P)",
+  "oof_rows": "selector_fit.build_oof_table on the OOF maps (configs/nnHALO.json cpu_stage: members D036 and P)",
   "oof_levels": "predictions/vessel_oof_probs",
   "d007_oof_bin": "predictions/vessel_oof_full/by_image",
   "diskfit": "analysis/datastudy_diskfit.json (frames: stem, fit_x, fit_y, fit_R)"

@@ -1,4 +1,4 @@
-"""pipeline.ipynb is saved executed, without errors; it assembled nnHALO's weights from weights/fast/, its two
+"""pipeline.ipynb is saved executed, without errors; it assembled nnHALO's weights from weights/nnHALO/, its two
 networks ran in that execution (not read from an earlier run), its final rows agree with the submitted file, it
 loads only nnHALO, and no machine-specific path is left in its outputs."""
 import json
@@ -13,11 +13,11 @@ def test_notebook_executed_cleanly_and_agrees_with_submission():
     assert all(c.get("execution_count") for c in nb["cells"] if c["cell_type"] == "code")
     assert not [o for o in outs if o["output_type"] == "error"]
     text = "".join("".join(o.get("text", "")) for o in outs if o["output_type"] == "stream")
-    assert "8 files in place and verified" in text                   # the weights came from weights/fast/ (manifest)
+    assert "8 files in place and verified" in text                   # the weights came from weights/nnHALO/ (manifest)
     assert "TRAIN = False" in text and "smoke training: passed" in text      # training path listed + smoke-run
-    for step in ("channels", "base_D007_f0", "bin_D036_f0", "selector_FAST"):  # every stage ran in THIS execution
+    for step in ("channels", "base_D007_f0", "bin_D036_f0", "selector_nnHALO"):  # every stage ran in THIS execution
         assert f"{step:20s} ran in" in text, step
-    assert "within the reproduction tolerance: True" in text          # the 180-image CSV vs submissions/FAST.csv
+    assert "within the reproduction tolerance: True" in text          # the 180-image CSV vs submissions/nnHALO.csv
     assert "agrees with the submitted file: True" in text             # the one-observation walk-through
     for name in ("stage evaluation inputs", "cross-fitted selector", "held-out annotator (Table 1)"):
         assert f"{name:30s} rc 0" in text, name                       # each evaluation step passed its own gate
@@ -25,9 +25,9 @@ def test_notebook_executed_cleanly_and_agrees_with_submission():
     assert sum(1 for o in outs if o["output_type"] == "display_data") >= 5      # the figures are saved
 
 
-def test_notebook_loads_only_ours_fast():
+def test_notebook_loads_only_nnhalo():
     src = "".join("".join(c["source"]) for c in json.loads(NB.read_text())["cells"])
-    assert "FAST_bag.pkl" in src and 'config.load("FAST")' in src
+    assert "nnHALO_bag.pkl" in src and 'config.load("nnHALO")' in src
 
 
 def test_notebook_names_no_dropped_network():

@@ -12,7 +12,7 @@ to WORK/eval/never_seen_rows.npz (never_seen_rows_png.npz for --records png), ta
 regression values produced by this code); --records png replicates the reported values below.
 GATE (png; 1e-12, counts exact): the D007 class counts D / A / B / M / C (515 / 746 / 926 / 3478 / 62); every class-vs-M
 AUC, interval, median and n (contrast D 0.884, support D 0.858, ...); the support headline (8 of 284 drawn by
-every record vs M 78.5%, by k); per bag of FAST the class counts, the D contrast / support AUC and interval, and
+every record vs M 78.5%, by k); per bag of nnHALO the class counts, the D contrast / support AUC and interval, and
 the bag means.
 NOT REPRODUCED, reported only: M's all-record share reweighted to D's area distribution (reported 50.2%, this code 0.5026;
 the binning of the reported value is unrecorded), see `not_reproduced` in configs/eval/expected.json.
@@ -111,7 +111,7 @@ def main() -> int:
         ap.error("--reference-rows / --reference-features are the original PNG-union rows: use with --records png")
     exp = expected.load("never_seen", a.expect, a.records)
     t0 = time.time()
-    res = NS.run({"FAST": C.load("FAST")}, str(fp.WORK / D007_BIN), str(fp.WORK / D007_PROB), a.workers,
+    res = NS.run({"nnHALO": C.load("nnHALO")}, str(fp.WORK / D007_BIN), str(fp.WORK / D007_PROB), a.workers,
                  records=a.records)
     rows = res.pop("_rows")
     ref = reference_rows(rows, a.reference_rows, a.reference_features) if a.reference_rows else None
@@ -131,10 +131,10 @@ def main() -> int:
     print(f"D {res['class_counts']['D']}: contrast AUC {r['contrast']['auc']:.4f} {r['contrast']['ci']}, support "
           f"{r['support']['auc']:.4f} {r['support']['ci']}; drawn by every record {res['headline']['D_all_agree']} of "
           f"{res['headline']['D_multi']} vs M {res['headline']['M_all_agree_frac']:.3f} (area-matched "
-          f"{res['headline']['M_all_agree_frac_area_reweighted_to_D']:.4f}, not reproduced); FAST D "
-          f"{res['per_model']['FAST']['n_D_bag_mean']:.0f}, "
-          f"contrast {res['per_model']['FAST']['contrast_AUC_bag_mean']:.4f}"
-          f", support {res['per_model']['FAST']['support_AUC_bag_mean']:.4f}")
+          f"{res['headline']['M_all_agree_frac_area_reweighted_to_D']:.4f}, not reproduced); nnHALO D "
+          f"{res['per_model']['nnHALO']['n_D_bag_mean']:.0f}, "
+          f"contrast {res['per_model']['nnHALO']['contrast_AUC_bag_mean']:.4f}"
+          f", support {res['per_model']['nnHALO']['support_AUC_bag_mean']:.4f}")
     print("gate", "PASS" if out["gate"]["pass"] else f"FAIL {out['gate']['failed']}", f"{out['seconds']} s")
     return 0 if out["gate"]["pass"] else 1
 

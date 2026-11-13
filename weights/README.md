@@ -1,11 +1,11 @@
 # Weights: inventory
 
 **Stored in this repository: nnHALO.** Its two networks (the nnU-Nets D007 and D036, fold 0; 0.474 GB, 8 files
-with their metadata) are in `fast/`. Each checkpoint is stored as parts of at most
+with their metadata) are in `nnHALO/`. Each checkpoint is stored as parts of at most
 90 MiB (`checkpoint_final.pth.part000`, ...) because GitHub blocks files above 100 MiB.
 `python scripts/assemble_weights.py` joins them into `$FILAMENT_WEIGHTS` and checks every file against
 `MANIFEST.sha256`; `scripts/predict.py --from-images` and `pipeline.ipynb` do the same automatically. The selector bag
-is `selector/FAST_bag.pkl`.
+is `selector/nnHALO_bag.pkl`.
 
 **Licence:** `LICENSE-WEIGHTS.md`. The nnU-Net weights and the selector bag are MIT (trained on the non-commercial
 Competition Data; see the notice there).
@@ -43,7 +43,7 @@ The two nnU-Net `checkpoint_final.pth` files are **inference-only copies**. Comp
 - Every kept key equals the original's, and the removed keys are exactly the four above.
 - A CPU forward pass through `nnUNetPredictor` gave identical output from the stripped and the original files.
 - All JSON metadata is **unchanged** (byte-identical copies, same hashes).
-- An end-to-end GPU run of nnHALO from the stripped files (assembled from `fast/`) agrees with the submitted file
+- An end-to-end GPU run of nnHALO from the stripped files (assembled from `nnHALO/`) agrees with the submitted file
   on 178 of 180 images (equal counts, image Dice ≥ 0.9997); on the other two, one selector decision near the cut
   flipped (README, "Reproduction tolerance").
 
@@ -79,5 +79,5 @@ $FILAMENT_WEIGHTS/
 unlisted (`strip_report.json` is ignored).
 `tests/test_weights_tree.py` holds its negative controls and runs it on the assembled weights.
 
-**Selector bag.** `selector/FAST_bag.pkl` (about 2 MB) is our own trained model. It is listed in the manifest, and
+**Selector bag.** `selector/nnHALO_bag.pkl` (about 2 MB) is our own trained model. It is listed in the manifest, and
 `filament_seg.selector_stage` checks its sha256 before unpickling it.

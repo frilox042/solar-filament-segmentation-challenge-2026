@@ -1,6 +1,6 @@
 """The training recipe: its splits rule reproduces the shipped splits (SHA-256 of folds 0-4 recorded from
 nnUNet_preprocessed/<Dataset>/splits_final.json of the training run), every script/module it calls starts, its output
-paths are the ones the selector reads (configs/FAST.json), and it never writes into the shipped weights."""
+paths are the ones the selector reads (configs/nnHALO.json), and it never writes into the shipped weights."""
 import importlib.util
 import json
 import subprocess
@@ -70,7 +70,7 @@ def test_entry_point_check_negative_control(tmp_path):
 
 
 def test_recipe_outputs_are_what_the_selector_reads():
-    cfg = json.loads((fp.CONFIGS / "FAST.json").read_text())["cpu_stage"]
+    cfg = json.loads((fp.CONFIGS / "nnHALO.json").read_text())["cpu_stage"]
     root = Path("/r")
     argv = {s.name: s.argv for s in T.full_recipe(root)}
     oof_maps = argv["out-of-fold probability maps (D007)"]

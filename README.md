@@ -6,7 +6,7 @@ A Solution to the Solar Filament Segmentation Challenge 2026 (GONG H-alpha).
 
 We segment solar filaments in full-disk 2048×2048 GONG H-alpha observations.
 
-- **nnHALO** (H-Alpha segmentation with Learned Object selection; slot `FAST`). Two networks, both nnU-Nets, fold 0:
+- **nnHALO** (H-Alpha segmentation with Learned Object selection). Two networks, both nnU-Nets, fold 0:
   - the **base network**, an nnU-Net on five input channels (c0–c4: raw, CLAHE, background-subtracted, coherence,
     Sato ridge), gives the probability map p. Its 4-connected components of at least 100 px at p ≥ 0.97
     are the candidate objects;
@@ -36,7 +36,7 @@ per-record rule). Intervals in the report are 95% paired bootstrap (5000 resampl
 | | Dice | pairwise IoU | PQ (w 0.5) | public LB | file | md5 |
 |---|---|---|---|---|---|---|
 | held-out annotator | 0.616 | 0.517 | 0.340 | — | — | — |
-| **nnHALO (FAST)** | 0.673 | 0.591 | 0.444 | 0.39 | `submissions/FAST.csv` | `7c5bd00dbb9165fe28d3d3c83a9b832c` |
+| **nnHALO** | 0.673 | 0.591 | 0.444 | 0.39 | `submissions/nnHALO.csv` | `7c5bd00dbb9165fe28d3d3c83a9b832c` |
 | simplified model: the base network alone (p ≥ 0.5, components ≥ 400 px, no selector) | 0.674 | 0.566 | 0.409 | — | — | — |
 
 ![Out-of-fold examples](docs/figures/gallery.png)
@@ -69,11 +69,11 @@ Arch Linux. Training stack: torch 2.13.0+cu130, cuDNN 9.20.0.
 
 ## What you can run
 
-- **nnHALO, entirely from this repository.** Its two networks are stored in `weights/fast/` (0.47 GB, as parts of
+- **nnHALO, entirely from this repository.** Its two networks are stored in `weights/nnHALO/` (0.47 GB, as parts of
   at most 90 MiB because GitHub blocks larger files) and its selector in `weights/selector/`.
   `pipeline.ipynb` runs the whole pipeline with them: optional training (and a short training smoke run), the 180
   test observations from the raw images to the submission and its check against the submitted file, one observation
-  in detail, and the evaluation; `python scripts/predict.py --slot FAST --from-images` predicts all 180
+  in detail, and the evaluation; `python scripts/predict.py --slot nnHALO --from-images` predicts all 180
   (19.0 min on the reference laptop GPU, "Runtime and memory").
   Both need your competition download and the environments below.
 - **The offline evaluation (every out-of-fold number in Results), CPU only, no retraining:** `eval_bundle/` (14 MB,
@@ -92,7 +92,7 @@ bash scripts/setup_envs.sh --cpu-only                      # .venv-cpu (Python 3
 export FILAMENT_KAGGLE_ROOT=/path/to/unzipped/filament-segmentation-2026 FILAMENT_WORK=$PWD/work
 .venv-cpu/bin/python -m filament_seg.evaluation.bundle stage --work $FILAMENT_WORK   # ~2.5 min, 2.4 GB in work/
 .venv-cpu/bin/python scripts/eval_oof_selection.py         # ~0.5 min
-.venv-cpu/bin/python scripts/eval_heldout_annotator.py     # ~1.5 min -> "FAST PQ 0.4443 vs annotator 0.3399 … gate PASS"
+.venv-cpu/bin/python scripts/eval_heldout_annotator.py     # ~1.5 min -> "nnHALO PQ 0.4443 vs annotator 0.3399 … gate PASS"
 .venv-cpu/bin/python -m pytest -q                          # the unit tests, ~1 min
 ```
 
@@ -139,11 +139,11 @@ export FILAMENT_KAGGLE_ROOT=/path/to/unzipped/filament-segmentation-2026   # con
 export FILAMENT_WORK=$PWD/work        # FILAMENT_WEIGHTS defaults to weights/downloaded, where the stored weights are assembled
 export FILAMENT_PY_CPU=$PWD/.venv-cpu/bin/python FILAMENT_PY_NNUNET=$PWD/.venv-nnunet/bin/python
 
-python scripts/predict.py --slot FAST --from-images        # -> submissions/out/FAST.csv (assembles weights/fast/ first)
+python scripts/predict.py --slot nnHALO --from-images      # -> submissions/out/nnHALO.csv (assembles weights/nnHALO/ first)
 ```
 
 Flags: `--dry-run` prints the plan; `--limit 2` is a smoke run on two images (it skips the CPU stage); every step
-resumes where it stopped. The CPU stage applies the released selector bag (`weights/selector/FAST_bag.pkl`,
+resumes where it stopped. The CPU stage applies the released selector bag (`weights/selector/nnHALO_bag.pkl`,
 about 2 MB, checked against `weights/MANIFEST.sha256`); `--bag-dir DIR` applies another directory's bag, and
 `--refit` re-fits the selector on the 707 out-of-fold observations first.
 
@@ -175,7 +175,7 @@ Retraining is not bit-reproducible: nnU-Net training on a GPU is not determinist
 
 ## Runtime and memory (nnHALO, 180 test observations)
 
-Reference run: `scripts/predict.py --slot FAST --from-images` from the raw competition JPEGs and the weights stored
+Reference run: `scripts/predict.py --slot nnHALO --from-images` from the raw competition JPEGs and the weights stored
 here, on the reference hardware (2026-11-07; per-step wall clock printed by the pipeline; memory sampled every ~6 s from
 `/proc` and `nvidia-smi`, so peaks are lower bounds).
 
@@ -203,7 +203,7 @@ network step takes about 3.8 min. Your time depends on your GPU and its cooling.
 - **CPU stage, from the same network outputs:** byte-identical; the md5 above is reproduced.
 - **GPU stages:** not deterministic from run to run, even on the same hardware (max |Δp| up to 1.3e-3 between two
   runs on the same inputs), so a from-images run is judged by agreement with the uploaded file, not by md5.
-- **The rule** (`configs/FAST.json` `reproduction_tolerance`, `filament_seg.submission.compare`, applied by every
+- **The rule** (`configs/nnHALO.json` `reproduction_tolerance`, `filament_seg.submission.compare`, applied by every
   `selector_stage apply`). A run passes when, compared with the uploaded file:
   - at most 3 test images differ in object count, each by at most 1 object;
   - the total object count is within ±3;
@@ -228,7 +228,7 @@ network step takes about 3.8 min. Your time depends on your GPU and its cooling.
   images ≥ 0.999984. In all, the fresh clone and seven re-runs reproduce the uploaded file to one object on one or two
   images.
 - **On a different system** (2026-11-07): on a rented RTX 4090 (Ada generation; driver 595.91.07) with only this README's
-  instructions, `pipeline.ipynb` ran every cell without error (`TRAIN = False`). Its `FAST.csv` had 1,184 rows vs 1,185
+  instructions, `pipeline.ipynb` ran every cell without error (`TRAIN = False`). Its `nnHALO.csv` had 1,184 rows vs 1,185
   (one image, `20220621185332Bh`, had one object fewer); images with matching counts agreed at pooled Dice 0.99998, inside
   the rule. The evaluation gates the notebook runs passed and Table 1 came out as 0.673 / 0.591 / 0.444. Prediction took
   15.1 min (the networks 141 + 133 s on that GPU); the notebook took 23.5 min.
@@ -263,7 +263,7 @@ See `CITATION.cff`, and cite MAGFiLO (Ahmadzadeh et al., *Scientific Data* 11:10
 
 ## Repository map
 
-`directory_structure.txt`: the folder tree. `src/filament_seg/`: the package (`docs/module_map.md`). `configs/`: settings (`FAST.json`). `scripts/`: `prepare_data`,
+`directory_structure.txt`: the folder tree. `src/filament_seg/`: the package (`docs/module_map.md`). `configs/`: settings (`nnHALO.json`). `scripts/`: `prepare_data`,
 `train`, `predict`, `eval_*`. `tests/`: unit tests and the CPU smoke test. `pipeline.ipynb`: the whole pipeline,
 end to end. `docs/`: training recipe, run-root layout, module map. `weights/`: inventory and licences.
 `eval_bundle/`: the out-of-fold evaluation inputs (derived numbers and our own masks).

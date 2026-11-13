@@ -7,11 +7,11 @@
   "coco": "regression_coco"
  },
  "published_png": {
-  "model_set": "FAST = the D007 network (fold-wise out-of-fold maps) + T97-FLOOR selector (member masks D036 and P = the D007 map at p >= 0.5); networks trained on the MAGFiLO-derived union labels (see the technical report)",
+  "model_set": "nnHALO = the D007 network (fold-wise out-of-fold maps) + T97-FLOOR selector (member masks D036 and P = the D007 map at p >= 0.5); networks trained on the MAGFiLO-derived union labels (see the technical report)",
   "oof_selection": {
    "source": "this code's run (2026-11-01); the w 0.5 per-bag values and the keeps equal an independent computation (not part of this repository) bit for bit; the w 1.0 values are this code's",
    "tol": 1e-12,
-   "FAST_pq_per_bag_w05_w10": [
+   "nnHALO_pq_per_bag_w05_w10": [
     [
      0.4461920069173602,
      0.3314795228694573
@@ -35,14 +35,14 @@
    ]
   },
   "heldout_annotator": {
-   "source": "D007 and annotator leaves: independently recomputed values (bootstrap seed 20261018, as the paper and Table 1) and the original computation (seed 0), unchanged. FAST leaves: this code's run (2026-11-01) for both seeds; the FAST point estimates equal an independent computation (not part of this repository) bit for bit; the FAST deltas follow from those points, and their intervals are this code's bootstrap, not independently re-derived",
+   "source": "D007 and annotator leaves: independently recomputed values (bootstrap seed 20261018, as the paper and Table 1) and the original computation (seed 0), unchanged. nnHALO leaves: this code's run (2026-11-01) for both seeds; the nnHALO point estimates equal an independent computation (not part of this repository) bit for bit; the nnHALO deltas follow from those points, and their intervals are this code's bootstrap, not independently re-derived",
    "tol": 1e-09,
    "tol_reported_dice": 1e-06,
-   "_tol_note": "the seed-0 Dice of the D007 and human leaves comes from the original computation (torchmetrics float32 per sample); every FAST leaf and the seed-20261018 set are this port's float64 values",
+   "_tol_note": "the seed-0 Dice of the D007 and human leaves comes from the original computation (torchmetrics float32 per sample); every nnHALO leaf and the seed-20261018 set are this port's float64 values",
    "n_images": 296,
    "n_units": 743,
    "points": {
-    "FAST": {
+    "nnHALO": {
      "pq_w05": 0.4443343961865949,
      "pq_w10": 0.33002566099721103,
      "mean_iou": 0.5910926422180351,
@@ -95,7 +95,7 @@
    },
    "rerun_seed": 20261018,
    "rerun": {
-    "FAST_vs_H_A0": {
+    "nnHALO_vs_H_A0": {
      "pq_w05": {
       "delta": 0.10441858391631231,
       "ci95": [
@@ -153,7 +153,7 @@
       ]
      }
     },
-    "FAST_vs_H_B0": {
+    "nnHALO_vs_H_B0": {
      "pq_w05": {
       "delta": 0.1119825190407937,
       "ci95": [
@@ -211,7 +211,7 @@
       ]
      }
     },
-    "FAST_vs_H_A400": {
+    "nnHALO_vs_H_A400": {
      "pq_w05": {
       "delta": 0.10700406402563872,
       "ci95": [
@@ -445,9 +445,9 @@
     },
     "dice": {
      "H_image_mean": 0.6159825231405021,
-     "FAST_image_mean": 0.6729133283068028,
+     "nnHALO_image_mean": 0.6729133283068028,
      "D007_image_mean": 0.6744246167103374,
-     "FAST_minus_H": {
+     "nnHALO_minus_H": {
       "mean_diff": 0.05693080516630075,
       "ci95": [
        0.04371759553917264,
@@ -464,7 +464,7 @@
     },
     "far": {
      "n": 49,
-     "FAST_vs_H_A0": {
+     "nnHALO_vs_H_A0": {
       "pq_w05": {
        "delta": 0.10985495467592216,
        "ci95": [
@@ -484,7 +484,7 @@
    },
    "reported_seed": 0,
    "reported": {
-    "FAST_vs_H_A0": {
+    "nnHALO_vs_H_A0": {
      "pq_w05": {
       "delta": 0.10441858391631231,
       "ci95": [
@@ -542,7 +542,7 @@
       ]
      }
     },
-    "FAST_vs_H_B0": {
+    "nnHALO_vs_H_B0": {
      "pq_w05": {
       "delta": 0.1119825190407937,
       "ci95": [
@@ -600,7 +600,7 @@
       ]
      }
     },
-    "FAST_vs_H_A400": {
+    "nnHALO_vs_H_A400": {
      "pq_w05": {
       "delta": 0.10700406402563872,
       "ci95": [
@@ -833,7 +833,7 @@
      }
     },
     "dice": {
-     "FAST_minus_H": {
+     "nnHALO_minus_H": {
       "mean_diff": 0.05693080516630075,
       "ci95": [
        0.04374961843507342,
@@ -852,9 +852,9 @@
    "negative_control_selfref_pq_w05": 0.5935760818851037
   },
   "calibration": {
-   "source": "this code's run on the FAST cross-fitted keeps, on the full out-of-fold maps (2026-11-01), equal to the bundle run; not independently re-derived",
+   "source": "this code's run on the nnHALO cross-fitted keeps, on the full out-of-fold maps (2026-11-01), equal to the bundle run; not independently re-derived",
    "tol": 1e-12,
-   "slot": "FAST",
+   "slot": "nnHALO",
    "ece_raw_bagmean": 0.28515521867207144,
    "ece_raw_ci95": [
     0.27119183250047585,
@@ -895,7 +895,7 @@
    "_tol_note": "the published bootstrap CIs were computed on the same draws; isotonic is deterministic"
   },
   "morphometry": {
-   "source": "this code's run on the full out-of-fold maps (2026-11-01), equal to the bundle run. The D007 width, split and barb leaves are unchanged from an independent recomputation (not part of this repository); the FAST leaves and the branching block (whose population includes the FAST mask, see branching_note) are this code's output, not independently re-derived",
+   "source": "this code's run on the full out-of-fold maps (2026-11-01), equal to the bundle run. The D007 width, split and barb leaves are unchanged from an independent recomputation (not part of this repository); the nnHALO leaves and the branching block (whose population includes the nnHALO mask, see branching_note) are this code's output, not independently re-derived",
    "tol": 1e-09,
    "width": {
     "denominator_px": 11.07372395675364,
@@ -905,13 +905,13 @@
      "abs_px": 2.867372409028786,
      "n_img": 684
     },
-    "FAST": {
+    "nnHALO": {
      "signed_px": 0.6669055126998297,
      "pct": 6.022414097590879,
      "abs_px": 2.3928425578968686,
      "n_img": 684
     },
-    "FAST-D007_400_same_annotations_px": {
+    "nnHALO-D007_400_same_annotations_px": {
      "mean_diff": -1.1493073450239952,
      "ci95": [
       -1.191028230316825,
@@ -940,7 +940,7 @@
      ],
      "n": 692
     },
-    "FAST": {
+    "nnHALO": {
      "pct": -58.94260863935779,
      "pct_ci": [
       -62.02018774017298,
@@ -952,11 +952,11 @@
    "split": {
     "D007_400": 0.04959730097519558,
     "D007_100": 0.056824883688016366,
-    "FAST": 0.03212654033426939,
+    "nnHALO": 0.03212654033426939,
     "Tcand": 0.06802678613310865
    },
    "selector_deletion_bag0": {
-    "FAST": {
+    "nnHALO": {
      "n_annotations_split_by_candidates": 481,
      "mean_coverage_candidates": 0.6419250855865408,
      "mean_coverage_kept": 0.45399485578787196,
@@ -971,13 +971,13 @@
     },
     "spine_coverage_per_image_mean": {
      "D007_400": 0.7736162023948884,
-     "FAST": 0.6801179309891816
+     "nnHALO": 0.6801179309891816
     },
     "barb_coverage_per_image_mean": {
      "D007_400": 0.6980096646356685,
-     "FAST": 0.600194013349715
+     "nnHALO": 0.600194013349715
     },
-    "spine_coverage_FAST-D007_400": {
+    "spine_coverage_nnHALO-D007_400": {
      "mean_diff": -0.09349827140570678,
      "ci95": [
       -0.10215530713558411,
@@ -985,7 +985,7 @@
      ],
      "n": 707
     },
-    "barb_coverage_FAST-D007_400": {
+    "barb_coverage_nnHALO-D007_400": {
      "mean_diff": -0.09781565128595342,
      "ci95": [
       -0.10485232397282339,
@@ -994,7 +994,7 @@
      "n": 686
     }
    },
-   "branching_note": "population = images where the reference, D007_all, D007_400 and FAST are all defined (692 with the current FAST; it was 691 with the previous selector, whose FAST mask was empty on one more image), so the D007 branching values move with the population, not with the D007 masks"
+   "branching_note": "population = images where the reference, D007_all, D007_400 and nnHALO are all defined (692 with the current nnHALO; it was 691 with the previous selector, whose nnHALO mask was empty on one more image), so the D007 branching values move with the population, not with the D007 masks"
   },
   "annotator_agreement": {
    "source": "original annotator-agreement output (the script that produced it is not part of this repository, only its values); context values as printed in the original write-up",
@@ -1028,7 +1028,7 @@
    "negative_control": "objects without the 20 px filter (min_area 1) must miss existence_mean by > 1e-3"
   },
   "never_seen": {
-   "source": "original never-seen outputs (classes, every AUC / CI / median), a later recomputation (class C count, support headline at the 20% rule, area reweighting, 50% control) and the per-slot miss counts; none of these files is part of this repository | per_model.FAST: this code's run on the current FAST (2026-11-01)",
+   "source": "original never-seen outputs (classes, every AUC / CI / median), a later recomputation (class C count, support headline at the 20% rule, area reweighting, 50% control) and the per-slot miss counts; none of these files is part of this repository | per_model.nnHALO: this code's run on the current nnHALO (2026-11-01)",
    "tol": 1e-12,
    "n_objects": 5727,
    "class_counts": {
@@ -1258,7 +1258,7 @@
    "negative_control_support_50pct_D_all_agree": 7,
    "negative_control_shuffled_contrast_auc_below": 0.6,
    "per_model": {
-    "FAST": {
+    "nnHALO": {
      "contrast_AUC_bag_mean": 0.8999089503357511,
      "support_AUC_bag_mean": 0.8499446754092185,
      "contrast_AUC_bag_range": [
@@ -1392,9 +1392,9 @@
   }
  },
  "regression_coco": {
-  "model_set": "FAST = the D007 network (fold-wise out-of-fold maps) + T97-FLOOR selector (member masks D036 and P = the D007 map at p >= 0.5); networks trained on the MAGFiLO-derived union labels (see the technical report)",
+  "model_set": "nnHALO = the D007 network (fold-wise out-of-fold maps) + T97-FLOOR selector (member masks D036 and P = the D007 map at p >= 0.5); networks trained on the MAGFiLO-derived union labels (see the technical report)",
   "records": "coco",
-  "_doc": "REGRESSION VALUES. The three per-record evaluations on the competition COCO (records_coco, the default --records). Values are this code's own first run, copied verbatim; the gate then checks the code against itself (determinism), not against an independent measurement. They were also recomputed independently of this code before the paper quoted them; the paper quotes THESE coco values. Exception: never_seen.per_model.FAST is this code's run on the current FAST (2026-11-01), not independently recomputed.",
+  "_doc": "REGRESSION VALUES. The three per-record evaluations on the competition COCO (records_coco, the default --records). Values are this code's own first run, copied verbatim; the gate then checks the code against itself (determinism), not against an independent measurement. They were also recomputed independently of this code before the paper quoted them; the paper quotes THESE coco values. Exception: never_seen.per_model.nnHALO is this code's run on the current nnHALO (2026-11-01), not independently recomputed.",
   "annotator_agreement": {
    "source": "REGRESSION: this code's own run with --records coco; not quoted in the report's current text",
    "model_independent": "annotators only: unchanged by a model retrain (copy the block)",
@@ -1427,7 +1427,7 @@
    "negative_control": "objects without the 20 px filter (min_area 1) must miss existence_mean by > 1e-3"
   },
   "never_seen": {
-   "source": "REGRESSION: this code's own run with --records coco; the report quotes these values (they were also recomputed independently of this code) | per_model.FAST: this code's run on the current FAST (2026-11-01)",
+   "source": "REGRESSION: this code's own run with --records coco; the report quotes these values (they were also recomputed independently of this code) | per_model.nnHALO: this code's run on the current nnHALO (2026-11-01)",
    "tol": 1e-12,
    "n_objects": 5740,
    "class_counts": {
@@ -1653,7 +1653,7 @@
    "negative_control_support_50pct_D_all_agree": 7,
    "negative_control_shuffled_contrast_auc_below": 0.6,
    "per_model": {
-    "FAST": {
+    "nnHALO": {
      "contrast_AUC_bag_mean": 0.8989849785325346,
      "support_AUC_bag_mean": 0.8548985074529991,
      "contrast_AUC_bag_range": [

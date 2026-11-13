@@ -25,7 +25,7 @@ the case mappings, `Dataset007/imagesTr`, the OOF base maps and the D036 member 
 `WORK/eval/` (override with `FILAMENT_EVAL`): `<slot>_oof_selection.pkl` (cached keeps) and one JSON per script.
 
 **From the evaluation bundle** (no maps needed): `python -m filament_seg.evaluation.bundle stage --work WORK` writes the
-same paths from `eval_bundle/` and your competition download: `analysis/oof_rows_FAST.npz` (the selector's OOF rows,
+same paths from `eval_bundle/` and your competition download: `analysis/oof_rows_nnHALO.npz` (the selector's OOF rows,
 read by `evaluation/oof_selection.py` in place of the feature build), `predictions/vessel_oof_probs/` (uint16 maps
 expanded from threshold levels, marked by `LEVEL_MAPS_FROM_EVAL_BUNDLE.json`; the selector fit refuses them),
 `predictions/vessel_oof_full/by_image/`, `analysis/datastudy_diskfit.json`, the two case maps, and

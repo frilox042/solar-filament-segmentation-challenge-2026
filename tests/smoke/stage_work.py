@@ -97,7 +97,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source-root", required=True, type=Path)
     ap.add_argument("--work", required=True, type=Path)
-    ap.add_argument("--slot", default="FAST", choices=("FAST",))
+    ap.add_argument("--slot", default="nnHALO", choices=("nnHALO",))
     ap.add_argument("--fresh", action="store_true", help="delete WORK first")
     ap.add_argument("--eval", action="store_true", help="stage the offline evaluation inputs instead of a slot")
     a = ap.parse_args()

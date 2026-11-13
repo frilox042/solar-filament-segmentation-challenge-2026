@@ -1,18 +1,18 @@
 """CPU stage: network outputs -> base mask -> per-object FLOOR selector -> CSV.
 
-    python -m filament_seg.selector_stage apply --slot FAST [--bag PKL] [--csv OUT]
-    python -m filament_seg.selector_stage both --slot FAST [--csv OUT]
-    python -m filament_seg.selector_stage fit --slot FAST
+    python -m filament_seg.selector_stage apply --slot nnHALO [--bag PKL] [--csv OUT]
+    python -m filament_seg.selector_stage both --slot nnHALO [--csv OUT]
+    python -m filament_seg.selector_stage fit --slot nnHALO
 
 `apply` (the default predict path) renders the 180 test images with the RELEASED selector bag,
-`$FILAMENT_SELECTOR_BAGS/FAST_bag.pkl` (shipped in `weights/selector/`). Its sha256 is checked against
+`$FILAMENT_SELECTOR_BAGS/nnHALO_bag.pkl` (shipped in `weights/selector/`). Its sha256 is checked against
 `weights/MANIFEST.sha256` before it is unpickled. `--bag PKL` applies another bag instead, for example one written by
 `fit`. `fit` (the full-retrain tier) trains the selector on the 707 out-of-fold training rows and writes a bag pickle
 to the slot's scratch dir. That needs the out-of-fold bundle and `analysis/selector_tables.npz`. `both` fits, then
 applies THAT freshly fitted bag, never the released one.
 
-Exit status. After `apply` the CSV is compared with the uploaded file `submissions/FAST.csv` under the
-`reproduction_tolerance` rule of `configs/FAST.json` (`filament_seg.submission.compare`): at most 3 images whose object
+Exit status. After `apply` the CSV is compared with the uploaded file `submissions/nnHALO.csv` under the
+`reproduction_tolerance` rule of `configs/nnHALO.json` (`filament_seg.submission.compare`): at most 3 images whose object
 count differs, each by at most 1 object, total object count within +-3, and pooled union-mask Dice over the images
 whose count matches >= 0.999.
 The status is 0 when `verify_submission` passes and the rule passes (and, after a fit, the fitted cut equals the
@@ -48,7 +48,7 @@ def released_bag_path(slot: str) -> Path:
 
 
 def manifest_sha256(rel: str, manifest: Path | None = None) -> str:
-    """The sha256 that `weights/MANIFEST.sha256` records for a layout path such as `selector/FAST_bag.pkl`."""
+    """The sha256 that `weights/MANIFEST.sha256` records for a layout path such as `selector/nnHALO_bag.pkl`."""
     manifest = Path(manifest or fp.WEIGHTS_MANIFEST)
     for line in manifest.read_text().splitlines():
         parts = line.split()
@@ -112,8 +112,8 @@ def main(argv=None) -> int:
     import argparse
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=("fit", "apply", "both"))
-    ap.add_argument("--slot", default="FAST", choices=("FAST",), help="the configuration (configs/FAST.json)")
-    ap.add_argument("--csv", help="output CSV (default submissions/out/FAST.csv)")
+    ap.add_argument("--slot", default="nnHALO", choices=("nnHALO",), help="the configuration (configs/nnHALO.json)")
+    ap.add_argument("--csv", help="output CSV (default submissions/out/nnHALO.csv)")
     ap.add_argument("--bag", help="apply: a bag pickle to apply instead of the released one (e.g. written by `fit`)")
     ap.add_argument("--retrain", action="store_true",
                     help="the members were retrained: the cut and the CSV are reported, not gated against the released ones")

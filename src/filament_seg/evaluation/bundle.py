@@ -5,7 +5,7 @@ the base network's probability maps, its argmax binaries (the D007 >= 400 px ref
 (features of every candidate, built from the maps, the two member masks and channel 0), and a per-frame limb fit.
 Regenerating them needs the full retrain (`docs/TRAINING.md`). The bundle ships them in a compact form:
 
-  oof_rows_FAST.npz     the selector's OOF rows: X (22 features per candidate), area, and the row accounting
+  oof_rows_nnHALO.npz     the selector's OOF rows: X (22 features per candidate), area, and the row accounting
                         `Ref` scores (image index, per-record match numbers coco_v / mp / M / miss, per-image record and
                         annotation counts coco_k / coco_G). Numbers only, no geometry. `oof_selection.build` reads it
                         in place of `selector_fit.build_oof_table` (which needs the maps and member masks).
@@ -50,7 +50,7 @@ LEVELS_DIR, BIN_DIR, DISKFIT, INDEX, MANIFEST = "oof_levels", "d007_oof_bin", "d
 LEVELS = ((0.1, ">="), (0.3, ">="), (0.5, ">"), (0.92, ">="), (0.97, ">="))
 LEVEL_USES = {"0.1": "never_seen: class D = p_max < 0.1", "0.3": "morphometry: barb pixel outside and p < 0.3",
               "0.5": "never_seen: class B = p_max > 0.5", "0.92": "morphometry: negative control base p >= 0.92",
-              "0.97": "candidates: base mask p >= 0.97 (configs/FAST.json core_t)"}
+              "0.97": "candidates: base mask p >= 0.97 (configs/nnHALO.json core_t)"}
 # Written into the staged map directory: the selector fit refuses a level map (its features need real probabilities).
 MARKER = "LEVEL_MAPS_FROM_EVAL_BUNDLE.json"
 # WORK paths the staged bundle fills (configs/eval/inputs.json, config.py)
@@ -139,7 +139,7 @@ def load_rows(path) -> tuple[dict, np.ndarray, np.ndarray]:
 
 
 # ---------------------------------------------------------------------------------------------- export
-def export(out: Path, slot: str = "FAST", workers: int = 3) -> dict:
+def export(out: Path, slot: str = "nnHALO", workers: int = 3) -> dict:
     """Write the bundle from a WORK holding the full OOF maps (the research run root; not needed by reviewers)."""
     from concurrent.futures import ProcessPoolExecutor
 
@@ -165,7 +165,7 @@ def export(out: Path, slot: str = "FAST", workers: int = 3) -> dict:
              "n_features": int(X.shape[1]),
              "levels": {"thresholds": [list(t) for t in LEVELS], "uses": LEVEL_USES,
                         "uint16_of_code": rep.tolist()},
-             "sources": {"oof_rows": "selector_fit.build_oof_table on the OOF maps (configs/FAST.json cpu_stage)",
+             "sources": {"oof_rows": "selector_fit.build_oof_table on the OOF maps (configs/nnHALO.json cpu_stage)",
                          "oof_levels": cfg.oof_prob_dir.relative_to(fp.WORK).as_posix(), "d007_oof_bin": W_BIN,
                          "diskfit": W_DISKFIT + " (frames: stem, fit_x, fit_y, fit_R)"}}
     (out / INDEX).write_text(json.dumps(index, indent=1))

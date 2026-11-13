@@ -30,12 +30,12 @@ def _plan_lines(tmp_path, *extra):
     return [json.loads(x) for x in r.stdout.splitlines() if x.startswith("{")]
 
 
-def test_plan_fast(tmp_path):
-    lines = _plan_lines(tmp_path, "--slot", "FAST")
+def test_plan_nnhalo(tmp_path):
+    lines = _plan_lines(tmp_path, "--slot", "nnHALO")
     steps = [(d["slot"], d["step"]) for d in lines]
-    assert steps == [("FAST", "channels"), ("FAST", "base_D007_f0"), ("FAST", "bin_D036_f0"),
-                     ("FAST", "selector_FAST")]               # no GPU step for the pseudo-member P (CPU stage)
-    assert lines == _plan_lines(tmp_path)                 # --slot defaults to FAST
+    assert steps == [("nnHALO", "channels"), ("nnHALO", "base_D007_f0"), ("nnHALO", "bin_D036_f0"),
+                     ("nnHALO", "selector_nnHALO")]               # no GPU step for the pseudo-member P (CPU stage)
+    assert lines == _plan_lines(tmp_path)                 # --slot defaults to nnHALO
     work, weights = str(tmp_path / "work"), str(tmp_path / "weights")
     for d in lines:
         assert not d["complete"]
@@ -43,13 +43,13 @@ def test_plan_fast(tmp_path):
         for a in d["argv"]:
             if a.startswith("/") and "/gpu" not in a and "submissions" not in a:
                 assert a.startswith(work) or a.startswith(weights), (d["step"], a)
-    fast_d007 = next(d for d in lines if d["step"] == "base_D007_f0")
-    assert "--save-probabilities" in fast_d007["argv"] and fast_d007["argv"][fast_d007["argv"].index("--folds") + 1] == "0"
+    nnhalo_d007 = next(d for d in lines if d["step"] == "base_D007_f0")
+    assert "--save-probabilities" in nnhalo_d007["argv"] and nnhalo_d007["argv"][nnhalo_d007["argv"].index("--folds") + 1] == "0"
     assert {d["env"] for d in lines} == {"cpu", "nnunet"}       # two interpreters
     assert not (tmp_path / "work").exists()          # a dry run writes nothing
 
 
-def test_only_fast_is_planned(tmp_path, monkeypatch):
+def test_only_nnhalo_is_planned(tmp_path, monkeypatch):
     pipeline = _pipeline(tmp_path, monkeypatch)
     with pytest.raises(ValueError):
         pipeline.plan("OTHER")
@@ -57,7 +57,7 @@ def test_only_fast_is_planned(tmp_path, monkeypatch):
 
 
 def test_limit_skips_cpu_stage(tmp_path):
-    lines = _plan_lines(tmp_path, "--slot", "FAST", "--limit", "2")
+    lines = _plan_lines(tmp_path, "--slot", "nnHALO", "--limit", "2")
     assert [d["step"] for d in lines] == ["channels", "base_D007_f0", "bin_D036_f0"]
     assert "--limit" in lines[0]["argv"] and any("limit/2" in a for a in lines[1]["argv"])
 
@@ -70,7 +70,7 @@ def test_resume_skips_complete_step(tmp_path, monkeypatch):
     importlib.reload(filament_paths)
     from filament_seg.gpu import pipeline
     importlib.reload(pipeline)
-    st = pipeline.plan("FAST", limit=2)[2]           # bin_D036_f0
+    st = pipeline.plan("nnHALO", limit=2)[2]           # bin_D036_f0
     st.out.mkdir(parents=True)
     assert not st.done()
     for c in ("filamentTs_0000", "filamentTs_0001"):
@@ -97,12 +97,12 @@ def _touch(paths):
 
 
 def test_channels_step_checks_every_dataset_of_the_slot(tmp_path, monkeypatch):
-    """FAST's channel step requires exactly the two networks' inputs (D007, D036) and no longer D005, which FAST never
+    """nnHALO's channel step requires exactly the two networks' inputs (D007, D036) and no longer D005, which nnHALO never
     reads. With D007 built but D036 missing it must NOT be complete, and must list exactly the D036 files as missing."""
     pipeline = _pipeline(tmp_path, monkeypatch)
-    st = pipeline.plan("FAST", limit=2)[0]
+    st = pipeline.plan("nnHALO", limit=2)[0]
     assert st.name == "channels"
-    # channel counts per dataset: D007 5, D036 6 -> 2 * 11; D005 (4 channels) is not part of FAST's step
+    # channel counts per dataset: D007 5, D036 6 -> 2 * 11; D005 (4 channels) is not part of nnHALO's step
     assert len(st.required) == 2 * 11
     assert not any("Dataset005_FilamentFull" in str(p) for p in st.required)
     _touch([p for p in st.required if "Dataset036_LimbDarkBarbClass" not in str(p)])
@@ -116,7 +116,7 @@ def test_channels_step_checks_every_dataset_of_the_slot(tmp_path, monkeypatch):
 def test_channels_step_one_missing_channel_is_incomplete(tmp_path, monkeypatch):
     """Negative control: every file but ONE channel of one case (not the old *_0005 probe) leaves the step undone."""
     pipeline = _pipeline(tmp_path, monkeypatch)
-    st = pipeline.plan("FAST", limit=2)[0]
+    st = pipeline.plan("nnHALO", limit=2)[0]
     _touch(st.required)
     victim = next(p for p in st.required if p.name.endswith("_0002.png") and "Dataset007" in str(p))
     victim.unlink()
@@ -128,18 +128,18 @@ def test_run_reruns_incomplete_channels(tmp_path, monkeypatch):
     and skips it once every dataset is complete."""
     pipeline = _pipeline(tmp_path, monkeypatch)
     orig_plan, calls = pipeline.plan, []
-    _touch([p for p in orig_plan("FAST", 2)[0].required if "Dataset036" not in str(p)])
+    _touch([p for p in orig_plan("nnHALO", 2)[0].required if "Dataset036" not in str(p)])
 
     class R:
         returncode = 0
 
     monkeypatch.setattr(pipeline.subprocess, "run", lambda argv, **kw: calls.append(argv) or R())
     monkeypatch.setattr(pipeline, "plan", lambda slot, limit=0, device="cuda", **kw: orig_plan(slot, limit, device)[:1])
-    assert pipeline.run(["FAST"], limit=2) == 0
+    assert pipeline.run(["nnHALO"], limit=2) == 0
     assert len(calls) == 1 and "D036" in calls[0], calls
-    _touch(orig_plan("FAST", 2)[0].missing())
+    _touch(orig_plan("nnHALO", 2)[0].missing())
     calls.clear()
-    assert pipeline.run(["FAST"], limit=2) == 0 and calls == []
+    assert pipeline.run(["nnHALO"], limit=2) == 0 and calls == []
 
 
 @pytest.mark.skipif(not (os.environ.get("FILAMENT_TEST_KAGGLE_ROOT") and os.environ.get("FILAMENT_TEST_NNUNET_RAW")),
@@ -171,8 +171,8 @@ def test_failed_selector_step_is_rerun_not_skipped(tmp_path, monkeypatch):
     monkeypatch.setenv("FILAMENT_SUBMISSIONS_OUT", str(tmp_path / "out"))
     pipeline = _pipeline(tmp_path, monkeypatch)
     orig_plan = pipeline.plan
-    st = orig_plan("FAST")[-1]
-    assert st.name == "selector_FAST"
+    st = orig_plan("nnHALO")[-1]
+    assert st.name == "selector_nnHALO"
     calls, rcs = [], [1, 0]
 
     class R:
@@ -181,14 +181,14 @@ def test_failed_selector_step_is_rerun_not_skipped(tmp_path, monkeypatch):
 
     def fake_run(argv, **kw):
         calls.append(argv)
-        (tmp_path / "out" / "FAST.csv").write_text("filament_id,segmentation_rle\n")   # written before the check
+        (tmp_path / "out" / "nnHALO.csv").write_text("filament_id,segmentation_rle\n")   # written before the check
         return R(rcs.pop(0))
 
     monkeypatch.setattr(pipeline.subprocess, "run", fake_run)
     monkeypatch.setattr(pipeline, "plan", lambda slot, limit=0, device="cuda", **kw: orig_plan(slot, limit, device)[-1:])
-    assert pipeline.run(["FAST"]) == 1 and len(calls) == 1
-    assert (tmp_path / "out" / "FAST.csv").exists() and not st.done()
+    assert pipeline.run(["nnHALO"]) == 1 and len(calls) == 1
+    assert (tmp_path / "out" / "nnHALO.csv").exists() and not st.done()
     assert st.out.is_dir() and len(list(st.out.glob(st.pattern))) >= st.count   # the old CSV-only rule: "done"
-    assert pipeline.run(["FAST"]) == 0 and len(calls) == 2                      # re-executed, now passes
+    assert pipeline.run(["nnHALO"]) == 0 and len(calls) == 2                      # re-executed, now passes
     assert st.done()
-    assert pipeline.run(["FAST"]) == 0 and len(calls) == 2                      # complete: skipped
+    assert pipeline.run(["nnHALO"]) == 0 and len(calls) == 2                      # complete: skipped

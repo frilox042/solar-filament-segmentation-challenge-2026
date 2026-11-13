@@ -9,7 +9,7 @@ and the pooled OOF mean score equal configs/eval/expected.json `calibration` (1e
 NEGATIVE CONTROL: the shifted score s + 0.2 must read as miscalibrated (ECE > 0.05) while synthetic labels drawn from s
 read as calibrated (< 0.03).
 --test-bag: also the test side (mean raw score of the kept test objects under a bag, e.g. the released
-weights/selector/FAST_bag.pkl; needs the test network outputs in WORK, e.g. staged by tests/smoke/stage_work.py).
+weights/selector/nnHALO_bag.pkl; needs the test network outputs in WORK, e.g. staged by tests/smoke/stage_work.py).
 No test annotation is read; the test side is reported, not gated.
 """
 from __future__ import annotations
@@ -51,7 +51,7 @@ def gate(res: dict, exp: dict) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--slot", default="FAST", choices=("FAST",))
+    ap.add_argument("--slot", default="nnHALO", choices=("nnHALO",))
     ap.add_argument("--test-bag", help="bag pickle of the deployed selector (enables the test side)")
     ap.add_argument("--expect", help="model set in configs/eval/expected.json (default: its `current`)")
     ap.add_argument("--out", help="result JSON (default WORK/eval/calibration_<slot>.json)")

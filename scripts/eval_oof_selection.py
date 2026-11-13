@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Cross-fitted selector keeps on the 707 OOF training rows (input of every evaluation number), with its gate.
 
-    python scripts/eval_oof_selection.py [--slot FAST] [--reference-keeps FAST=PKL] [--out JSON]
+    python scripts/eval_oof_selection.py [--slot nnHALO] [--reference-keeps nnHALO=PKL] [--out JSON]
 
 Writes WORK/eval/<slot>_oof_selection.pkl (rows, 5 bags of keeps and scores, and the identity of its inputs; a cache
 whose inputs changed is refused, --rebuild recomputes) and a gate JSON:
@@ -34,7 +34,7 @@ def gate(slot: str, sel: dict, ref_keeps: str | None) -> dict:
     tol = exp["tol"]
     per = oof_selection.pq_per_bag(sel)
     g: dict = {"kept_per_bag": [int(k.sum()) for k in sel["keeps"]], "rows": int(len(sel["area"]))}
-    g["pq"] = expected.close([[p["pq_w05"], p["pq_w10"]] for p in per], exp["FAST_pq_per_bag_w05_w10"], tol)
+    g["pq"] = expected.close([[p["pq_w05"], p["pq_w10"]] for p in per], exp["nnHALO_pq_per_bag_w05_w10"], tol)
     nc = oof_selection.pq_per_bag({**sel, "keeps": [np.ones(len(sel["area"]), bool)]})[0]
     g["negative_control_no_selector"] = {"pq_w05": nc["pq_w05"],
                                          "fails_gate": bool(abs(nc["pq_w05"] - per[0]["pq_w05"]) > tol)}
@@ -48,7 +48,7 @@ def gate(slot: str, sel: dict, ref_keeps: str | None) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--slot", default="FAST", choices=("FAST",))
+    ap.add_argument("--slot", default="nnHALO", choices=("nnHALO",))
     ap.add_argument("--reference-keeps", action="append", default=[],
                     help="SLOT=PKL (repeatable): reference keeps to compare bit for bit")
     ap.add_argument("--threads", type=int, default=4)

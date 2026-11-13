@@ -27,7 +27,7 @@ AUC        class vs M within 8 log-area strata (edges: octiles of the pooled cla
 HEADLINE   on multi-record observations: D and M objects drawn by EVERY record
            (support == 1), overall and by k; M's all-record share reweighted to D's distribution over the same 8
            log-area strata (sum over strata of D's stratum share x M's within-stratum rate).
-PER SLOT   for each bag of FAST: matched = a KEPT object has IoU > 0.5; p_max on the slot's own OOF map;
+PER SLOT   for each bag of nnHALO: matched = a KEPT object has IoU > 0.5; p_max on the slot's own OOF map;
            touched_by_deleted = overlaps the slot's base mask outside the kept objects; same features, same AUC block
            with a fresh `default_rng(0)` per bag; headline = mean over the 5 bags of the per-bag D-vs-M AUC.
 """
@@ -308,11 +308,11 @@ def summarise(R: list, slots: list) -> dict:
 
 
 def run(cfgs: dict, d007_bin_dir: str, d007_prob_dir: str, workers: int = 3, records: str = REC.DEFAULT) -> dict:
-    cfg0 = cfgs["FAST"]
+    cfg0 = cfgs["nnHALO"]
     recs = REC.source(records).records_by_case(cfg0.train_case_map)
     fits = {f["stem"]: f for f in json.loads((fp.WORK / DISKFIT).read_text())["frames"]}
     sels = {nm: OS.build(cfg) for nm, cfg in cfgs.items()}
-    cases = sels["FAST"]["cases"]
+    cases = sels["nnHALO"]["cases"]
     items = []
     for i, c in enumerate(cases):
         slots = {}

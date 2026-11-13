@@ -1,12 +1,12 @@
 """End-to-end prediction of nnHALO from the raw competition test images: channels -> two nnU-Nets -> CPU selector.
 
-    python scripts/predict.py --from-images --slot FAST [--limit N] [--dry-run] [--device cuda]
+    python scripts/predict.py --from-images --slot nnHALO [--limit N] [--dry-run] [--device cuda]
                               [--bag-dir DIR | --refit]
 
 Every step is a subprocess with its own interpreter, and every step is RESUME-SAFE: a step whose outputs are already
 complete is skipped, and the member predictors skip cases already written. `--limit N` runs the channel and GPU steps
 on the first N test cases only (a smoke run); the CPU selector stage needs all 180 and is then skipped.
-The CPU stage applies the released selector bag (weights/selector/FAST_bag.pkl) by default; `--refit` re-fits them instead, which
+The CPU stage applies the released selector bag (weights/selector/nnHALO_bag.pkl) by default; `--refit` re-fits them instead, which
 needs the 707-row out-of-fold bundle (the full-retrain tier).
 
 The selector's second member, P (the base map >= 0.5), has no GPU step: the CPU stage computes it from the base map.
@@ -14,7 +14,7 @@ The selector's second member, P (the base map >= 0.5), has no GPU step: the CPU 
 Interpreters (environment variables; default: the current interpreter):
   FILAMENT_PY_CPU       requirements/cpu.txt                channels, selector stage
   FILAMENT_PY_NNUNET    requirements/nnunet-gpu.lock.txt    the two nnU-Nets
-Weights (layout written by scripts/assemble_weights.py from weights/fast/):
+Weights (layout written by scripts/assemble_weights.py from weights/nnHALO/):
   $FILAMENT_WEIGHTS/nnUNet_results/<Dataset>/nnUNetTrainer_250epochs__nnUNetPlans__2d/{plans.json,dataset.json,fold_0/}
 """
 from __future__ import annotations
@@ -160,10 +160,10 @@ def _selector_steps(slot: str, refit: bool, bag_dir: str | None) -> list:
 
 
 def plan(slot: str, limit: int = 0, device: str = "cuda", refit: bool = False, bag_dir: str | None = None) -> list:
-    """The ordered steps of one slot (only FAST, nnHALO, is predicted from this repository)."""
+    """The ordered steps of one slot (only nnHALO is predicted from this repository)."""
     P = fp.PREDICTIONS
-    if slot == "FAST":
-        steps = [_channels_step(["D007", "D036"], limit),          # the two networks' inputs only (D005 is not read by FAST)
+    if slot == "nnHALO":
+        steps = [_channels_step(["D007", "D036"], limit),          # the two networks' inputs only (D005 is not read by nnHALO)
                  _nnunet_step("base_D007_f0", "D007", [0], P / "vessel_full" / "prob", limit, device,
                               probabilities=True),
                  _nnunet_step("bin_D036_f0", "D036", [0], P / "test_d036_f0" / "by_image", limit, device)]

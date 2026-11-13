@@ -101,8 +101,8 @@ def load_json(slot: str) -> dict:
     return json.loads((fp.CONFIGS / f"{slot}.json").read_text())
 
 
-def load(slot: str = "FAST") -> SlotConfig:
-    """Build the config of `configs/<slot>.json` (the only one shipped is FAST)."""
+def load(slot: str = "nnHALO") -> SlotConfig:
+    """Build the config of `configs/<slot>.json` (the only one shipped is nnHALO)."""
     j = load_json(slot)
     c = j["cpu_stage"]
     W = fp.WORK

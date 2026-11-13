@@ -3,7 +3,7 @@
 The GPU stage is not deterministic run to run (two runs of the same environment differ by max |dp| up to 1.3e-3), and
 a few candidates score within about 1e-3 of the selector's cut, so a GPU re-run can keep or delete one of them. A
 re-run is therefore judged by AGREEMENT, not by md5. Each image is compared by its object count (rows) and by its
-union mask. The rule (`configs/FAST.json` `reproduction_tolerance.rule`) PASSES iff
+union mask. The rule (`configs/nnHALO.json` `reproduction_tolerance.rule`) PASSES iff
 
   at most 3 images whose object count differs, each by at most 1 object,
   AND the total object count within +-3 of the reference,
@@ -19,7 +19,7 @@ bound how many such flips are allowed, and the Dice clause checks that everythin
 `worst_matched_image` (count-matched images). An image id outside the test set, or a test image the comparison did
 not cover, fails the rule.
 
-    python -m filament_seg.submission.compare OUT.csv REFERENCE.csv [--slot FAST] [--json OUT.json]
+    python -m filament_seg.submission.compare OUT.csv REFERENCE.csv [--slot nnHALO] [--json OUT.json]
 """
 from __future__ import annotations
 
@@ -122,7 +122,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("csv")
     ap.add_argument("reference")
-    ap.add_argument("--slot", default="FAST", choices=("FAST",))
+    ap.add_argument("--slot", default="nnHALO", choices=("nnHALO",))
     ap.add_argument("--json")
     a = ap.parse_args(argv)
     from filament_seg import config as C

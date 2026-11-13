@@ -20,7 +20,7 @@ def _cfg(tmp_path):
         (tmp_path / d).mkdir()
         for c in cases:
             (tmp_path / d / f"{c}.png").write_bytes(f"{d}{c}".encode())
-    return SimpleNamespace(slot="FAST", train_case_map=tmp_path / "cm.json", oof_prob_dir=tmp_path / "prob",
+    return SimpleNamespace(slot="nnHALO", train_case_map=tmp_path / "cm.json", oof_prob_dir=tmp_path / "prob",
                            oof_member_dirs=(tmp_path / "m0", tmp_path / "m1"))
 
 
@@ -31,7 +31,7 @@ def test_cache_identity_refuses_changed_inputs(tmp_path, monkeypatch):
     monkeypatch.setattr(OS.bundle, "rows_path", lambda slot: tmp_path / "no_bundle_rows.npz")
     cfg = _cfg(tmp_path)
     (tmp_path / "eval").mkdir()
-    cache = tmp_path / "eval" / "FAST_oof_selection.pkl"
+    cache = tmp_path / "eval" / "nnHALO_oof_selection.pkl"
     pickle.dump({"identity": OS.input_identity(cfg), "keeps": "cached"}, open(cache, "wb"))
     assert OS.build(cfg)["keeps"] == "cached"                     # same inputs: served from the cache
     # negative control: one sampled member file changes (as a retrain writing new maps under the same names would)

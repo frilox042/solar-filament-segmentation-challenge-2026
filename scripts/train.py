@@ -8,7 +8,7 @@
     python scripts/train.py set-num-training --dataset <Dataset> --n N
 Default run root: $FILAMENT_WORK/train. Models: <root>/nnunet_env/nnUNet_results, never the shipped weights.
 Then: FILAMENT_WEIGHTS_NNUNET=<root>/nnunet_env/nnUNet_results python scripts/predict.py --from-images
-      --bag-dir <root>/selector_scratch/FAST
+      --bag-dir <root>/selector_scratch/nnHALO
 """
 import argparse
 import os

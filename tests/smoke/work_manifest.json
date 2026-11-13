@@ -23,7 +23,7 @@
    "data/kaggle/MAGFiLO_1.0_Kaggle_2026/train/MAGFiLO_1.0_Annotations_kaggle2026_train.json": "data/MAGFiLO_1.0_Annotations_kaggle2026_train.json"
   }
  },
- "FAST": {
+ "nnHALO": {
   "file": [],
   "dir": [
    "predictions/vessel_oof_probs",

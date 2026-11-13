@@ -25,9 +25,9 @@ from filament_seg import selector_stage as S  # noqa: E402
 from filament_seg.submission import compare  # noqa: E402
 from filament_seg.submission.rle import rle_for  # noqa: E402
 
-RULE = C.load("FAST").tolerance_rule
+RULE = C.load("nnHALO").tolerance_rule
 FLOOR = RULE["min_pooled_dice_count_matched"]
-REF_ROWS = 1185                                    # the size of submissions/FAST.csv
+REF_ROWS = 1185                                    # the size of submissions/nnHALO.csv
 
 
 def _cls(count_diff, dice, rows=REF_ROWS, ref_rows=REF_ROWS):
@@ -153,19 +153,19 @@ def test_verify_failure_fails_even_within_tolerance():
 def test_slot_config_states_the_rule():
     want = {"max_images_count_differs": 3, "max_count_diff_per_image": 1, "max_total_count_diff": 3,
             "min_pooled_dice_count_matched": FLOOR}
-    j = C.load_json("FAST")["reproduction_tolerance"]
+    j = C.load_json("nnHALO")["reproduction_tolerance"]
     assert j["rule"] == want and "tiers" not in j
-    cfg = C.load("FAST")
-    assert cfg.tolerance_rule == want and cfg.reference_csv == ROOT / "submissions" / "FAST.csv"
+    cfg = C.load("nnHALO")
+    assert cfg.tolerance_rule == want and cfg.reference_csv == ROOT / "submissions" / "nnHALO.csv"
     assert len(C.test_image_ids()) == 180
 
 
 def test_uploaded_file_against_itself():
     """The real reference compared with itself: passes, bit-identical, rows = configs expected_rows."""
-    ref = ROOT / "submissions" / "FAST.csv"
+    ref = ROOT / "submissions" / "nnHALO.csv"
     r = compare.compare(ref, ref, C.test_image_ids(), RULE)
-    assert r["within_tolerance"] and r["md5_matches_reference"] and r["md5"] == C.load_json("FAST")["expected_md5"]
-    assert r["rows"] == C.load_json("FAST")["expected_rows"] and not r["unknown_image_ids"]
+    assert r["within_tolerance"] and r["md5_matches_reference"] and r["md5"] == C.load_json("nnHALO")["expected_md5"]
+    assert r["rows"] == C.load_json("nnHALO")["expected_rows"] and not r["unknown_image_ids"]
     json.dumps(r)
 
 
@@ -173,10 +173,10 @@ RERUNS = ROOT / "tests" / "fixtures" / "reruns"
 
 
 def test_real_fresh_clone_rerun_passes_as_recorded():
-    """FAST, fresh clone, same laptop GPU (2026-11-02): two borderline selector decisions flipped (README
+    """nnHALO, fresh clone, same laptop GPU (2026-11-02): two borderline selector decisions flipped (README
     "Reproduction tolerance", "Measured runs"); not bit-identical, counts differ on 2 images, the rule passes."""
-    assert sorted(p.name for p in RERUNS.iterdir()) == ["FAST_fresh_clone.csv"]
-    r = compare.compare(RERUNS / "FAST_fresh_clone.csv", ROOT / "submissions" / "FAST.csv", C.test_image_ids(), RULE)
+    assert sorted(p.name for p in RERUNS.iterdir()) == ["nnHALO_fresh_clone.csv"]
+    r = compare.compare(RERUNS / "nnHALO_fresh_clone.csv", ROOT / "submissions" / "nnHALO.csv", C.test_image_ids(), RULE)
     assert r["images_count_differs"] == {"20220523234912Lh": 1, "20220621185332Bh": -1} and r["rows"] == 1185
     assert not r["md5_matches_reference"] and not r["same_count_everywhere"]
     assert r["within_tolerance"], r["failures"]

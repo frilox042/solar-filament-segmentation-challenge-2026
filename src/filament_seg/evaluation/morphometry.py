@@ -1,7 +1,7 @@
 """Morphology of the kept (shipped-rule) masks on the 707 OOF observations, against the competition annotations.
 
 ARMS        D007_400 / D007_all / D007_100: the D007 OOF argmax, 4-connected components >= 400 / >= 20 / >= 100 px
-            (D007_100 is only a negative control); FAST_b*: the cross-fitted selector keeps (5 bags) of its
+            (D007_100 is only a negative control); nnHALO_b*: the cross-fitted selector keeps (5 bags) of its
             candidate components; Tcand: every candidate, no selector.
 OBJECT MORPHOLOGY  per 4-connected component (or annotation) >= 20 px, on its bounding-box crop padded by 3 px:
             skimage skeleton; arc = geodesic diameter of the 8-connected skeleton (double Dijkstra, edge weights 1 and
@@ -9,10 +9,10 @@ OBJECT MORPHOLOGY  per 4-connected component (or annotation) >= 20 px, on its bo
 (a) WIDTH   pairs = every (annotation, object) hit (IoU > 0.5, per record); per image the mean of (object width -
             annotation width) over its pairs; a bagged arm averages the bags per image (NaN-aware); the mean over
             images, as a % of the median annotation width over D007_400's pairs (11.07 px). Also the mean absolute
-            difference, and FAST - D007 on the annotations both match (paired bootstrap over images).
+            difference, and nnHALO - D007 on the annotations both match (paired bootstrap over images).
 (b) BRANCHING  per image 1000 x branch pixels / skeleton pixels over the arm's objects, minus the same over the
             4-connected components >= 20 px of the union of every record's annotations >= 20 px; population = images
-            where the reference and D007_all, D007_400, FAST are all defined; % of the reference median.
+            where the reference and D007_all, D007_400, nnHALO are all defined; % of the reference median.
 (c) SPLIT   per annotation: the number of kept objects covering >= 10% of it; per image the share of annotations
             with >= 2 among those with >= 1; mean over images. The FLOOR-deletion diagnostic: annotations split by the
             candidates, their mean covered fraction before and after the selector (bag 0), and their match rate.
@@ -132,7 +132,7 @@ def width(m: tuple) -> float:
 
 # ---------------------------------------------------------------------------------------------- per image
 def image_worker(item: tuple) -> dict:
-    """item = (i, case, records' segmentations, {"FAST": (cfg, keeps, area)}, D007 png, nc_t)."""
+    """item = (i, case, records' segmentations, {"nnHALO": (cfg, keeps, area)}, D007 png, nc_t)."""
     from threadpoolctl import threadpool_limits
     i, case, segs, slots, d007_png, nc_t = item
     with threadpool_limits(1):
@@ -148,9 +148,9 @@ def _image(i, case, segs, slots, d007_png, nc_t):
                 gt20[ix] = True
     S = {}
     lab, n = ndimage.label(load_bin(d007_png))
-    S["B"] = {"lab": lab.astype(np.int32), "n": n, "pr": load_prob_png(f"{slots['FAST'][0].oof_prob_dir}/{case}.png")}
+    S["B"] = {"lab": lab.astype(np.int32), "n": n, "pr": load_prob_png(f"{slots['nnHALO'][0].oof_prob_dir}/{case}.png")}
     out = {"i": i, "case": case, "k": len(recs)}
-    for src, nm in (("T", "FAST"),):
+    for src, nm in (("T", "nnHALO"),):
         cfg, keeps, rows_area = slots[nm]
         cl, area = OS.candidate_labels(cfg, case)
         assert np.array_equal(area, rows_area), f"candidate areas != OOF rows ({case})"
@@ -166,7 +166,7 @@ def _image(i, case, segs, slots, d007_png, nc_t):
     arms = {"D007_400": ("B", aB >= 400), "D007_100": ("B", aB >= 100), "D007_all": ("B", aB >= MIN_OBJ),
             "Tcand": ("T", np.ones(nT, bool))}
     for b in range(NBAG):
-        arms[f"FAST_b{b}"] = ("T", S["T"]["keeps"][b])
+        arms[f"nnHALO_b{b}"] = ("T", S["T"]["keeps"][b])
     need = {s: np.zeros(S[s]["n"], bool) for s in S}
     for s, k in arms.values():
         need[s] |= k
@@ -268,7 +268,7 @@ def nanmean_rows(M) -> np.ndarray:
 
 
 def _bags(m: str) -> list[str]:
-    return [f"{m}_b{b}" for b in range(NBAG)] if m == "FAST" else [m]
+    return [f"{m}_b{b}" for b in range(NBAG)] if m == "nnHALO" else [m]
 
 
 def summarise(R: list) -> dict:
@@ -289,7 +289,7 @@ def summarise(R: list) -> dict:
         return sg, ab, wr
 
     W = {}
-    for m in ("D007_400", "D007_100", "FAST"):
+    for m in ("D007_400", "D007_100", "nnHALO"):
         res = [own(a) for a in _bags(m)]
         W[m] = (nanmean_rows([x[0] for x in res]), nanmean_rows([x[1] for x in res]), res[0][2])
     med = float(np.median(W["D007_400"][2]))
@@ -315,7 +315,7 @@ def summarise(R: list) -> dict:
                 A[i], B[i] = (x[ok, 2] - x[ok, 3]).mean(), (y[ok, 2] - y[ok, 3]).mean()
         return A, B
 
-    for m in ("FAST",):
+    for m in ("nnHALO",):
         cs = [common(a) for a in _bags(m)]
         out["width"][f"{m}-D007_400_same_annotations_px"] = pboot(nanmean_rows([c[0] for c in cs]),
                                                                   nanmean_rows([c[1] for c in cs]))
@@ -326,7 +326,7 @@ def summarise(R: list) -> dict:
         return 1000 * bp / sk if sk > 0 else np.nan
     g = np.array([rate(r["gt_branch"]) for r in R])
     V = {m: nanmean_rows([[rate(r["branch"][a]) for r in R] for a in _bags(m)])
-         for m in ("D007_all", "D007_400", "FAST")}
+         for m in ("D007_all", "D007_400", "nnHALO")}
     pop = np.isfinite(g) & np.all([np.isfinite(v) for v in V.values()], axis=0)
     gmed = float(np.median(g[pop]))
     out["branching"] = {"n_pop": int(pop.sum()), "reference_median_per_1k": gmed}
@@ -345,9 +345,9 @@ def summarise(R: list) -> dict:
                 ff[i] = (F[m, 2] >= 2).mean()
         return ff
     out["split"] = {m: float(np.nanmean(nanmean_rows([split_img(a) for a in _bags(m)])))
-                    for m in ("D007_400", "D007_100", "FAST", "Tcand")}
+                    for m in ("D007_400", "D007_100", "nnHALO", "Tcand")}
     dele = {}
-    for m, cand in (("FAST", "Tcand"),):
+    for m, cand in (("nnHALO", "Tcand"),):
         cov_c, cov_k, mc, mk = [], [], [], []
         for r in R:
             Fc, Fk = r["split"][cand], r["split"][f"{m}_b0"]
@@ -371,9 +371,9 @@ def summarise(R: list) -> dict:
     out["barbs"] = {"barb_px": int(np.sum([r["barb"]["D007_all"]["barb"][3] for r in R])),
                     "outside_p_lt_0.3": {"D007_all": pooled_lowp("D007_all", "barb")}}
     for k in ("spine", "barb"):
-        C = {m: nanmean_rows([img_cov(a, k) for a in _bags(m)]) for m in ("D007_400", "FAST")}
+        C = {m: nanmean_rows([img_cov(a, k) for a in _bags(m)]) for m in ("D007_400", "nnHALO")}
         out["barbs"][f"{k}_coverage_per_image_mean"] = {m: float(np.nanmean(v)) for m, v in C.items()}
-        for m in ("FAST",):
+        for m in ("nnHALO",):
             out["barbs"][f"{k}_coverage_{m}-D007_400"] = pboot(C[m], C["D007_400"])
     nc = [r["nc_t_candidates_equal"] for r in R if "nc_t_candidates_equal" in r]
     out["negative_control_threshold_candidates_equal"] = nc
@@ -383,10 +383,10 @@ def summarise(R: list) -> dict:
 def run(cfgs: dict[str, SlotConfig], d007_dir: str, workers: int, nc_t: float = 0.92, nc_every: int = 50) -> dict:
     """Every OOF observation (parallel), then the summary."""
     from concurrent.futures import ProcessPoolExecutor
-    any_cfg = cfgs["FAST"]
+    any_cfg = cfgs["nnHALO"]
     recs = HR.records_by_case(any_cfg.coco, any_cfg.train_case_map)
     sels = {nm: OS.build(cfg) for nm, cfg in cfgs.items()}
-    cases = sels["FAST"]["cases"]
+    cases = sels["nnHALO"]["cases"]
     items = []
     for i, c in enumerate(cases):
         slots = {}

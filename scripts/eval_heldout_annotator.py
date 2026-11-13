@@ -44,9 +44,9 @@ def gate(res: dict, exp: dict) -> dict:
             mine = [[R["pooled"][key][s]["delta"], *R["pooled"][key][s]["ci95"]] for s in st]
             checks[f"{src}.{key}"] = expected.close(mine, [[v["delta"], *v["ci95"]] for v in st.values()], tol)
     d = exp["rerun"]["dice"]
-    for m in ("H", "FAST", "D007"):
+    for m in ("H", "nnHALO", "D007"):
         checks[f"rerun.dice.{m}_image_mean"] = expected.close(A["dice"][f"{m}_image_mean"], d[f"{m}_image_mean"], tol)
-    for m in ("FAST", "D007"):
+    for m in ("nnHALO", "D007"):
         for src, R, t in (("rerun", A, tol), ("reported", P, exp["tol_reported_dice"])):
             v = exp[src]["dice"][f"{m}_minus_H"]
             mine = R["dice"][f"{m}_minus_H"]
@@ -54,7 +54,7 @@ def gate(res: dict, exp: dict) -> dict:
                                                               [v["mean_diff"], *v["ci95"]], t)
     f = exp["rerun"]["far"]
     checks["rerun.far.n"] = A["far"]["n"] == f["n"]
-    for m in ("FAST",):
+    for m in ("nnHALO",):
         for s, v in f[f"{m}_vs_H_A0"].items():
             mine = A["far"][f"{m}_vs_H_A0"][s]
             checks[f"rerun.far.{m}.{s}"] = expected.close([mine["delta"], *mine["ci95"]], [v["delta"], *v["ci95"]], tol)
@@ -75,7 +75,7 @@ def main() -> int:
     a = ap.parse_args()
     exp = expected.load("heldout_annotator", a.expect)
     t0 = time.time()
-    res = HA.run({"FAST": C.load("FAST")}, str(fp.WORK / D007_DIR), a.workers,
+    res = HA.run({"nnHALO": C.load("nnHALO")}, str(fp.WORK / D007_DIR), a.workers,
                  (exp["rerun_seed"], exp["reported_seed"]))
     out = {"what": "held-out annotator vs models (paper Table 1)", "results": res, "gate": gate(res, exp),
            "seconds": round(time.time() - t0, 1)}
@@ -83,7 +83,7 @@ def main() -> int:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(out, indent=1, default=float))
     A = res[f"seed_{exp['rerun_seed']}"]
-    for m in ("FAST", "D007"):
+    for m in ("nnHALO", "D007"):
         c = A["pooled"][f"{m}_vs_H_A0"]
         print(f"{m:5s} PQ {c['pq_w05']['model']:.4f} vs annotator {c['pq_w05']['reference']:.4f}  "
               f"delta {c['pq_w05']['delta']:+.4f} [{c['pq_w05']['ci95'][0]:+.4f}, {c['pq_w05']['ci95'][1]:+.4f}]  "

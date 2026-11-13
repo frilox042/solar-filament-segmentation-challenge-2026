@@ -1,6 +1,6 @@
 """scripts/check_weights_tree.py: a weights tree passes only when every manifest model entry is present with the
 manifest's sha256 and nothing unlisted is in it. Negative controls: one flipped byte, a missing file, an unlisted file.
-The tree that scripts/assemble_weights.py writes from weights/fast/ passes; a tree given FILAMENT_WEIGHTS_TREE is
+The tree that scripts/assemble_weights.py writes from weights/nnHALO/ passes; a tree given FILAMENT_WEIGHTS_TREE is
 checked too (skipped otherwise)."""
 import hashlib
 import os
@@ -29,7 +29,7 @@ def _tree(tmp_path):
         (root / rel).write_bytes(data)
     (root / "strip_report.json").write_text("[]")
     man = tmp_path / "MANIFEST.sha256"
-    man.write_text("# fixture\n" + "\n".join(lines) + "\n" + "0" * 64 + "  selector/FAST_bag.pkl\n")
+    man.write_text("# fixture\n" + "\n".join(lines) + "\n" + "0" * 64 + "  selector/nnHALO_bag.pkl\n")
     return root, man
 
 

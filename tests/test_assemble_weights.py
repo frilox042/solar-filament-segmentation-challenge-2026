@@ -50,12 +50,12 @@ def test_real_stored_weights_verify_against_the_manifest(tmp_path):
     done = weights.assemble(tmp_path / "w", parts_dirs=(weights.PARTS_DIR,))      # nnHALO: assembled from parts
     assert sum(p.endswith("checkpoint_final.pth") for p in done) == 2
     assert all(p.startswith("nnUNet_results/") for p in done)             # the two nnU-Nets, nothing else
-    assert max(p.stat().st_size for p in (ROOT / "weights" / "fast").rglob("*") if p.is_file()) < 100 * 1024 * 1024
+    assert max(p.stat().st_size for p in (ROOT / "weights" / "nnHALO").rglob("*") if p.is_file()) < 100 * 1024 * 1024
 
 
 def test_manifest_lists_exactly_the_stored_files():
     man = weights.manifest()
-    assert set(man) == set(weights.stored_files()) | {"selector/FAST_bag.pkl"}
+    assert set(man) == set(weights.stored_files()) | {"selector/nnHALO_bag.pkl"}
     assert sum(p.endswith("checkpoint_final.pth") for p in man) == 2
     assert not (ROOT / "weights" / "full").exists() and not (ROOT / ".gitattributes").exists()     # nothing stored outside plain git
 

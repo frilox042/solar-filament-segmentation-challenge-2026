@@ -10,8 +10,8 @@
 Training runs in its own run root (default `$FILAMENT_WORK/train`, or `--root`): its own nnUNet_raw / preprocessed /
 results and predictions, so it never writes over the shipped weights or the prediction / evaluation inputs of the main
 run root. The retrained networks are `<root>/nnunet_env/nnUNet_results` and the refitted selector bag is
-`<root>/selector_scratch/FAST/FAST_bag.pkl`; `scripts/predict.py --from-images` uses them with
-`FILAMENT_WEIGHTS_NNUNET=<root>/nnunet_env/nnUNet_results` and `--bag-dir <root>/selector_scratch/FAST`.
+`<root>/selector_scratch/nnHALO/nnHALO_bag.pkl`; `scripts/predict.py --from-images` uses them with
+`FILAMENT_WEIGHTS_NNUNET=<root>/nnunet_env/nnUNet_results` and `--bag-dir <root>/selector_scratch/nnHALO`.
 Every step is resumable: a step that completed writes `<root>/markers/<step>.ok` and is skipped on a re-run; nnU-Net
 trainings continue from their last checkpoint (`--c`). nnU-Net training is NOT bit-reproducible on a GPU, so a retrain
 gives different weights and a submission that differs slightly (docs/TRAINING.md).
@@ -82,7 +82,7 @@ def results_dir(root: Path | None = None) -> Path:
 
 def bag_dir(root: Path | None = None) -> Path:
     """Where the refitted selector bag is written (`--bag-dir` of scripts/predict.py)."""
-    return Path(root or default_root()) / "selector_scratch" / "FAST"
+    return Path(root or default_root()) / "selector_scratch" / "nnHALO"
 
 
 @dataclass
@@ -144,7 +144,7 @@ def recipe(root: Path | None = None, limit: int = 0, trainer: str = TRAINER, fit
                     "--from-dirs", str(d36 / "fold_%d" / "validation_binary")] + (["--allow-partial"] if limit else [])))
     if fit:
         S.append(TStep("selector fit", "cpu", ["-m", "filament_seg.selector_stage", "fit", "--retrain"],
-                       "~5.5 min CPU; writes " + str(bag_dir(root) / "FAST_bag.pkl")))
+                       "~5.5 min CPU; writes " + str(bag_dir(root) / "nnHALO_bag.pkl")))
     return S
 
 

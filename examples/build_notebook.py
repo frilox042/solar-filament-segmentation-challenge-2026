@@ -32,13 +32,13 @@ submission file and its evaluation. The implementation lives in `src/filament_se
 | 6. Runtime | measured time of every stage of this run | runs |
 
 - **Inputs:** **your** competition download (`$FILAMENT_KAGGLE_ROOT`; the data is not redistributed) and the files of
-  this repository: the two networks in `weights/fast/` (parts of at most 90 MiB because GitHub blocks larger files),
-  the selector in `weights/selector/FAST_bag.pkl`, and `eval_bundle/` for the evaluation.
+  this repository: the two networks in `weights/nnHALO/` (parts of at most 90 MiB because GitHub blocks larger files),
+  the selector in `weights/selector/nnHALO_bag.pkl`, and `eval_bundle/` for the evaluation.
 - **Environments:** this kernel `requirements/notebook.txt`; the steps run with the interpreters named by
   `FILAMENT_PY_CPU` (channels, selector, evaluation) and `FILAMENT_PY_NNUNET` (nnU-Net), see the README.
 - **Same result as the submitted file?** Everything after the networks is deterministic, but GPU inference is not
   bit-exact from run to run, so one or two borderline objects can differ. Section 3 applies the repository's
-  reproduction rule (`configs/FAST.json`, `reproduction_tolerance`) and prints its verdict."""),
+  reproduction rule (`configs/nnHALO.json`, `reproduction_tolerance`) and prints its verdict."""),
     ("code", """import csv, json, os, pickle, subprocess, sys, time
 from pathlib import Path
 import numpy as np
@@ -57,7 +57,7 @@ TRAIN = False          # True: retrain both networks (5 folds each) and refit th
 SMOKE_TRAIN = True     # run the short training smoke test (10 images, 1 epoch): proves the training path runs
 CASE_INDEX = 6         # the test observation followed in section 4 (see its rule there)
 
-cfg = config.load("FAST")
+cfg = config.load("nnHALO")
 nn_py = pipeline.interpreter("nnunet")
 probe = subprocess.run([nn_py, "-c", "import nnunetv2, torch; print(torch.cuda.is_available())"],
                        capture_output=True, text=True)
@@ -119,20 +119,20 @@ if SMOKE_TRAIN:
     assert rc == 0"""),
     ("md", """## 3. Prediction: the 180 test observations
 
-`pipeline.run(["FAST"])` is what `scripts/predict.py --slot FAST --from-images` runs:
+`pipeline.run(["nnHALO"])` is what `scripts/predict.py --slot nnHALO --from-images` runs:
 
 1. the input channels of the 180 test images (`prep.channels`, several images in parallel);
 2. the five-channel nnU-Net (Dataset007, fold 0), whose foreground probability gives the candidates;
 3. the six-channel nnU-Net (Dataset036, fold 0), whose mask only feeds the selector;
 4. the selector stage: candidates, features, the bag's scores, the kept masks, the CSV
-   (`submissions/out/FAST.csv`), `verify_submission`, and the comparison with the submitted `submissions/FAST.csv`.
+   (`submissions/out/nnHALO.csv`), `verify_submission`, and the comparison with the submitted `submissions/nnHALO.csv`.
 
 The selector's second member mask, P, needs no network: it is the Dataset007 probability map at p ≥ 0.5. Every step
 is resumable; each step's log is in `$FILAMENT_WORK/logs/`."""),
     ("code", """import contextlib, io
 buf = io.StringIO()
 with contextlib.redirect_stdout(buf):                 # the step list is printed as JSON lines with absolute paths
-    rc = pipeline.run(["FAST"], device=DEVICE, log_dir=fp.WORK / "logs",
+    rc = pipeline.run(["nnHALO"], device=DEVICE, log_dir=fp.WORK / "logs",
                       bag_dir=str(training.bag_dir(TRAIN_ROOT)) if TRAIN else None)
 for line in buf.getvalue().splitlines():
     if line.startswith("{"):
@@ -142,7 +142,7 @@ for line in buf.getvalue().splitlines():
             print(f"{j['step']:20s} ran in {j['seconds']:7.1f} s")
         elif j.get("complete"):
             print(f"{j['step']:20s} already on disk")
-res = [json.loads(l) for l in (fp.WORK / "logs" / "selector_FAST.log").read_text().splitlines() if l.startswith("{")][-1]
+res = [json.loads(l) for l in (fp.WORK / "logs" / "selector_nnHALO.log").read_text().splitlines() if l.startswith("{")][-1]
 if TRAIN:      # retrained networks: the comparison with the submitted file is information, not a pass/fail
     assert res["verify_rc"] == 0, "the submission failed verify_submission"
 else:
@@ -191,8 +191,8 @@ plt.tight_layout(); plt.show()"""),
     ("md", """`render.test_rows` computes every candidate's 22 features from the probability map, the two member masks and channel
 0, with the code that built the 707 out-of-fold training rows. The bag's mean prediction is the expected per-record
 PQ credit of each candidate; a candidate is kept when it exceeds the cut."""),
-    ("code", """bag_file = ROOT / "weights" / "selector" / "FAST_bag.pkl"
-assert weights.sha256(bag_file) == weights.manifest()["selector/FAST_bag.pkl"], "selector bag does not match the manifest"
+    ("code", """bag_file = ROOT / "weights" / "selector" / "nnHALO_bag.pkl"
+assert weights.sha256(bag_file) == weights.manifest()["selector/nnHALO_bag.pkl"], "selector bag does not match the manifest"
 row = render.test_rows((cfg, image_id, case, member_files))
 X, area, _, timg, simg = render.design_matrix([row])
 d = pickle.load(open(bag_file, "rb"))
@@ -206,7 +206,7 @@ for i in np.argsort(-area)[:12]:
 rows. Kept candidates are outlined in blue, deleted ones in red, dashed."""),
     ("code", """m = render.kept_mask(p, keep[:row["n"]], keep[row["n"]:])
 rows = rle.rows_for_mask(image_id, m, cfg.min_area_csv)
-shipped = [r for r in csv.reader(open(ROOT / "submissions" / "FAST.csv")) if r[0].rsplit("_", 1)[0] == image_id]
+shipped = [r for r in csv.reader(open(ROOT / "submissions" / "nnHALO.csv")) if r[0].rsplit("_", 1)[0] == image_id]
 
 def union(rows_):
     u = np.zeros((2048, 2048), bool)
@@ -267,7 +267,7 @@ from filament_seg.evaluation import expected, oof_selection
 seed = expected.load("heldout_annotator")["rerun_seed"]             # the bootstrap seed of the paper's intervals
 S = json.load(open(oof_selection.eval_dir() / "heldout_annotator.json"))["results"][f"seed_{seed}"]
 pts, dice = S["points"], S["dice"]
-rowsT = [("held-out annotator", "H_A0", dice["H_image_mean"]), ("nnHALO", "FAST", dice["FAST_image_mean"]),
+rowsT = [("held-out annotator", "H_A0", dice["H_image_mean"]), ("nnHALO", "nnHALO", dice["nnHALO_image_mean"]),
          ("single network (p >= 0.5, >= 400 px)", "D007", dice["D007_image_mean"])]
 print(f"\\n{S['n_images']} observations, {S['n_units']} (observation, held-out annotator) units")
 print(f"{'':40s} {'Dice':>6s} {'IoU':>6s} {'PQ':>6s}  {'GT 1:0':>6s} {'GT 1:>=2':>8s} {'pred 0:1':>8s}")
@@ -291,7 +291,7 @@ for k, v in TIMES.items():
     print(f"{k:42s} {v:8.1f} s")
     total += v
 print(f"{'total':42s} {total:8.1f} s  ({total / 60:.1f} min)")
-pred = sum(v for k, v in TIMES.items() if k in ("channels", "base_D007_f0", "bin_D036_f0", "selector_FAST"))
+pred = sum(v for k, v in TIMES.items() if k in ("channels", "base_D007_f0", "bin_D036_f0", "selector_nnHALO"))
 print(f"prediction of the 180 test observations (section 3): {pred:.1f} s ({pred / 60:.1f} min)")
 print(f"largest child resident memory: {resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss / 2**20:.2f} GiB")"""),
 ]

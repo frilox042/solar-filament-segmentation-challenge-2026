@@ -5,7 +5,7 @@
 > and the notebook's section 2 runs them with `TRAIN = True`. Verified: `scripts/train.py smoke-full` runs the same
 > commands end to end on 10 training cases (5 folds x 1 epoch, both networks, every out-of-fold step); the selector
 > fit, run with `selector_stage fit --retrain` on the out-of-fold maps of the shipped networks, reproduces the shipped
-> bag (identical cut and predictions). The 250-epoch trainings themselves were not re-run. Prediction uses D007 and D036 fold 0, whose weights ship in `weights/fast/`; folds 1–4 of the same two
+> bag (identical cut and predictions). The 250-epoch trainings themselves were not re-run. Prediction uses D007 and D036 fold 0, whose weights ship in `weights/nnHALO/`; folds 1–4 of the same two
 > networks are needed for the selector's out-of-fold rows. Two warnings:
 > - **Not bit-reproducible.** nnU-Net training on GPU is not deterministic, so a retrain gives
 >   different weights and a submission that differs slightly. Training-time environment: torch
@@ -68,7 +68,7 @@ stage computes it from `vessel_oof_probs` (p ≥ 0.5), the same map its candidat
 ## 3. Selector
 
 ```bash
-python -m filament_seg.selector_stage fit               # ~5.5 min CPU (the shipped weights/selector/FAST_bag.pkl)
+python -m filament_seg.selector_stage fit               # ~5.5 min CPU (the shipped weights/selector/nnHALO_bag.pkl)
 ```
 
 The evaluation does not use this bag: `scripts/eval_oof_selection.py` cross-fits the selector on the out-of-fold

@@ -9,7 +9,7 @@ no user site, no current directory on the path):
 3. NEGATIVE CONTROL. Perturb one input of one test image (halve the D007 fold-0 test probabilities of that image)
    and apply the same bag. The md5 must DIFFER, which shows the check can fail.
 2b. RELEASED BAG (the default predict path). `selector_stage apply` with no `--bag` applies
-   `weights/selector/FAST_bag.pkl` (sha256-checked against weights/MANIFEST.sha256). Same md5. The
+   `weights/selector/nnHALO_bag.pkl` (sha256-checked against weights/MANIFEST.sha256). Same md5. The
    refit's regressors and cut must also equal the released bag's (pickle bytes of the model list); as the negative
    control of that comparison, a copy of the released bag with one regressor attribute changed must NOT match.
 4. ISOLATION. An audit hook in the launcher (inherited by forked workers) records every file opened
@@ -158,7 +158,7 @@ def main():
     ap.add_argument("--python", required=True)
     ap.add_argument("--source-root", required=True, type=Path)
     ap.add_argument("--out", required=True, type=Path)
-    ap.add_argument("--slot", default="FAST", choices=("FAST",))
+    ap.add_argument("--slot", default="nnHALO", choices=("nnHALO",))
     ap.add_argument("--negctl-only", action="store_true", help="re-run only the negative control on an existing out dir")
     a = ap.parse_args()
     a.out.mkdir(parents=True, exist_ok=True)
