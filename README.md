@@ -2,6 +2,9 @@
 
 A Solution to the Solar Filament Segmentation Challenge 2026 (GONG H-alpha).
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24211644.svg)](https://doi.org/10.5281/zenodo.24211644)
+Code, weights and selector archived on Zenodo; v0.2.0 is [10.5281/zenodo.24211645](https://doi.org/10.5281/zenodo.24211645).
+
 ## Summary
 
 We segment solar filaments in full-disk 2048×2048 GONG H-alpha observations.

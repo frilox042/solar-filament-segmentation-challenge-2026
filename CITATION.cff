@@ -11,7 +11,11 @@ version: "0.2.0"
 date-released: "2026-11-13"
 license: MIT                              # the code, our nnU-Net weights and the selector bag (weights/LICENSE-WEIGHTS.md)
 repository-code: "https://github.com/frilox042/solar-filament-segmentation-challenge-2026"
-# doi: "TODO-zenodo-doi"                  # if the weights / a snapshot get a Zenodo DOI
+doi: "10.5281/zenodo.24211644"           # Zenodo, all versions (resolves to the latest)
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24211645"
+    description: "Zenodo archive of v0.2.0 (code, weights and selector bag)"
 keywords:
   - solar filaments
   - H-alpha
