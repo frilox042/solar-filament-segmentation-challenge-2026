@@ -1,5 +1,19 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below (and the MAGFiLO dataset)."
+message: "If you use this work, please cite the report below (and the MAGFiLO dataset)."
+preferred-citation:
+  type: report
+  title: "Which Filaments Do Annotators Draw? An nnU-Net with Per-Object Selection for GONG H-α"
+  authors:
+    - family-names: "Gether"
+      given-names: "Damien"
+      affiliation: "Clemex Technologies Inc., Brossard, Quebec, Canada"
+  year: 2026
+  month: 11
+  publisher:
+    name: "Zenodo"
+  doi: "10.5281/zenodo.24211731"
+  url: "https://doi.org/10.5281/zenodo.24211731"
+  notes: "A Solution to the Solar Filament Segmentation Challenge 2026"
 title: "Which Filaments Do Annotators Draw? An nnU-Net with Per-Object Selection for GONG H-α"
 type: software
 authors:

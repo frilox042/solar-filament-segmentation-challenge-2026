@@ -2,6 +2,8 @@
 
 A Solution to the Solar Filament Segmentation Challenge 2026 (GONG H-alpha).
 
+**Paper:** [doi.org/10.5281/zenodo.24211731](https://doi.org/10.5281/zenodo.24211731) (PDF on Zenodo, CC BY 4.0). "The paper" below refers to it.
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24211644.svg)](https://doi.org/10.5281/zenodo.24211644)
 Code, weights and selector archived on Zenodo; v0.2.0 is [10.5281/zenodo.24211645](https://doi.org/10.5281/zenodo.24211645).
 
