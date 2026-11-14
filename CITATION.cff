@@ -8,7 +8,7 @@ authors:
     affiliation: "Clemex Technologies Inc., Brossard, Quebec, Canada"
     email: "damiengether@gmail.com"
 version: "0.2.0"
-date-released: "2026-11-15"
+date-released: "2026-11-13"
 license: MIT                              # the code, our nnU-Net weights and the selector bag (weights/LICENSE-WEIGHTS.md)
 repository-code: "https://github.com/frilox042/solar-filament-segmentation-challenge-2026"
 # doi: "TODO-zenodo-doi"                  # if the weights / a snapshot get a Zenodo DOI
