@@ -24,15 +24,26 @@ need_python() {   # $1 = 3.12 | 3.14
   export PATH="$HOME/.local/bin:$PATH"
 }
 
+make_venv() {   # $1 = 3.12 | 3.14, $2 = directory; an environment with pip is reused, one without (a failed run) rebuilt
+  if [ -x "$2/bin/pip" ]; then return; fi
+  rm -rf "$2"
+  if ! "python$1" -m venv "$2"; then
+    # e.g. a uv-installed Python: a venv made from its ~/.local/bin link cannot find the standard library
+    echo "python$1 -m venv failed; creating $2 with uv instead"
+    rm -rf "$2"
+    uv venv -q --seed --python "$1" "$2"
+  fi
+}
+
 need_python 3.12
-if [ ! -x .venv-cpu/bin/python ]; then python3.12 -m venv .venv-cpu; fi
+make_venv 3.12 .venv-cpu
 .venv-cpu/bin/pip install -q -r requirements/cpu.txt -r requirements/notebook.txt pytest==9.1.1   # (+ requirements/eval-test.txt for the optional torchmetrics check)
 .venv-cpu/bin/pip install -q -e .                       # the package itself (filament_seg), importable from anywhere
 echo "ok: .venv-cpu ($(.venv-cpu/bin/python --version))"
 
 if [ "$CPU_ONLY" = 0 ]; then
   need_python 3.14
-  if [ ! -x .venv-nnunet/bin/python ]; then python3.14 -m venv .venv-nnunet; fi
+  make_venv 3.14 .venv-nnunet
   .venv-nnunet/bin/pip install -q --extra-index-url "$TORCH_INDEX" -r requirements/nnunet-gpu.lock.txt
   .venv-nnunet/bin/python -c "import torch, nnunetv2; print('ok: .venv-nnunet', torch.__version__, 'CUDA available:', torch.cuda.is_available())"
 fi

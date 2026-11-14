@@ -82,7 +82,7 @@ Arch Linux. Training stack: torch 2.13.0+cu130, cuDNN 9.20.0.
 - **Unit tests, no data needed:** `pip install -e . && pytest` (with `requirements/cpu.txt`; add
   `requirements/eval-test.txt` for the torchmetrics Dice check).
 
-## Quick check (CPU only, about 5 minutes)
+## Quick check (CPU only, about 10 minutes)
 
 Reproduces the paper's Table 1 (our model and a held-out annotator, out of fold) from `eval_bundle/` and your competition
 download, with no GPU and no network run; each step exits non-zero if a reported number is not reproduced.
@@ -91,7 +91,7 @@ download, with no GPU and no network run; each step exits non-zero if a reported
 bash scripts/setup_envs.sh --cpu-only                      # .venv-cpu (Python 3.12), ~1 min
 export FILAMENT_KAGGLE_ROOT=/path/to/unzipped/filament-segmentation-2026 FILAMENT_WORK=$PWD/work
 .venv-cpu/bin/python -m filament_seg.evaluation.bundle stage --work $FILAMENT_WORK   # ~2.5 min, 2.4 GB in work/
-.venv-cpu/bin/python scripts/eval_oof_selection.py         # ~0.5 min
+.venv-cpu/bin/python scripts/eval_oof_selection.py         # ~1-4 min (25 selector fits; CPU-bound)
 .venv-cpu/bin/python scripts/eval_heldout_annotator.py     # ~1.5 min -> "nnHALO PQ 0.4443 vs annotator 0.3399 … gate PASS"
 .venv-cpu/bin/python -m pytest -q                          # the unit tests, ~1 min
 ```
